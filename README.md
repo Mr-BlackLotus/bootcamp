@@ -2,7 +2,7 @@
 
 Web latihan untuk karyawan training, dibuat dari Modul Sales Enter Komputer (v0.5).
 
-- Pilihan Ganda: 66 soal, 5 topik
+- Pilihan Ganda: 93 soal, 15 topik (Sales, SOP, FAQ, lalu Processor sampai Keyboard)
 - Esai: 19 pertanyaan dengan penilaian mandiri
 - Step by Step: simulasi layanan pelanggan walk-in dan merakit PC
 

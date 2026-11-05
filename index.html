@@ -237,9 +237,23 @@ const TOPICS = {
   sales: 'Sales & Komunikasi',
   sop: 'SOP & Alur Kerja',
   faq: 'FAQ Toko',
-  cpu: 'Processor & Motherboard',
-  part: 'Komponen & Periferal'
+  gen: 'Dasar Komputer',
+  cpu: 'Processor',
+  mb: 'Motherboard',
+  ram: 'RAM',
+  case: 'Casing (PC Case)',
+  ssd: 'SSD',
+  hdd: 'HDD',
+  vga: 'VGA Card (Kartu Grafis)',
+  psu: 'PSU (Power Supply Unit)',
+  mon: 'Monitor',
+  mouse: 'Mouse',
+  kb: 'Keyboard'
 };
+const TOPIC_GROUPS = [
+  { title: 'Materi Sales', keys: ['sales', 'sop', 'faq'] },
+  { title: 'Pengetahuan Dasar Komputer', keys: ['gen', 'cpu', 'mb', 'ram', 'case', 'ssd', 'hdd', 'vga', 'psu', 'mon', 'mouse', 'kb'] }
+];
 const MC = [
   ['sales', 'Sales banyak bertanya dan mendengarkan untuk menggali kebutuhan serta keinginan pelanggan. Ini termasuk tugas sales yang mana?', 'Memahami kebutuhan pelanggan (Needs)', ['Menutup penjualan (Closing)', 'Menangani keberatan (Handling Objection)', 'Layanan purna jual (After Sales Service)'], 'Menggali kebutuhan dengan banyak bertanya dan mendengarkan membantu sales memberi solusi yang tepat dan terlihat profesional.'],
   ['sales', 'Apa kunci menangani keberatan pelanggan, misalnya soal harga, produk, atau waktu?', 'Mendengarkan inti masalah, mencari solusi, dan menjaga emosi', ['Langsung menurunkan harga agar cepat deal', 'Mengulang spesifikasi dengan suara lebih keras', 'Mengalihkan pembicaraan ke produk lain'], 'Kunci penanganan keberatan: dengarkan inti masalah, cari solusi, dan jaga emosi untuk meyakinkan pelanggan.'],
@@ -284,33 +298,60 @@ const MC = [
   ['cpu', 'Suffix “X3D” pada prosesor AMD Ryzen berarti...', 'Varian dengan 3D V-Cache, dirancang khusus untuk gaming', ['Tanpa GPU internal', 'Hemat daya dengan iGPU', 'Edisi terbatas'], 'X = performa lebih tinggi. X3D = cache tambahan (3D V-Cache) untuk performa gaming optimal.'],
   ['cpu', 'Prosesor AMD berakhiran “G”, misalnya Ryzen 5 5600G, memiliki...', 'GPU bawaan (iGPU), cocok dipakai tanpa VGA terpisah', ['Tidak ada GPU bawaan', 'Kemampuan overclock tanpa batas', 'Socket khusus laptop'], 'F = tanpa iGPU. G = punya iGPU. GE = varian hemat daya dari G.'],
   ['cpu', 'Pelanggan hanya butuh PC untuk kantor, browsing, dan media ringan. Prosesor yang sesuai adalah...', 'Core i3 atau Ryzen 3', ['Core i9 atau Ryzen 9', 'Core i7 atau Ryzen 7', 'Core i9-14900KS'], 'i3/Ryzen 3 untuk kebutuhan dasar. i5/Ryzen 5 untuk gaming menengah dan edit video. i7/Ryzen 7 untuk game lanjut dan multitasking berat. i9/Ryzen 9 untuk kreator profesional.'],
-  ['cpu', 'Motherboard seri Intel H dan AMD A termasuk kelas...', 'Budget dengan fitur terbatas', ['Menengah ke atas', 'High end paling lengkap', 'Khusus server'], 'H dan A: budget (umumnya hanya 2 slot RAM, tanpa overclock). B: menengah atau tinggi. Z dan X: high end.'],
-  ['cpu', 'Motherboard high end dengan fitur paling lengkap (overclock CPU, lebih dari 2 slot NVMe, WiFi dan Bluetooth bawaan) adalah seri...', 'Intel Z atau AMD X', ['Intel H atau AMD A', 'Intel B atau AMD B', 'Intel H atau AMD X'], 'Seri Z dan X cocok untuk kegiatan berat atau prosesor seri tinggi, dengan harga relatif mahal.'],
-  ['cpu', 'Ciri motherboard seri B yang benar adalah...', 'Fitur lebih banyak dari seri H, mendukung overclock RAM, tetapi tidak overclock CPU', ['Mendukung overclock CPU seperti seri Z', 'Hanya tersedia ukuran ATX', 'Selalu memiliki 4 slot RAM'], 'Seri B tersedia dalam ukuran ITX, mATX, dan ATX. Jumlah slot RAM dan NVMe bergantung merek dan harga.'],
-  ['cpu', 'Ukuran motherboard yang paling kecil adalah...', 'Mini ITX', ['Micro ATX', 'ATX', 'E-ATX'], 'Mini ITX (6,7" x 6,7"), biasanya 2 slot RAM dan 1 slot PCIe, wajib casing khusus mini-ITX. E-ATX paling besar.'],
-  ['cpu', 'Motherboard yang cocok untuk prosesor Intel Gen 12 sampai 14 (LGA 1700) adalah...', 'B760M', ['B560M', 'B550M', 'B860M'], 'B560M memakai LGA 1200, B550M untuk AMD AM4, B860M untuk LGA 1851.'],
-  ['cpu', 'Apa fungsi chip BIOS/UEFI pada motherboard?', 'Menyimpan firmware dasar untuk proses booting dan konfigurasi awal', ['Mendinginkan chipset', 'Menyalurkan daya dari PSU', 'Menyimpan data pengguna'], 'BIOS lebih sederhana, UEFI lebih modern dan mendukung antarmuka grafis.'],
+  ['mb', 'Motherboard seri Intel H dan AMD A termasuk kelas...', 'Budget dengan fitur terbatas', ['Menengah ke atas', 'High end paling lengkap', 'Khusus server'], 'H dan A: budget (umumnya hanya 2 slot RAM, tanpa overclock). B: menengah atau tinggi. Z dan X: high end.'],
+  ['mb', 'Motherboard high end dengan fitur paling lengkap (overclock CPU, lebih dari 2 slot NVMe, WiFi dan Bluetooth bawaan) adalah seri...', 'Intel Z atau AMD X', ['Intel H atau AMD A', 'Intel B atau AMD B', 'Intel H atau AMD X'], 'Seri Z dan X cocok untuk kegiatan berat atau prosesor seri tinggi, dengan harga relatif mahal.'],
+  ['mb', 'Ciri motherboard seri B yang benar adalah...', 'Fitur lebih banyak dari seri H, mendukung overclock RAM, tetapi tidak overclock CPU', ['Mendukung overclock CPU seperti seri Z', 'Hanya tersedia ukuran ATX', 'Selalu memiliki 4 slot RAM'], 'Seri B tersedia dalam ukuran ITX, mATX, dan ATX. Jumlah slot RAM dan NVMe bergantung merek dan harga.'],
+  ['mb', 'Ukuran motherboard yang paling kecil adalah...', 'Mini ITX', ['Micro ATX', 'ATX', 'E-ATX'], 'Mini ITX (6,7" x 6,7"), biasanya 2 slot RAM dan 1 slot PCIe, wajib casing khusus mini-ITX. E-ATX paling besar.'],
+  ['mb', 'Motherboard yang cocok untuk prosesor Intel Gen 12 sampai 14 (LGA 1700) adalah...', 'B760M', ['B560M', 'B550M', 'B860M'], 'B560M memakai LGA 1200, B550M untuk AMD AM4, B860M untuk LGA 1851.'],
+  ['mb', 'Apa fungsi chip BIOS/UEFI pada motherboard?', 'Menyimpan firmware dasar untuk proses booting dan konfigurasi awal', ['Mendinginkan chipset', 'Menyalurkan daya dari PSU', 'Menyimpan data pengguna'], 'BIOS lebih sederhana, UEFI lebih modern dan mendukung antarmuka grafis.'],
 
-  ['part', 'Apa fungsi utama RAM?', 'Menyimpan data sementara yang sedang diproses CPU', ['Menyimpan data secara permanen', 'Mengubah listrik AC menjadi DC', 'Memproses grafis'], 'Data permanen disimpan di storage (SSD/HDD). RAM menentukan kecepatan membuka program, file, dan multitasking.'],
-  ['part', 'RAM untuk laptop dan untuk desktop masing-masing berjenis...', 'SO-DIMM untuk laptop, Long-DIMM untuk desktop', ['Long-DIMM untuk laptop, SO-DIMM untuk desktop', 'DDR untuk laptop, DIMM untuk desktop', 'Keduanya sama'], 'SO-DIMM berukuran lebih kecil untuk perangkat portabel. Long-DIMM berukuran lebih besar untuk desktop.'],
-  ['part', 'Rekomendasi kapasitas RAM dalam ringkasan modul adalah...', '8GB cukup untuk basic, 16 sampai 32GB untuk gaming atau desain', ['4GB untuk gaming', '64GB wajib untuk semua PC', '8GB untuk rendering 3D profesional'], 'Generasi RAM (DDR3, DDR4, DDR5) juga harus cocok dengan prosesor dan motherboard. Dual Channel lebih cepat daripada Single Channel.'],
-  ['part', 'Kombinasi storage yang paling baik untuk performa dan kapasitas adalah...', 'SSD untuk OS dan aplikasi, HDD untuk data besar', ['HDD saja', 'SSD kecil saja', 'Dua HDD'], 'SSD cepat dan responsif. HDD lebih murah untuk kapasitas besar.'],
-  ['part', 'SSD lebih tahan guncangan daripada HDD karena...', 'Tidak memiliki bagian yang bergerak', ['Memakai piringan magnet', 'Ukurannya lebih besar', 'Memakai kipas pendingin'], 'HDD memakai piringan magnet sehingga rentan kerusakan fisik. SSD memakai memori non-volatile.'],
-  ['part', 'Jenis SSD yang memakai slot M.2 dan jalur PCIe adalah...', 'NVMe', ['SATA SSD 2,5"', 'HDD', 'Kartu SD'], 'SATA SSD memakai konektor SATA seperti HDD, lebih cepat dari HDD tetapi lebih lambat dari NVMe.'],
-  ['part', 'Komponen PC yang paling banyak mengonsumsi daya adalah...', 'VGA card', ['RAM', 'SSD', 'Casing'], 'Karena itu VGA menjadi pertimbangan utama saat menghitung kebutuhan watt PSU.'],
-  ['part', 'Seri VGA NVIDIA yang membawa teknologi ray tracing adalah...', 'RTX', ['GT', 'GTX', 'GTS'], 'GT: entry level. GTX: mid sampai high end. RTX: teknologi terbaru dengan ray tracing.'],
-  ['part', 'VRAM yang disarankan modul untuk gaming 1080p adalah...', '6 sampai 8GB', ['2GB', '4GB', '24GB'], '4GB untuk penggunaan ringan, 6 sampai 8GB untuk gaming 1080p, 12GB ke atas untuk 4K dan profesional.'],
-  ['part', 'Apa fungsi utama PSU?', 'Mengubah listrik AC menjadi DC dan menstabilkan tegangan untuk komponen', ['Mendinginkan prosesor', 'Menyimpan data sementara', 'Mengolah grafis'], 'PSU juga punya proteksi arus lebih, tegangan tinggi atau rendah, dan anti korsleting.'],
-  ['part', 'Efisiensi minimal sertifikasi 80 PLUS Gold adalah...', '87 sampai 90%', ['80%', '82 sampai 85%', '94% ke atas'], 'White 80%, Bronze 82 sampai 85%, Silver 85 sampai 88%, Gold 87 sampai 90%, Platinum 90 sampai 92%, Titanium 94% ke atas.'],
-  ['part', 'Urutan sertifikasi 80 PLUS dari yang paling dasar sampai paling efisien adalah...', 'White, Bronze, Silver, Gold, Platinum, Titanium', ['Bronze, White, Silver, Gold, Titanium, Platinum', 'Titanium, Platinum, Gold, Silver, Bronze, White', 'White, Silver, Bronze, Gold, Platinum, Titanium'], 'Semakin tinggi efisiensi, semakin baik kualitasnya, tetapi harga juga lebih mahal.'],
-  ['part', 'PSU Semi-Modular berarti...', 'Hanya beberapa kabel penting yang terpasang permanen, sisanya bisa dilepas-pasang', ['Semua kabel terpasang permanen', 'Tidak ada kabel yang terpasang permanen', 'Khusus untuk casing Mini ITX'], 'Non-Modular: semua kabel permanen (paling murah). Full Modular: semua kabel bisa dilepas, paling rapi.'],
-  ['part', 'PSU untuk casing Mini ITX umumnya berukuran...', 'SFX atau SFX-L', ['ATX', 'E-ATX', 'Full Tower'], 'ATX (150 x 86 x 140 mm) cocok untuk casing Full ATX dan mATX. SFX-L dan SFX adalah versi kecil untuk casing Mini ITX.'],
-  ['part', 'Saran modul untuk memilih daya dan kualitas PSU adalah...', 'Hitung kebutuhan daya lalu tambah 20 sampai 30% untuk upgrade, minimal 80+ Bronze', ['Pilih PSU bawaan casing karena sudah cukup', 'Selalu pilih 1000W', 'Pilih PSU terkecil agar hemat'], 'PSU bawaan casing hanya cukup menyalakan komputer tanpa aliran listrik yang stabil, sehingga risiko kerusakan hardware lebih tinggi.'],
-  ['part', 'Resolusi Full HD adalah...', '1920 x 1080', ['1366 x 768', '2560 x 1440', '3840 x 2160'], 'HD 1366 x 768, QHD 2560 x 1440, 4K 3840 x 2160. Ukuran monitor diukur secara diagonal.'],
-  ['part', 'Apa perbedaan mouse gaming dengan mouse casual?', 'Mouse gaming punya DPI tinggi, pengaturan khusus, dan tombol macro', ['Mouse casual punya pilihan DPI tinggi', 'Mouse gaming selalu wireless', 'Mouse gaming harganya lebih murah'], 'Mouse gaming harganya relatif lebih mahal dan umumnya memakai kabel USB untuk kestabilan.'],
-  ['part', 'Switch keyboard mechanical Cherry MX Brown dikenal sebagai tipe...', 'Tactile', ['Ringan (linear)', 'Berat', 'Cepat'], 'Cherry MX Red ringan. Black berat. Speed Silver cepat. Brown tactile.'],
-  ['part', 'Casing yang paling umum digunakan, tinggi 40 sampai 50 cm, kompatibel dengan ATX, Micro-ATX, dan Mini-ITX adalah...', 'Mid Tower', ['Full Tower', 'Mini Tower', 'Slim Case'], 'Full Tower tinggi lebih dari 50 cm. Mini Tower 30 sampai 40 cm. Slim Case hemat tempat tetapi airflow terbatas.'],
-  ['part', 'Komponen minimal agar PC desktop dapat menyala dan digunakan adalah...', 'CPU, motherboard, RAM, storage, PSU, monitor, keyboard, mouse', ['CPU, RAM, dan casing saja', 'CPU, VGA, dan RAM', 'Motherboard, VGA, dan casing'], 'VGA opsional jika prosesor memiliki iGPU.']
+  ['ram', 'Apa fungsi utama RAM?', 'Menyimpan data sementara yang sedang diproses CPU', ['Menyimpan data secara permanen', 'Mengubah listrik AC menjadi DC', 'Memproses grafis'], 'Data permanen disimpan di storage (SSD/HDD). RAM menentukan kecepatan membuka program, file, dan multitasking.'],
+  ['ram', 'RAM untuk laptop dan untuk desktop masing-masing berjenis...', 'SO-DIMM untuk laptop, Long-DIMM untuk desktop', ['Long-DIMM untuk laptop, SO-DIMM untuk desktop', 'DDR untuk laptop, DIMM untuk desktop', 'Keduanya sama'], 'SO-DIMM berukuran lebih kecil untuk perangkat portabel. Long-DIMM berukuran lebih besar untuk desktop.'],
+  ['ram', 'Rekomendasi kapasitas RAM dalam ringkasan modul adalah...', '8GB cukup untuk basic, 16 sampai 32GB untuk gaming atau desain', ['4GB untuk gaming', '64GB wajib untuk semua PC', '8GB untuk rendering 3D profesional'], 'Generasi RAM (DDR3, DDR4, DDR5) juga harus cocok dengan prosesor dan motherboard. Dual Channel lebih cepat daripada Single Channel.'],
+  ['ssd', 'Kombinasi storage yang paling baik untuk performa dan kapasitas adalah...', 'SSD untuk OS dan aplikasi, HDD untuk data besar', ['HDD saja', 'SSD kecil saja', 'Dua HDD'], 'SSD cepat dan responsif. HDD lebih murah untuk kapasitas besar.'],
+  ['ssd', 'SSD lebih tahan guncangan daripada HDD karena...', 'Tidak memiliki bagian yang bergerak', ['Memakai piringan magnet', 'Ukurannya lebih besar', 'Memakai kipas pendingin'], 'HDD memakai piringan magnet sehingga rentan kerusakan fisik. SSD memakai memori non-volatile.'],
+  ['ssd', 'Jenis SSD yang memakai slot M.2 dan jalur PCIe adalah...', 'NVMe', ['SATA SSD 2,5"', 'HDD', 'Kartu SD'], 'SATA SSD memakai konektor SATA seperti HDD, lebih cepat dari HDD tetapi lebih lambat dari NVMe.'],
+  ['vga', 'Komponen PC yang paling banyak mengonsumsi daya adalah...', 'VGA card', ['RAM', 'SSD', 'Casing'], 'Karena itu VGA menjadi pertimbangan utama saat menghitung kebutuhan watt PSU.'],
+  ['vga', 'Seri VGA NVIDIA yang membawa teknologi ray tracing adalah...', 'RTX', ['GT', 'GTX', 'GTS'], 'GT: entry level. GTX: mid sampai high end. RTX: teknologi terbaru dengan ray tracing.'],
+  ['vga', 'VRAM yang disarankan modul untuk gaming 1080p adalah...', '6 sampai 8GB', ['2GB', '4GB', '24GB'], '4GB untuk penggunaan ringan, 6 sampai 8GB untuk gaming 1080p, 12GB ke atas untuk 4K dan profesional.'],
+  ['psu', 'Apa fungsi utama PSU?', 'Mengubah listrik AC menjadi DC dan menstabilkan tegangan untuk komponen', ['Mendinginkan prosesor', 'Menyimpan data sementara', 'Mengolah grafis'], 'PSU juga punya proteksi arus lebih, tegangan tinggi atau rendah, dan anti korsleting.'],
+  ['psu', 'Efisiensi minimal sertifikasi 80 PLUS Gold adalah...', '87 sampai 90%', ['80%', '82 sampai 85%', '94% ke atas'], 'White 80%, Bronze 82 sampai 85%, Silver 85 sampai 88%, Gold 87 sampai 90%, Platinum 90 sampai 92%, Titanium 94% ke atas.'],
+  ['psu', 'Urutan sertifikasi 80 PLUS dari yang paling dasar sampai paling efisien adalah...', 'White, Bronze, Silver, Gold, Platinum, Titanium', ['Bronze, White, Silver, Gold, Titanium, Platinum', 'Titanium, Platinum, Gold, Silver, Bronze, White', 'White, Silver, Bronze, Gold, Platinum, Titanium'], 'Semakin tinggi efisiensi, semakin baik kualitasnya, tetapi harga juga lebih mahal.'],
+  ['psu', 'PSU Semi-Modular berarti...', 'Hanya beberapa kabel penting yang terpasang permanen, sisanya bisa dilepas-pasang', ['Semua kabel terpasang permanen', 'Tidak ada kabel yang terpasang permanen', 'Khusus untuk casing Mini ITX'], 'Non-Modular: semua kabel permanen (paling murah). Full Modular: semua kabel bisa dilepas, paling rapi.'],
+  ['psu', 'PSU untuk casing Mini ITX umumnya berukuran...', 'SFX atau SFX-L', ['ATX', 'E-ATX', 'Full Tower'], 'ATX (150 x 86 x 140 mm) cocok untuk casing Full ATX dan mATX. SFX-L dan SFX adalah versi kecil untuk casing Mini ITX.'],
+  ['psu', 'Saran modul untuk memilih daya dan kualitas PSU adalah...', 'Hitung kebutuhan daya lalu tambah 20 sampai 30% untuk upgrade, minimal 80+ Bronze', ['Pilih PSU bawaan casing karena sudah cukup', 'Selalu pilih 1000W', 'Pilih PSU terkecil agar hemat'], 'PSU bawaan casing hanya cukup menyalakan komputer tanpa aliran listrik yang stabil, sehingga risiko kerusakan hardware lebih tinggi.'],
+  ['mon', 'Resolusi Full HD adalah...', '1920 x 1080', ['1366 x 768', '2560 x 1440', '3840 x 2160'], 'HD 1366 x 768, QHD 2560 x 1440, 4K 3840 x 2160. Ukuran monitor diukur secara diagonal.'],
+  ['mouse', 'Apa perbedaan mouse gaming dengan mouse casual?', 'Mouse gaming punya DPI tinggi, pengaturan khusus, dan tombol macro', ['Mouse casual punya pilihan DPI tinggi', 'Mouse gaming selalu wireless', 'Mouse gaming harganya lebih murah'], 'Mouse gaming harganya relatif lebih mahal dan umumnya memakai kabel USB untuk kestabilan.'],
+  ['kb', 'Switch keyboard mechanical Cherry MX Brown dikenal sebagai tipe...', 'Tactile', ['Ringan (linear)', 'Berat', 'Cepat'], 'Cherry MX Red ringan. Black berat. Speed Silver cepat. Brown tactile.'],
+  ['case', 'Casing yang paling umum digunakan, tinggi 40 sampai 50 cm, kompatibel dengan ATX, Micro-ATX, dan Mini-ITX adalah...', 'Mid Tower', ['Full Tower', 'Mini Tower', 'Slim Case'], 'Full Tower tinggi lebih dari 50 cm. Mini Tower 30 sampai 40 cm. Slim Case hemat tempat tetapi airflow terbatas.'],
+  ['gen', 'Komponen minimal agar PC desktop dapat menyala dan digunakan adalah...', 'CPU, motherboard, RAM, storage, PSU, monitor, keyboard, mouse', ['CPU, RAM, dan casing saja', 'CPU, VGA, dan RAM', 'Motherboard, VGA, dan casing'], 'VGA opsional jika prosesor memiliki iGPU.'],
+  ['gen', 'Secara umum, komputer bekerja dengan cara...', 'Menerima perintah (input), memproses data, dan menghasilkan hasil (output)', ['Hanya menyimpan data', 'Hanya menampilkan gambar', 'Menerima output lalu menghasilkan input'], 'Komputer adalah perangkat untuk membantu pekerjaan manusia sekaligus media hiburan atau multimedia.'],
+  ['gen', 'Manakah daftar jenis komputer yang umum digunakan menurut modul?', 'Desktop PC, All-in-One PC, Notebook/Laptop, Tablet, Mini PC, Nano PC, Server', ['Hanya Desktop PC dan Laptop', 'Hanya Server', 'Hanya Tablet dan Smartphone'], 'Setiap jenis komputer punya kelebihan dan kekurangan sesuai kebutuhan pengguna.'],
+  ['gen', 'Kepanjangan CPU dan GPU adalah...', 'Central Processing Unit dan Graphics Processing Unit', ['Central Power Unit dan General Processing Unit', 'Computer Processing Unit dan Graphic Power Unit', 'Central Program Unit dan Graphic Program Unit'], 'CPU adalah otak komputer yang memproses perintah. GPU memproses grafis.'],
+  ['gen', 'Apa perbedaan Software dan Hardware?', 'Software adalah instruksi digital tak berwujud, hardware adalah komponen fisik yang dapat disentuh', ['Software adalah komponen fisik, hardware adalah program', 'Keduanya sama-sama dapat disentuh', 'Software hanya monitor dan keyboard'], 'Contoh hardware: monitor dan keyboard. Software mengatur cara kerja hardware.'],
+  ['ram', 'Generasi RAM yang paling baru, lebih cepat, dan lebih hemat daya adalah...', 'DDR5', ['DDR3', 'DDR4', 'DDR2'], 'DDR3 masih dipakai pada beberapa PC atau laptop, DDR4 paling umum, DDR5 terbaru. Setiap generasi hanya cocok dengan prosesor dan motherboard tertentu.'],
+  ['ram', 'RAM bertuliskan DDR4-3200 memiliki kecepatan...', '3200MHz', ['1600MHz', '4000MHz', '6000MHz'], 'Satuan kecepatan RAM adalah MHz. Kecepatan lebih tinggi meningkatkan performa, tetapi pastikan kompatibel dengan prosesor dan motherboard.'],
+  ['case', 'Casing Full Tower memiliki ciri...', 'Tinggi lebih dari 50 cm dan kompatibel dengan semua tipe motherboard', ['Tinggi 30 sampai 40 cm dan hanya untuk Mini-ITX', 'Selalu sudah termasuk PSU berkualitas tinggi', 'Hanya cocok untuk motherboard ATX'], 'Full Tower cocok untuk PC dengan banyak komponen, custom liquid cooling, dan airflow luas. Umumnya tanpa PSU bawaan.'],
+  ['case', 'Casing Mini Tower (30 sampai 40 cm) kompatibel dengan motherboard...', 'Micro-ATX dan Mini-ITX', ['ATX dan E-ATX', 'Hanya E-ATX', 'Semua tipe termasuk XL-ATX'], 'Mini Tower berukuran ringkas dan cocok untuk PC sederhana.'],
+  ['case', 'Apa fungsi utama casing PC?', 'Melindungi komponen dari debu, kotoran, dan benturan, serta menjaga airflow agar suhu stabil', ['Mengubah listrik AC menjadi DC', 'Menyimpan data sementara', 'Mengolah grafis'], 'Casing juga memudahkan penataan dan pemasangan komponen.'],
+  ['case', 'Bagaimana kualitas PSU bawaan pada casing Mid Tower?', 'Beberapa sudah dilengkapi PSU, tetapi kualitas PSU bawaan biasanya rendah', ['Selalu berkualitas tinggi', 'Tidak pernah ada', 'Selalu bersertifikasi Titanium'], 'Karena itu PSU bawaan casing sebaiknya diganti PSU berkualitas dengan sertifikasi efisiensi.'],
+  ['ssd', 'Ukuran M.2 2280 berarti...', '22 mm x 80 mm', ['28 mm x 80 mm', '2,5 inci', '22 mm x 28 mm'], 'M.2 2280 cocok untuk laptop atau PC modern. NVMe memiliki lebar 22 mm dengan panjang bervariasi.'],
+  ['ssd', 'Urutan kecepatan penyimpanan dari yang paling lambat ke paling cepat adalah...', 'HDD, SATA SSD, NVMe', ['NVMe, SATA SSD, HDD', 'SATA SSD, HDD, NVMe', 'HDD, NVMe, SATA SSD'], 'SATA SSD (hingga 6 Gbps) lebih cepat dari HDD tetapi lebih lambat dari NVMe yang memakai jalur PCIe.'],
+  ['hdd', 'HDD menyimpan data menggunakan...', 'Piringan magnet', ['Memori non-volatile tanpa bagian bergerak', 'Chip RAM', 'Kartu SD'], 'Karena ada bagian bergerak, HDD rentan kerusakan fisik saat terguncang.'],
+  ['hdd', 'Kelebihan utama HDD dibanding SSD adalah...', 'Kapasitas besar dengan harga lebih murah', ['Booting jauh lebih cepat', 'Lebih tahan guncangan', 'Tidak ada bagian bergerak'], 'Kapasitas HDD umumnya 500GB sampai 10TB. Modul mencontohkan 1TB HDD sekitar Rp890 ribu dan SSD sekitar Rp1,7 juta (harga contoh, bisa berubah).'],
+  ['hdd', 'HDD paling cocok digunakan untuk...', 'Penyimpanan data besar dengan biaya lebih hemat', ['Menjalankan sistem operasi agar cepat', 'Memproses grafis', 'Menggantikan RAM'], 'SSD untuk sistem operasi dan aplikasi utama. HDD untuk data besar.'],
+  ['vga', 'Apa perbedaan iGPU dan dGPU?', 'iGPU menempel di CPU untuk tugas ringan, dGPU terpisah dan lebih kuat untuk gaming dan desain', ['iGPU lebih kuat dari dGPU', 'dGPU menempel di CPU', 'Keduanya sama'], 'Prosesor berakhiran F tidak punya iGPU sehingga wajib memakai dGPU (VGA terpisah).'],
+  ['vga', 'Intel Arc generasi Alchemist dengan performa tertinggi (1440p sampai 4K) adalah...', 'A770', ['A310', 'A380', 'A580'], 'A310 entry level, A380 medium setting, A580 mid-range, A750 high performance 1080p sampai 1440p.'],
+  ['mon', 'Ukuran monitor diukur secara...', 'Diagonal, dari pojok kiri bawah ke kanan atas', ['Lebar layar saja', 'Tinggi layar saja', 'Keliling bingkai'], 'Ukuran umum: 15,6", 18,5", 21,5", 22,5", dan 25".'],
+  ['mon', 'Rasio monitor yang paling umum adalah...', 'Widescreen (16:9)', ['Square (4:3)', 'Persegi (1:1)', 'Ultra-Wide untuk semua monitor'], 'Square jarang dan maksimal 19". Ultra-Wide lebih lebar, cocok untuk multitasking.'],
+  ['mon', 'Port yang umum pada monitor menurut modul adalah...', 'D-Sub (analog), DVI, HDMI, dan DisplayPort', ['Hanya USB-A', 'Ethernet dan audio', 'SATA dan M.2'], 'Ringkasan modul juga menyebut USB-C.'],
+  ['mon', 'Jenis panel mana yang meningkatkan ketajaman gambar dan akurasi warna dibanding LED?', 'IPS', ['LCD (teknologi lama, layar tebal)', 'LED biasa', 'Semua sama'], 'LCD lebih tebal dan hemat biaya. LED lebih tipis dan hemat daya. IPS lebih tajam dan akurat warnanya.'],
+  ['mouse', 'Jenis koneksi mouse yang tersedia adalah...', 'USB (kabel) dan wireless (nirkabel)', ['Hanya HDMI', 'Hanya SATA', 'Hanya DisplayPort'], 'Mouse gaming umumnya USB untuk kestabilan.'],
+  ['mouse', 'Mouse casual cocok untuk...', 'Pekerjaan sehari-hari, bisa USB atau wireless', ['Game kompetitif dengan tombol macro', 'Rendering 3D profesional', 'Menggantikan keyboard'], 'Mouse casual sensornya kurang sensitif dan tidak punya pengaturan khusus.'],
+  ['mouse', 'Fitur yang umumnya hanya ada pada mouse gaming adalah...', 'Pilihan DPI tinggi dan menu pengaturan macro', ['Sensor kurang sensitif', 'Tidak ada pengaturan khusus', 'Bentuk tampilan biasa saja'], 'Mouse gaming juga bergerak lebih halus, berdesain ergonomis, dan harganya relatif lebih mahal.'],
+  ['kb', 'Keyboard membrane dikenal sebagai...', 'Murah, ringan, mudah dibersihkan, dengan rasa ketikan lembut', ['Paling tahan lama dengan rasa tactile', 'Selalu berlampu RGB', 'Hanya untuk gaming profesional'], 'Membrane gaming lebih murah dan tetap punya anti-ghosting dan RGB.'],
+  ['kb', 'Keyboard mechanical dikenal sebagai...', 'Tahan lama, tactile, dan responsif', ['Paling murah dan ringan', 'Tanpa switch', 'Hanya tersedia versi wireless'], 'Switch populer: Cherry MX Brown (tactile) dan Cherry MX Red (ringan).'],
+  ['kb', 'Fitur khas keyboard mechanical gaming adalah...', 'Respons cepat, anti-ghosting, lampu RGB, dan tombol makro', ['Hanya tombol angka', 'Rasa ketikan lembut tanpa fitur tambahan', 'Tanpa switch'], 'Switch gaming populer: Cherry MX Red (ringan), Black (berat), Speed Silver (cepat).']
 ].map((r, i) => ({ id: i, t: r[0], q: r[1], ok: r[2], bad: r[3], e: r[4] }));
 
 /* ---------- data: esai ---------- */
@@ -524,7 +565,7 @@ function viewHome() {
       h('div', {}, h('h2', { class: 'sec-h', text: 'Mulai dari mana saja' }), h('p', { class: 'muted', text: 'Tiga jenis latihan ini berdiri sendiri. Disarankan urut: pilihan ganda untuk mengecek hafalan, step by step untuk berlatih alur kerja, lalu esai untuk menjelaskan dengan kata sendiri.' })),
       h('div', { class: 'field' }, h('label', { for: 'nama', class: 'label', text: 'Nama peserta' }), nameInput)),
     h('div', { class: 'mods' },
-      mod('Pilihan Ganda', 'Soal dari seluruh isi modul: komunikasi sales, SOP, FAQ toko, processor, motherboard, RAM, storage, VGA, PSU, monitor, dan periferal. Jawaban langsung dibahas.', [h('span', { class: 'pill', text: MC.length + ' soal' }), h('span', { class: 'pill', text: 'Lulus ≥ ' + PASS + '%' }), mcPill], 'pilihan-ganda', 'Mulai latihan'),
+      mod('Pilihan Ganda', 'Soal dari seluruh isi modul: komunikasi sales, SOP, FAQ toko, lalu Processor, Motherboard, RAM, Casing, SSD, HDD, VGA, PSU, Monitor, Mouse, dan Keyboard. Jawaban langsung dibahas.', [h('span', { class: 'pill', text: MC.length + ' soal' }), h('span', { class: 'pill', text: 'Lulus ≥ ' + PASS + '%' }), mcPill], 'pilihan-ganda', 'Mulai latihan'),
       mod('Esai', 'Jawab dengan kata-katamu sendiri, lalu cocokkan dengan poin jawaban dari modul dan nilai dirimu sendiri. Termasuk studi kasus penjualan dari bab evaluasi.', [h('span', { class: 'pill', text: ESSAYS.length + ' pertanyaan' }), esPill], 'esai', es.ans ? 'Lanjutkan' : 'Mulai menulis'),
       mod('Step by Step', 'Simulasi bertahap. Layani pelanggan walk-in sesuai workflow toko, atau rakit PC dari prosesor sampai casing. Tidak bisa lanjut sebelum pilihanmu benar.', [h('span', { class: 'pill', text: '2 jalur · 7 langkah' }), stPill], 'langkah', 'Pilih jalur')),
     h('section', { class: 'rekap' },
@@ -555,8 +596,9 @@ function viewMC() {
 }
 function mcSetup() {
   const avail = t => t === 'all' ? MC.length : MC.filter(q => q.t === t).length;
-  const topicBtns = [['all', 'Semua topik']].concat(Object.entries(TOPICS)).map(([k, v]) =>
-    h('button', { class: 'chip-opt', 'aria-pressed': String(quiz.topic === k), onclick: () => { quiz.topic = k; render(); } }, h('span', { text: v }), h('span', { class: 'pill', text: avail(k) + ' soal' })));
+  const tbtn = (k, v) => h('button', { class: 'chip-opt', 'aria-pressed': String(quiz.topic === k), onclick: () => { quiz.topic = k; render(); } }, h('span', { text: v }), h('span', { class: 'pill', text: avail(k) + ' soal' }));
+  const topicBlocks = [h('div', { class: 'choice-grid' }, tbtn('all', 'Semua topik'))].concat(TOPIC_GROUPS.map(g =>
+    h('div', { class: 'field', style: 'margin-top:8px' }, h('span', { class: 'label', text: g.title }), h('div', { class: 'choice-grid' }, g.keys.map(k => tbtn(k, TOPICS[k]))))));
   const max = avail(quiz.topic);
   const counts = [10, 20].filter(n => n < max).concat(['all']);
   if (quiz.count !== 'all' && quiz.count >= max) quiz.count = 'all';
@@ -565,7 +607,7 @@ function mcSetup() {
   return h('div', { class: 'setup' },
     h('div', {}, h('h2', { class: 'sec-h', text: 'Pilihan Ganda' }), h('p', { class: 'muted', text: 'Satu soal per layar. Setelah memilih, jawaban langsung dibahas lengkap dengan rujukan dari modul. Urutan soal dan pilihan diacak setiap kali.' })),
     S.mc.best ? h('p', {}, h('span', { class: 'label', text: 'Skor terbaik ' }), h('b', { text: S.mc.best.correct + '/' + S.mc.best.n + ' (' + S.mc.best.pct + '%)' })) : null,
-    h('div', { class: 'field' }, h('span', { class: 'label', text: 'Topik' }), h('div', { class: 'choice-grid' }, topicBtns)),
+    h('div', { class: 'field' }, h('span', { class: 'label', text: 'Topik' }), topicBlocks),
     h('div', { class: 'field' }, h('span', { class: 'label', text: 'Jumlah soal' }), h('div', { class: 'choice-grid' }, countBtns)),
     h('div', { class: 'btn-row' }, h('button', { class: 'btn primary', onclick: () => { buildQuiz(); render(); } }, 'Mulai')));
 }
