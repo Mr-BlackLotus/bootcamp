@@ -1,0 +1,770 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><title>Pelatihan Sales Enter Komputer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: lembar kerja ala datasheet. Header, tab sticky, satu kolom konten (maks 980px), panel samping muncul di layar lebar. */
+:root{
+  --bg:#EEF1EF; --surface:#FFFFFF; --surface-2:#E5EAE7; --ink:#101A16; --ink-2:#44524B; --line:#CAD3CD;
+  --accent:#2447E0; --accent-ink:#FFFFFF; --accent-soft:#E2E8FF;
+  --ok:#16794A; --ok-soft:#DCF2E6; --bad:#B42318; --bad-soft:#FCE3E0; --warn:#8A5A00; --warn-soft:#FBEFD2;
+  --f-display:'IBM Plex Sans Condensed','IBM Plex Sans','Arial Narrow',system-ui,sans-serif;
+  --f-body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1411; --surface:#141D19; --surface-2:#1C2722; --ink:#E7EEEA; --ink-2:#9DABA3; --line:#2A3730;
+    --accent:#93A8FF; --accent-ink:#0A122E; --accent-soft:#1A2347;
+    --ok:#5ED394; --ok-soft:#10301F; --bad:#FF8F84; --bad-soft:#3A1613; --warn:#F0BC5A; --warn-soft:#33270C;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1411; --surface:#141D19; --surface-2:#1C2722; --ink:#E7EEEA; --ink-2:#9DABA3; --line:#2A3730;
+  --accent:#93A8FF; --accent-ink:#0A122E; --accent-soft:#1A2347;
+  --ok:#5ED394; --ok-soft:#10301F; --bad:#FF8F84; --bad-soft:#3A1613; --warn:#F0BC5A; --warn-soft:#33270C;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.15;margin:0;text-wrap:balance;letter-spacing:-.005em}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* header */
+.top{padding-block:28px 22px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.top h1{font-size:clamp(30px,6vw,46px);margin-top:8px}
+.top .lead{max-width:62ch;color:var(--ink-2);margin-top:10px}
+
+/* tabs */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:31;background:var(--bg);border-bottom:1px solid var(--line)}
+.tabs .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.tabs a{flex:0 0 auto;padding:13px 14px;text-decoration:none;color:var(--ink-2);font-weight:500;border-bottom:3px solid transparent;white-space:nowrap}
+.tabs a:hover{color:var(--ink)}
+.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+
+main{padding-block:28px 72px}
+.sec-h{font-size:24px;margin-bottom:6px}
+.muted{color:var(--ink-2)}
+.mono{font-family:var(--f-mono)}
+.label{font-family:var(--f-mono);font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 18px;border-radius:6px;border:1px solid var(--ink);background:transparent;cursor:pointer;font-weight:600}
+.btn:hover{background:var(--surface-2)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.sm{min-height:36px;padding:6px 12px;font-size:14px}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+
+/* fields */
+.field{display:flex;flex-direction:column;gap:6px}
+input[type=text],select,textarea{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px;min-height:44px}
+textarea{resize:vertical;line-height:1.55}
+
+/* home */
+.hello{display:grid;gap:18px;grid-template-columns:1fr;margin-bottom:34px}
+@media(min-width:720px){.hello{grid-template-columns:1fr 320px;align-items:end}}
+.mods{border-top:2px solid var(--ink)}
+.mod{display:grid;grid-template-columns:1fr;gap:12px;padding:20px 0;border-bottom:1px solid var(--line)}
+@media(min-width:720px){.mod{grid-template-columns:1fr auto;align-items:center;gap:24px}}
+.mod h3{font-size:22px}
+.mod p{color:var(--ink-2);max-width:60ch;margin-top:4px}
+.mod .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:2px 10px;border-radius:99px;font-family:var(--f-mono);font-size:12px;background:var(--surface-2);color:var(--ink-2);white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.acc{background:var(--accent-soft);color:var(--accent)}
+.rekap{margin-top:36px}
+.tbl{width:100%;border-collapse:collapse;margin-top:10px}
+.tbl th,.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:15px}
+.tbl th{font-family:var(--f-mono);font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.tbl-scroll{overflow-x:auto}
+.report{margin-top:16px;display:grid;gap:10px}
+.report textarea{font-family:var(--f-mono);font-size:13px;min-height:260px}
+
+/* progress */
+.bar{height:6px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.runhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+
+/* choices */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:22px}
+@media(max-width:480px){.panel{padding:16px}}
+.qtext{font-family:var(--f-display);font-size:clamp(21px,3.4vw,26px);font-weight:600;line-height:1.3;margin:10px 0 18px;text-wrap:pretty}
+.opts{display:grid;gap:10px}
+.opt{display:grid;grid-template-columns:32px 1fr;gap:12px;text-align:left;width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer;align-items:start}
+.opt:hover:not([disabled]){border-color:var(--ink)}
+.opt .k{font-family:var(--f-mono);font-size:13px;width:28px;height:28px;border:1px solid var(--line);border-radius:5px;display:grid;place-items:center;color:var(--ink-2)}
+.opt.ok{border-color:var(--ok);background:var(--ok-soft)}
+.opt.ok .k{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.opt.bad{border-color:var(--bad);background:var(--bad-soft)}
+.opt.bad .k{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.opt[disabled]{cursor:default}
+.opt.dim{opacity:.6}
+.fb{margin-top:16px;padding:14px 16px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2)}
+.fb.ok{background:var(--ok-soft);border-color:var(--ok)}
+.fb.bad{background:var(--bad-soft);border-color:var(--bad)}
+.fb strong{display:block;margin-bottom:2px}
+.nextrow{margin-top:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+.hint{font-size:13px;color:var(--ink-2)}
+kbd{font-family:var(--f-mono);font-size:12px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 5px}
+
+/* setup */
+.setup{display:grid;gap:22px;max-width:640px}
+.choice-grid{display:grid;gap:8px}
+.chip-opt{display:flex;justify-content:space-between;gap:12px;align-items:center;text-align:left;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer;width:100%}
+.chip-opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}
+
+/* result */
+.score{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.score b{font-family:var(--f-display);font-size:clamp(56px,14vw,88px);line-height:1;letter-spacing:-.02em}
+.topic-bars{display:grid;gap:12px;margin:22px 0}
+.tb{display:grid;grid-template-columns:minmax(0,200px) 1fr 56px;gap:12px;align-items:center;font-size:14px}
+@media(max-width:560px){.tb{grid-template-columns:1fr 56px}.tb .bar{grid-column:1/-1;order:3}}
+.tb .bar>i.low{background:var(--bad)}.tb .bar>i.hi{background:var(--ok)}
+details.rev{border:1px solid var(--line);border-radius:8px;background:var(--surface);margin-top:10px}
+details.rev summary{cursor:pointer;padding:12px 14px;font-weight:500;list-style:none;display:flex;gap:10px}
+details.rev summary::-webkit-details-marker{display:none}
+details.rev .inner{padding:0 14px 14px;display:grid;gap:8px}
+
+/* essay */
+.sumbar{display:flex;flex-wrap:wrap;gap:12px 28px;padding:14px 0 18px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.sumbar div{display:grid}
+.sumbar b{font-family:var(--f-display);font-size:26px}
+.grp{font-size:20px;margin:30px 0 10px}
+details.essay{border-top:1px solid var(--line)}
+details.essay:last-of-type{border-bottom:1px solid var(--line)}
+details.essay>summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start;padding:14px 0;font-weight:500}
+details.essay>summary::-webkit-details-marker{display:none}
+details.essay>summary:hover .qt{text-decoration:underline;text-underline-offset:3px}
+.essay-body{display:grid;gap:12px;padding:2px 0 22px}
+.ctx{font-size:15px;color:var(--ink-2);padding:10px 12px;border-left:3px solid var(--line);background:var(--surface-2);border-radius:0 6px 6px 0}
+.pts{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.pts label{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;cursor:pointer}
+.pts input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--accent)}
+.src{font-family:var(--f-mono);font-size:12px;color:var(--ink-2)}
+
+/* steps */
+.picker{display:grid;gap:14px}
+@media(min-width:720px){.picker{grid-template-columns:1fr 1fr}}
+.track{display:grid;gap:10px;align-content:start;padding:20px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.track h3{font-size:22px}
+.rail{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 20px;padding:0;list-style:none}
+.rail li{display:flex;align-items:center;gap:8px;padding:5px 10px 5px 6px;border:1px solid var(--line);border-radius:99px;font-size:13px;color:var(--ink-2);background:var(--surface)}
+.rail li i{font-style:normal;font-family:var(--f-mono);font-size:12px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--surface-2)}
+.rail li span{display:none}
+@media(min-width:760px){.rail li span{display:inline}}
+.rail li.done{color:var(--ok);border-color:var(--ok)}
+.rail li.done i{background:var(--ok);color:var(--surface)}
+.rail li.cur{color:var(--ink);border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.rail li.cur span{display:inline}
+.rail li.cur i{background:var(--accent);color:var(--accent-ink)}
+.steps-grid{display:grid;gap:18px}
+@media(min-width:900px){.steps-grid{grid-template-columns:minmax(0,1fr) 300px;align-items:start}}
+.sheet{border:1px solid var(--line);border-radius:8px;background:var(--surface);overflow:hidden}
+.sheet h3{font-size:16px;padding:12px 14px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.sheet ol,.sheet ul{margin:0;padding:0;list-style:none}
+.sheet li{padding:10px 14px;border-bottom:1px solid var(--line);font-size:14px;display:grid;gap:2px}
+.sheet li:last-child{border-bottom:0}
+.sheet li small{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.sheet .empty{padding:14px;color:var(--ink-2);font-size:14px}
+.cust{padding:12px 14px;background:var(--surface-2);border-radius:8px;border-left:3px solid var(--accent);margin-bottom:6px;font-size:15px}
+.cust b{display:block;font-family:var(--f-mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);font-weight:500;margin-bottom:2px}
+.tries{font-family:var(--f-mono);font-size:12px;color:var(--ink-2)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <p class="eyebrow">Modul Sales · versi 0.5 · Enter Komputer</p>
+    <h1>Pelatihan Sales Enter Komputer</h1>
+    <p class="lead">Latihan mandiri untuk karyawan baru. Isinya diambil dari modul sales: komunikasi, SOP toko, FAQ, dan pengetahuan dasar komputer.</p>
+  </div>
+</header>
+<nav class="tabs" aria-label="Menu latihan">
+  <div class="wrap">
+    <a href="#home" data-r="home">Beranda</a>
+    <a href="#pilihan-ganda" data-r="pilihan-ganda">Pilihan Ganda</a>
+    <a href="#esai" data-r="esai">Esai</a>
+    <a href="#langkah" data-r="langkah">Step by Step</a>
+  </div>
+</nav>
+<main><div class="wrap" id="app"></div></main>
+
+<script>
+/* ---------- util ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+function h(tag, props, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(props || {})) {
+    if (v == null || v === false) continue;
+    if (k === 'class') el.className = v;
+    else if (k === 'text') el.textContent = v;
+    else if (k === 'value') el.value = v;
+    else if (k === 'checked') el.checked = !!v;
+    else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+    else if (v === true) el.setAttribute(k, '');
+    else el.setAttribute(k, v);
+  }
+  for (const kid of kids.flat()) {
+    if (kid == null || kid === false) continue;
+    el.append(kid.nodeType ? kid : document.createTextNode(kid));
+  }
+  return el;
+}
+function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+const LET = ['A', 'B', 'C', 'D', 'E'];
+const PASS = 75;
+
+/* ---------- storage ---------- */
+const KEY = 'pelatihan-sales-ek-v1';
+let mem = null;
+function load() { try { const r = localStorage.getItem(KEY); if (r) return JSON.parse(r); } catch (e) {} return mem; }
+function persist() { mem = S; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+const S = Object.assign({ name: '', mc: { best: null, last: null }, essay: { a: {}, c: {}, r: {} }, steps: {} }, load() || {});
+S.mc = S.mc || { best: null, last: null }; S.essay = S.essay || { a: {}, c: {}, r: {} }; S.steps = S.steps || {};
+let saveT = null; function saveSoon() { clearTimeout(saveT); saveT = setTimeout(persist, 300); }
+
+/* ---------- data: pilihan ganda  [topik, soal, jawaban benar, [salah...], penjelasan] ---------- */
+const TOPICS = {
+  sales: 'Sales & Komunikasi',
+  sop: 'SOP & Alur Kerja',
+  faq: 'FAQ Toko',
+  cpu: 'Processor & Motherboard',
+  part: 'Komponen & Periferal'
+};
+const MC = [
+  ['sales', 'Sales banyak bertanya dan mendengarkan untuk menggali kebutuhan serta keinginan pelanggan. Ini termasuk tugas sales yang mana?', 'Memahami kebutuhan pelanggan (Needs)', ['Menutup penjualan (Closing)', 'Menangani keberatan (Handling Objection)', 'Layanan purna jual (After Sales Service)'], 'Menggali kebutuhan dengan banyak bertanya dan mendengarkan membantu sales memberi solusi yang tepat dan terlihat profesional.'],
+  ['sales', 'Apa kunci menangani keberatan pelanggan, misalnya soal harga, produk, atau waktu?', 'Mendengarkan inti masalah, mencari solusi, dan menjaga emosi', ['Langsung menurunkan harga agar cepat deal', 'Mengulang spesifikasi dengan suara lebih keras', 'Mengalihkan pembicaraan ke produk lain'], 'Kunci penanganan keberatan: dengarkan inti masalah, cari solusi, dan jaga emosi untuk meyakinkan pelanggan.'],
+  ['sales', 'Keterampilan sales mana yang berarti mencapai kesepakatan yang saling menguntungkan antara perusahaan dan pelanggan?', 'Negosiasi', ['Persuasi', 'Komunikasi', 'Pengetahuan produk'], 'Persuasi adalah meyakinkan pelanggan bahwa produk adalah solusi terbaik. Negosiasi adalah mencapai kesepakatan yang saling menguntungkan.'],
+  ['sales', 'Manakah contoh komunikasi non-verbal yang efektif?', 'Senyum hangat, kontak mata tulus, dan mengangguk tanda paham', ['Berbicara cepat supaya tidak menyita waktu pelanggan', 'Membaca spesifikasi dengan nada datar', 'Memberi brosur tanpa berbicara'], 'Komunikasi non-verbal meliputi ekspresi wajah, bahasa tubuh, kontak mata, dan intonasi. Verbal dan non-verbal yang selaras memperkuat pesan dan membangun kepercayaan.'],
+  ['sales', 'Pada latihan membaca teks dengan tiga gaya, gaya mana yang paling menarik dan meyakinkan?', 'Dengan intonasi dan gerak tubuh', ['Datar, tanpa intonasi dan gerak tubuh', 'Dengan intonasi tetapi tanpa gerak tubuh', 'Hanya dengan gerak tangan tanpa suara'], 'Gaya datar terasa monoton. Intonasi membuat pesan lebih hidup. Ditambah ekspresi, gerak tangan, dan kontak mata, penyampaian jadi paling meyakinkan.'],
+  ['sales', 'Bagaimana cara yang tepat menanyakan budget kepada calon pelanggan?', 'Disampaikan hati-hati agar tidak menyinggung, setelah menanyakan kebutuhan', ['Ditanyakan di kalimat pertama sebelum menyapa', 'Tidak perlu ditanyakan sama sekali', 'Ditanyakan dengan nada menekan supaya pelanggan jujur'], 'Pada contoh dialog modul, sales menanyakan fungsi PC lebih dulu, lalu kisaran budget dengan hati-hati.'],
+  ['sales', 'Pelanggan masih berpikir dan belum memutuskan. Sikap sales yang sesuai modul adalah...', 'Bersikap sabar, memberi waktu, dan tidak memaksa', ['Mendesak pelanggan agar segera memutuskan', 'Menelepon terus sampai pelanggan setuju', 'Meninggalkan pelanggan tanpa dilayani'], 'Tips modul: bersikap sabar dan tidak memaksa. Beri waktu pelanggan untuk berpikir.'],
+  ['sales', 'Pelanggan bertanya, “Kalau ada komponen rusak, harus beli baru?” Jawaban yang sesuai modul adalah...', 'Jika rusaknya bukan karena kesalahan pengguna atau fisik, bisa klaim garansi dan kami bantu proses klaimnya', ['Ya, harus beli baru', 'Garansi tidak berlaku untuk komponen apa pun', 'Silakan tanya ke toko lain'], 'Jawab jujur dan transparan: semua komponen dijamin sesuai masa garansinya dan toko membantu proses klaim.'],
+
+  ['sop', 'Apa langkah pertama dalam workflow pelanggan walk-in?', 'Sambutan: berdiri menyambut, mempersilakan duduk, menawarkan bantuan dengan sopan', ['Identifikasi kebutuhan', 'Pembuatan nota', 'Pemesanan ke distributor'], 'Urutan workflow: Sambutan, Identifikasi Kebutuhan, Informasi Produk, Konfirmasi Stok & Harga, Penanganan Keberatan, Pembuatan Nota & Kasir, Pemesanan Barang (Distributor).'],
+  ['sop', 'Dalam workflow walk-in, langkah setelah Informasi Produk adalah...', 'Konfirmasi stok dan harga (non-ready stock)', ['Pembuatan nota dan pengarahan ke kasir', 'Pemesanan ke distributor', 'Sambutan'], 'Setelah menjelaskan produk, sales mengonfirmasi stok dan harga. Jika barang tidak tersedia, hubungi distributor.'],
+  ['sop', 'Barang yang dicari pelanggan tidak tersedia di toko (non-ready stock). Apa yang dilakukan sales?', 'Menghubungi distributor untuk memastikan stok dan harga terkini', ['Menjanjikan stok berdasarkan harga di website', 'Menolak pelanggan', 'Meminta pelanggan datang lagi minggu depan'], 'Workflow langkah 4: jika barang tidak tersedia, hubungi distributor untuk memastikan stok dan harga terkini.'],
+  ['sop', 'Kapan pemesanan barang khusus ke distributor dilakukan?', 'Setelah pelanggan menyelesaikan pembayaran', ['Sebelum pelanggan membayar, supaya cepat', 'Saat pelanggan baru bertanya', 'Setelah barang sampai ke pelanggan'], 'Pemesanan ke distributor dilakukan setelah pelanggan menyelesaikan pembayaran.'],
+  ['sop', 'Divisi mana yang mengurus pembayaran, DP, revisi nota, retur barang, dan refund?', 'Kasir', ['Gudang', 'Teknik', 'MarKom'], 'Koordinasi dengan Divisi Kasir: pembayaran, DP, revisi nota, retur barang, dan refund.'],
+  ['sop', 'Sales perlu mengecek warna atau stok unit barang ready stock. Ke divisi mana ia berkoordinasi?', 'Gudang', ['Pickup', 'Kasir', 'Update'], 'Divisi Gudang untuk pengecekan warna/stok unit atau keperluan lain terkait barang ready stock. Divisi Pickup untuk pengambilan barang oleh pelanggan atau pengiriman mandiri.'],
+  ['sop', 'Pengiriman barang dari toko ke alamat pelanggan dikoordinasikan dengan...', 'Divisi Packing & Driver Kurir Toko', ['Divisi Pickup', 'Divisi Teknik', 'Divisi MarKom'], 'Divisi Packing & Driver Kurir Toko menangani pengiriman dari toko ke alamat pelanggan.'],
+  ['sop', 'Info terbaru soal stok, harga, diskon, dan promo disampaikan agar informasi ke pelanggan selalu akurat. Siapa yang berkoordinasi dengan sales untuk ini?', 'Divisi Update', ['Divisi MarKom', 'Divisi Kasir', 'Divisi Teknik'], 'Divisi Update menyampaikan info terbaru. Divisi MarKom khusus untuk promo atau event seperti launching produk atau bundling.'],
+  ['sop', 'Apa arti larangan transaksi pribadi dalam SOP sales?', 'Dilarang bertransaksi tanpa nota resmi atau menjual barang tidak legal, misalnya software bajakan atau lisensi ilegal', ['Dilarang memberi penjelasan garansi', 'Dilarang bertanya budget pelanggan', 'Dilarang membuat nota pembelian'], 'SOP bagian Lain-lain: transaksi harus memakai nota resmi, dan menjual barang ilegal dilarang.'],
+  ['sop', 'Sales mengalami kendala dalam proses transaksi atau menghadapi pelanggan yang sulit. Sebaiknya...', 'Mencari bantuan supervisor', ['Menyelesaikan diam-diam sendiri', 'Meminta pelanggan pulang', 'Membatalkan transaksi'], 'SOP: cari bantuan supervisor jika mengalami kendala dalam proses transaksi atau pelanggan.'],
+  ['sop', 'Informasi stok dan harga untuk PC Ready harus diberikan...', 'Secara real-time', ['Berdasarkan data kemarin', 'Hanya jika pelanggan bertanya dua kali', 'Setelah pembayaran'], 'SOP nomor 8: berikan info real-time terkait stok dan harga, khususnya untuk PC Ready.'],
+
+  ['faq', 'Apa syarat pembuatan Faktur Pajak di Enter Komputer?', 'Memiliki NPWP perusahaan, dan nama perusahaan di nota sesuai NPWP', ['Cukup menunjukkan KTP pembeli', 'Tersedia untuk WNA dan perorangan', 'Pembayaran harus tunai atas nama pribadi'], 'Faktur Pajak: wajib NPWP perusahaan, nama di nota sesuai NPWP, pembayaran lewat rekening perusahaan (transfer ke CV Teman Baik) atau tunai. Tidak berlaku untuk WNA atau perorangan.'],
+  ['faq', 'Estimasi maksimal penerbitan Faktur Pajak adalah...', '14 hari kerja', ['3 hari kerja', '7 x 24 jam', '30 hari kerja'], 'Estimasi penerbitan Faktur Pajak maksimal 14 hari kerja.'],
+  ['faq', 'Semua barang yang dibeli bergaransi resmi, kecuali...', 'Aksesoris bonus seperti fan bawaan casing gratis', ['Processor', 'SSD', 'Motherboard'], 'Semua komponen memiliki garansi resmi, kecuali aksesoris bonus seperti fan bawaan casing gratis.'],
+  ['faq', 'Klaim garansi dapat ditolak jika...', 'Segel rusak atau ada kerusakan fisik akibat pemakaian', ['Barang dibeli secara online', 'Barang sudah pernah dipakai', 'Pelanggan datang ke Customer Care'], 'Klaim dibawa ke Customer Care dan harus sesuai nota pembelian Enter Komputer (offline atau online). Klaim bisa ditolak jika segel rusak atau ada kerusakan fisik.'],
+  ['faq', 'Pelanggan ingin mengambil barang di hari yang berbeda dari hari pembelian. Batas maksimalnya...', '7 x 24 jam setelah pembelian', ['1 x 24 jam', '3 x 24 jam', '30 hari'], 'Pengambilan barang di hari berbeda boleh, maksimal 7 x 24 jam setelah pembelian. Angka 3 x 24 jam adalah batas pengajuan tukar barang.'],
+  ['faq', 'Barang pada dasarnya tidak bisa ditukar atau dikembalikan. Pengecualiannya adalah...', 'Barang berbeda dari nota, diajukan maksimal 3 x 24 jam, kondisi baik, segel utuh, kelengkapan lengkap', ['Pelanggan merasa kurang puas', 'Dalam 14 hari tanpa syarat', 'Hanya jika pelanggan membawa kardus tambahan'], 'Semua syarat harus terpenuhi: barang berbeda dari nota, pengajuan maksimal 3 x 24 jam, kondisi baik dengan segel utuh dan kelengkapan lengkap.'],
+  ['faq', 'Pelanggan ingin merakit PC dengan membawa sebagian komponen dari luar. Syaratnya...', 'Membeli minimal 4 komponen utama di Enter Komputer', ['Membeli minimal 1 komponen', 'Tidak diperbolehkan sama sekali', 'Membayar biaya perakitan tambahan'], 'Contoh dari modul: membawa RAM, SSD, dan CPU Cooler dari luar, sisanya dibeli di Enter Komputer.'],
+  ['faq', 'Komponen yang bukan dibeli di Enter Komputer akan dipasangkan. Pelanggan wajib...', 'Mengisi Formulir Perakitan dan menyetujui syarat & ketentuan', ['Membayar biaya perakitan', 'Menandatangani surat garansi baru', 'Tidak ada kewajiban apa pun'], 'Pemasangan komponen non-garansi tetap bisa, tetapi pelanggan harus diberi tahu bahwa risiko kerusakan di luar tanggung jawab Enter Komputer.'],
+  ['faq', 'Berapa biaya pemasangan atau perakitan di Enter Komputer?', 'Gratis', ['Rp150.000', 'Rp50.000 per komponen', 'Tergantung jumlah komponen'], 'Pemasangan dan perakitan gratis. Rp150.000 adalah biaya kirim.'],
+  ['faq', 'Layanan kirim barang Enter Komputer tersedia untuk wilayah dan biaya berapa?', 'Jabodetabek, Rp150.000 per kirim', ['Seluruh Indonesia, gratis', 'Jabodetabek, gratis', 'Pulau Jawa, Rp150.000 per kirim'], 'Kirim khusus Jabodetabek, Rp150.000 per kirim. Rakitan PC dikirim H+1 atau H+2 setelah perakitan selesai.'],
+  ['faq', 'Pelanggan memasang sendiri komponen yang dibelinya. Apa yang harus disampaikan?', 'Kerusakan akibat pemasangan sendiri tidak dijamin garansi (garansi void)', ['Garansi tetap berlaku penuh', 'Pemasangan sendiri tidak diperbolehkan', 'Wajib memakai teknisi berbayar'], 'Boleh pasang sendiri, tetapi kerusakan akibat pemasangan sendiri tidak dijamin garansi.'],
+  ['faq', 'Di mana offline store Enter Komputer?', 'Mangga Dua Mall dan BSD Serpong', ['Grand Indonesia dan Kelapa Gading', 'Mangga Dua Mall dan Bekasi', 'Glodok dan BSD Serpong'], 'Offline store: Mangga Dua Mall & BSD Serpong. Online lewat website, WhatsApp, email resmi, dan marketplace (Tokopedia, Shopee, Blibli, Akulaku).'],
+
+  ['cpu', 'Huruf “F” pada prosesor Intel, misalnya Core i5-13400F, berarti...', 'Tanpa GPU internal, wajib memakai VGA terpisah', ['Bisa di-overclock', 'Edisi terbatas', 'Hemat daya dengan iGPU'], 'F = tanpa graphics internal. K = unlocked untuk overclock. KF = gabungan keduanya. KS = Special Edition.'],
+  ['cpu', 'Huruf “K” pada prosesor Intel berarti...', 'Unlocked, bisa di-overclock (butuh pendingin yang sangat baik)', ['Tanpa GPU internal', 'Khusus laptop', 'Hemat daya'], 'K = unlocked atau bisa overclock. CPU “dipaksa” menghasilkan performa lebih tinggi dari setelan pabrik, sehingga butuh sistem pendingin yang baik.'],
+  ['cpu', 'Pada Intel Core i9-13900K, angka “13” menunjukkan...', 'Generasi', ['Nomor model', 'Seri atau versi', 'Suffix'], 'Core i9 = seri, 13 = generasi, 900 = nomor model, K = suffix.'],
+  ['cpu', 'Socket yang digunakan prosesor Intel generasi ke-12, 13, dan 14 adalah...', 'LGA 1700', ['LGA 1200', 'LGA 1151 v2', 'LGA 1851'], 'LGA 1200 untuk Gen 10 dan 11. LGA 1151 v2 untuk Gen 8 dan 9. LGA 1851 untuk Gen 15 (seri Ultra).'],
+  ['cpu', 'Bagaimana hubungan LGA 1151 dan LGA 1151 v2?', 'Tidak kompatibel satu sama lain walau bentuknya serupa', ['Sepenuhnya kompatibel', 'Hanya berbeda warna', 'LGA 1151 v2 untuk Gen 6 dan 7'], 'LGA 1151 untuk Gen 6 dan 7. LGA 1151 v2 untuk Gen 8 dan 9. Keduanya tidak saling kompatibel.'],
+  ['cpu', 'Socket AMD terbaru yang mendukung DDR5 dan PCIe 5.0 untuk Ryzen 7000 series ke atas adalah...', 'AM5', ['AM4', 'LGA 1700', 'LGA 1851'], 'AM4 dipakai Ryzen generasi 1 sampai 5. AM5 mulai Ryzen 7000 (Zen 4).'],
+  ['cpu', 'Suffix “X3D” pada prosesor AMD Ryzen berarti...', 'Varian dengan 3D V-Cache, dirancang khusus untuk gaming', ['Tanpa GPU internal', 'Hemat daya dengan iGPU', 'Edisi terbatas'], 'X = performa lebih tinggi. X3D = cache tambahan (3D V-Cache) untuk performa gaming optimal.'],
+  ['cpu', 'Prosesor AMD berakhiran “G”, misalnya Ryzen 5 5600G, memiliki...', 'GPU bawaan (iGPU), cocok dipakai tanpa VGA terpisah', ['Tidak ada GPU bawaan', 'Kemampuan overclock tanpa batas', 'Socket khusus laptop'], 'F = tanpa iGPU. G = punya iGPU. GE = varian hemat daya dari G.'],
+  ['cpu', 'Pelanggan hanya butuh PC untuk kantor, browsing, dan media ringan. Prosesor yang sesuai adalah...', 'Core i3 atau Ryzen 3', ['Core i9 atau Ryzen 9', 'Core i7 atau Ryzen 7', 'Core i9-14900KS'], 'i3/Ryzen 3 untuk kebutuhan dasar. i5/Ryzen 5 untuk gaming menengah dan edit video. i7/Ryzen 7 untuk game lanjut dan multitasking berat. i9/Ryzen 9 untuk kreator profesional.'],
+  ['cpu', 'Motherboard seri Intel H dan AMD A termasuk kelas...', 'Budget dengan fitur terbatas', ['Menengah ke atas', 'High end paling lengkap', 'Khusus server'], 'H dan A: budget (umumnya hanya 2 slot RAM, tanpa overclock). B: menengah atau tinggi. Z dan X: high end.'],
+  ['cpu', 'Motherboard high end dengan fitur paling lengkap (overclock CPU, lebih dari 2 slot NVMe, WiFi dan Bluetooth bawaan) adalah seri...', 'Intel Z atau AMD X', ['Intel H atau AMD A', 'Intel B atau AMD B', 'Intel H atau AMD X'], 'Seri Z dan X cocok untuk kegiatan berat atau prosesor seri tinggi, dengan harga relatif mahal.'],
+  ['cpu', 'Ciri motherboard seri B yang benar adalah...', 'Fitur lebih banyak dari seri H, mendukung overclock RAM, tetapi tidak overclock CPU', ['Mendukung overclock CPU seperti seri Z', 'Hanya tersedia ukuran ATX', 'Selalu memiliki 4 slot RAM'], 'Seri B tersedia dalam ukuran ITX, mATX, dan ATX. Jumlah slot RAM dan NVMe bergantung merek dan harga.'],
+  ['cpu', 'Ukuran motherboard yang paling kecil adalah...', 'Mini ITX', ['Micro ATX', 'ATX', 'E-ATX'], 'Mini ITX (6,7" x 6,7"), biasanya 2 slot RAM dan 1 slot PCIe, wajib casing khusus mini-ITX. E-ATX paling besar.'],
+  ['cpu', 'Motherboard yang cocok untuk prosesor Intel Gen 12 sampai 14 (LGA 1700) adalah...', 'B760M', ['B560M', 'B550M', 'B860M'], 'B560M memakai LGA 1200, B550M untuk AMD AM4, B860M untuk LGA 1851.'],
+  ['cpu', 'Apa fungsi chip BIOS/UEFI pada motherboard?', 'Menyimpan firmware dasar untuk proses booting dan konfigurasi awal', ['Mendinginkan chipset', 'Menyalurkan daya dari PSU', 'Menyimpan data pengguna'], 'BIOS lebih sederhana, UEFI lebih modern dan mendukung antarmuka grafis.'],
+
+  ['part', 'Apa fungsi utama RAM?', 'Menyimpan data sementara yang sedang diproses CPU', ['Menyimpan data secara permanen', 'Mengubah listrik AC menjadi DC', 'Memproses grafis'], 'Data permanen disimpan di storage (SSD/HDD). RAM menentukan kecepatan membuka program, file, dan multitasking.'],
+  ['part', 'RAM untuk laptop dan untuk desktop masing-masing berjenis...', 'SO-DIMM untuk laptop, Long-DIMM untuk desktop', ['Long-DIMM untuk laptop, SO-DIMM untuk desktop', 'DDR untuk laptop, DIMM untuk desktop', 'Keduanya sama'], 'SO-DIMM berukuran lebih kecil untuk perangkat portabel. Long-DIMM berukuran lebih besar untuk desktop.'],
+  ['part', 'Rekomendasi kapasitas RAM dalam ringkasan modul adalah...', '8GB cukup untuk basic, 16 sampai 32GB untuk gaming atau desain', ['4GB untuk gaming', '64GB wajib untuk semua PC', '8GB untuk rendering 3D profesional'], 'Generasi RAM (DDR3, DDR4, DDR5) juga harus cocok dengan prosesor dan motherboard. Dual Channel lebih cepat daripada Single Channel.'],
+  ['part', 'Kombinasi storage yang paling baik untuk performa dan kapasitas adalah...', 'SSD untuk OS dan aplikasi, HDD untuk data besar', ['HDD saja', 'SSD kecil saja', 'Dua HDD'], 'SSD cepat dan responsif. HDD lebih murah untuk kapasitas besar.'],
+  ['part', 'SSD lebih tahan guncangan daripada HDD karena...', 'Tidak memiliki bagian yang bergerak', ['Memakai piringan magnet', 'Ukurannya lebih besar', 'Memakai kipas pendingin'], 'HDD memakai piringan magnet sehingga rentan kerusakan fisik. SSD memakai memori non-volatile.'],
+  ['part', 'Jenis SSD yang memakai slot M.2 dan jalur PCIe adalah...', 'NVMe', ['SATA SSD 2,5"', 'HDD', 'Kartu SD'], 'SATA SSD memakai konektor SATA seperti HDD, lebih cepat dari HDD tetapi lebih lambat dari NVMe.'],
+  ['part', 'Komponen PC yang paling banyak mengonsumsi daya adalah...', 'VGA card', ['RAM', 'SSD', 'Casing'], 'Karena itu VGA menjadi pertimbangan utama saat menghitung kebutuhan watt PSU.'],
+  ['part', 'Seri VGA NVIDIA yang membawa teknologi ray tracing adalah...', 'RTX', ['GT', 'GTX', 'GTS'], 'GT: entry level. GTX: mid sampai high end. RTX: teknologi terbaru dengan ray tracing.'],
+  ['part', 'VRAM yang disarankan modul untuk gaming 1080p adalah...', '6 sampai 8GB', ['2GB', '4GB', '24GB'], '4GB untuk penggunaan ringan, 6 sampai 8GB untuk gaming 1080p, 12GB ke atas untuk 4K dan profesional.'],
+  ['part', 'Apa fungsi utama PSU?', 'Mengubah listrik AC menjadi DC dan menstabilkan tegangan untuk komponen', ['Mendinginkan prosesor', 'Menyimpan data sementara', 'Mengolah grafis'], 'PSU juga punya proteksi arus lebih, tegangan tinggi atau rendah, dan anti korsleting.'],
+  ['part', 'Efisiensi minimal sertifikasi 80 PLUS Gold adalah...', '87 sampai 90%', ['80%', '82 sampai 85%', '94% ke atas'], 'White 80%, Bronze 82 sampai 85%, Silver 85 sampai 88%, Gold 87 sampai 90%, Platinum 90 sampai 92%, Titanium 94% ke atas.'],
+  ['part', 'Urutan sertifikasi 80 PLUS dari yang paling dasar sampai paling efisien adalah...', 'White, Bronze, Silver, Gold, Platinum, Titanium', ['Bronze, White, Silver, Gold, Titanium, Platinum', 'Titanium, Platinum, Gold, Silver, Bronze, White', 'White, Silver, Bronze, Gold, Platinum, Titanium'], 'Semakin tinggi efisiensi, semakin baik kualitasnya, tetapi harga juga lebih mahal.'],
+  ['part', 'PSU Semi-Modular berarti...', 'Hanya beberapa kabel penting yang terpasang permanen, sisanya bisa dilepas-pasang', ['Semua kabel terpasang permanen', 'Tidak ada kabel yang terpasang permanen', 'Khusus untuk casing Mini ITX'], 'Non-Modular: semua kabel permanen (paling murah). Full Modular: semua kabel bisa dilepas, paling rapi.'],
+  ['part', 'PSU untuk casing Mini ITX umumnya berukuran...', 'SFX atau SFX-L', ['ATX', 'E-ATX', 'Full Tower'], 'ATX (150 x 86 x 140 mm) cocok untuk casing Full ATX dan mATX. SFX-L dan SFX adalah versi kecil untuk casing Mini ITX.'],
+  ['part', 'Saran modul untuk memilih daya dan kualitas PSU adalah...', 'Hitung kebutuhan daya lalu tambah 20 sampai 30% untuk upgrade, minimal 80+ Bronze', ['Pilih PSU bawaan casing karena sudah cukup', 'Selalu pilih 1000W', 'Pilih PSU terkecil agar hemat'], 'PSU bawaan casing hanya cukup menyalakan komputer tanpa aliran listrik yang stabil, sehingga risiko kerusakan hardware lebih tinggi.'],
+  ['part', 'Resolusi Full HD adalah...', '1920 x 1080', ['1366 x 768', '2560 x 1440', '3840 x 2160'], 'HD 1366 x 768, QHD 2560 x 1440, 4K 3840 x 2160. Ukuran monitor diukur secara diagonal.'],
+  ['part', 'Apa perbedaan mouse gaming dengan mouse casual?', 'Mouse gaming punya DPI tinggi, pengaturan khusus, dan tombol macro', ['Mouse casual punya pilihan DPI tinggi', 'Mouse gaming selalu wireless', 'Mouse gaming harganya lebih murah'], 'Mouse gaming harganya relatif lebih mahal dan umumnya memakai kabel USB untuk kestabilan.'],
+  ['part', 'Switch keyboard mechanical Cherry MX Brown dikenal sebagai tipe...', 'Tactile', ['Ringan (linear)', 'Berat', 'Cepat'], 'Cherry MX Red ringan. Black berat. Speed Silver cepat. Brown tactile.'],
+  ['part', 'Casing yang paling umum digunakan, tinggi 40 sampai 50 cm, kompatibel dengan ATX, Micro-ATX, dan Mini-ITX adalah...', 'Mid Tower', ['Full Tower', 'Mini Tower', 'Slim Case'], 'Full Tower tinggi lebih dari 50 cm. Mini Tower 30 sampai 40 cm. Slim Case hemat tempat tetapi airflow terbatas.'],
+  ['part', 'Komponen minimal agar PC desktop dapat menyala dan digunakan adalah...', 'CPU, motherboard, RAM, storage, PSU, monitor, keyboard, mouse', ['CPU, RAM, dan casing saja', 'CPU, VGA, dan RAM', 'Motherboard, VGA, dan casing'], 'VGA opsional jika prosesor memiliki iGPU.']
+].map((r, i) => ({ id: i, t: r[0], q: r[1], ok: r[2], bad: r[3], e: r[4] }));
+
+/* ---------- data: esai ---------- */
+const ESSAY_GROUPS = [
+  { title: 'Pengetahuan Produk', items: [
+    { id: 'p1', q: 'Jelaskan perbedaan Software dan Hardware.', src: 'Evaluasi Materi, Dasar Komputer no. 3', pts: ['Software adalah instruksi digital tak berwujud yang mengatur cara kerja hardware', 'Hardware adalah komponen fisik yang dapat disentuh', 'Memberi contoh hardware (misalnya monitor, keyboard)'] },
+    { id: 'p2', q: 'Jelaskan perbedaan utama SSD dan HDD, lalu kapan masing-masing kamu rekomendasikan ke pelanggan?', src: 'Bagian SSD & HDD; Evaluasi no. 4 dan 5', pts: ['SSD memakai memori non-volatile tanpa piringan magnet, baca/tulis jauh lebih cepat, tahan guncangan', 'HDD memakai piringan magnet, kapasitas besar, lebih murah, rentan kerusakan fisik', 'SSD untuk sistem operasi dan aplikasi utama', 'HDD untuk penyimpanan data besar dengan biaya hemat, dan kombinasi SSD + HDD adalah pilihan terbaik'] },
+    { id: 'p3', q: 'Jelaskan arti “Intel Core i9-13900K”, serta fungsi suffix K, F, dan KF.', src: 'Bagian Processor Intel', pts: ['i9 = seri atau versi, 13 = generasi, 900 = nomor model, K = suffix', 'K = unlocked, bisa overclock, butuh pendingin sangat baik', 'F = tanpa GPU internal, butuh VGA terpisah', 'KF = gabungan K dan F: bisa overclock tetapi tanpa GPU internal'] },
+    { id: 'p4', q: 'Sebutkan minimal 4 socket Intel (LGA) beserta generasinya dan contoh prosesor yang cocok.', src: 'Evaluasi no. 7; tabel Kesimpulan Sederhana', pts: ['Menyebut minimal 4 socket dengan benar (mis. LGA 1155, 1150, 1151/1151 v2, 1200, 1700, 1851)', 'Mengaitkan tiap socket dengan generasi yang benar (mis. 1200 = Gen 10 dan 11, 1700 = Gen 12 sampai 14)', 'Memberi contoh prosesor yang kompatibel (mis. i5 2400, i5 4590, i5 10400, i5 12400)', 'Menyebut bahwa socket dan prosesor harus kompatibel, dan LGA 1151 tidak kompatibel dengan 1151 v2'] },
+    { id: 'p5', q: 'Jelaskan perbedaan motherboard seri H/A, B, dan Z/X, serta kapan masing-masing dipilih.', src: 'Bagian Motherboard, Contoh Motherboard Intel dan AMD', pts: ['H/A: budget dengan fitur terbatas, umumnya 2 slot RAM, tanpa overclock, untuk Core i3/i5 atau Ryzen 3/5', 'B: menengah atau tinggi, fitur lebih banyak dari H, bisa overclock RAM tetapi tidak CPU', 'Z/X: high end, fitur paling lengkap (overclock CPU dan RAM, WiFi/Bluetooth, NVMe lebih dari 2 slot), untuk kerja berat atau prosesor seri tinggi', 'Harga mengikuti fitur: H/A termurah, Z/X paling mahal'] },
+    { id: 'p6', q: 'Jelaskan istilah Bottleneck dalam performa PC dan berikan 1 contoh kasus.', src: 'Evaluasi no. 9', pts: ['Bottleneck: satu komponen (mis. CPU atau GPU) tidak mampu mengimbangi komponen lain sehingga membatasi performa seluruh sistem', 'Memberi analogi atau contoh kasus yang masuk akal (mis. VGA kelas tinggi dipasangkan dengan prosesor entry level)'] },
+    { id: 'p7', q: 'Sebutkan tingkat sertifikasi PSU 80 PLUS beserta rentang efisiensinya.', src: 'Evaluasi no. 10; bagian Sertifikasi Efisiensi PSU', pts: ['White: minimal 80%', 'Bronze 82 sampai 85%, Silver 85 sampai 88%', 'Gold 87 sampai 90%, Platinum 90 sampai 92%', 'Titanium: 94% ke atas, dan makin tinggi efisiensi makin baik kualitas tetapi makin mahal'] },
+    { id: 'p8', q: 'Jelaskan perbedaan PSU Non-Modular, Semi-Modular, dan Full-Modular.', src: 'Evaluasi no. 11; bagian Jenis Model PSU', pts: ['Non-Modular: semua kabel terpasang permanen, paling sederhana dan murah', 'Semi-Modular: hanya beberapa kabel penting terpasang permanen, sisanya bisa dilepas-pasang', 'Full-Modular: tidak ada kabel permanen, semua bisa dilepas-pasang, paling rapi dan fleksibel'] }
+  ] },
+  { title: 'Komunikasi dengan Pelanggan', items: [
+    { id: 'k1', q: 'Dari latihan membaca teks dengan tiga gaya (datar, dengan intonasi, dengan intonasi dan gerak tubuh), apa kesimpulanmu tentang pengaruh intonasi dan gerak tubuh? Tulis 1 sampai 2 kalimat.', src: 'Latihan Memahami Komunikasi', pts: ['Intonasi membuat pesan lebih hidup dan mudah dipahami', 'Ekspresi, gerak tangan, dan kontak mata membuat penyampaian lebih menarik dan meyakinkan', 'Komunikasi verbal dan non-verbal yang selaras memperkuat pesan dan membangun kepercayaan'] },
+    { id: 'k2', q: 'Pelanggan berkata, “Spesifikasinya oke sih, tapi ada versi yang lebih murah nggak?” Tulis jawabanmu sebagai sales.', ctx: 'Konteks: pelanggan butuh PC untuk desain dan game berat, dan ingin PC yang bisa dipakai lama dan mudah di-upgrade.', src: 'Contoh dialog langkah 6, Menangani Keberatan Harga', pts: ['Mengakui dengan jujur bahwa versi lebih murah memang ada', 'Menjelaskan konsekuensinya: performa turun, terutama untuk desain dan gaming', 'Mengaitkan dengan rencana pelanggan: konfigurasi ini lebih hemat jangka panjang karena bisa di-upgrade', 'Nada sopan, tidak memaksa'] },
+    { id: 'k3', q: 'Pelanggan bertanya, “Kalau ada komponen rusak, harus beli baru?” Tulis jawabanmu.', src: 'Contoh dialog langkah 5, Menjawab dengan Jujur & Transparan; FAQ garansi', pts: ['Jika rusaknya bukan karena kesalahan pengguna atau kerusakan fisik, pelanggan bisa klaim garansi', 'Semua komponen dijamin sesuai masa garansinya', 'Toko membantu proses klaim (lewat Customer Care, sesuai nota pembelian)'] }
+  ] },
+  { title: 'Studi Kasus Penjualan', items: [
+    { id: 'c1', q: 'Stok habis setelah pembayaran. Barang yang sudah dibayar pelanggan ternyata stoknya habis. Apa langkah yang kamu ambil?', src: 'Evaluasi Studi Kasus no. 1; SOP nomor 10 dan 16', pts: ['Menghubungi distributor untuk memastikan stok dan harga terkini', 'Menyampaikan kondisi ke pelanggan dengan jujur dan menawarkan produk alternatif', 'Jika pelanggan membatalkan, berkoordinasi dengan Kasir untuk revisi nota atau refund'] },
+    { id: 'c2', q: 'Harga dari distributor naik dan berbeda dengan harga di website Enter Komputer. Apa yang harus dilakukan?', src: 'Evaluasi Studi Kasus no. 2; SOP nomor 15', pts: ['Melakukan atau meminta pembaruan info terbaru soal harga (koordinasi dengan Divisi Update)', 'Menyampaikan harga terbaru ke pelanggan sebelum transaksi agar informasi akurat'] },
+    { id: 'c3', q: 'Pelanggan mencari produk yang tidak ada di website, tetapi kamu tahu stoknya ada di distributor. Bagaimana tindakanmu?', src: 'Evaluasi Studi Kasus no. 3', pts: ['Berkoordinasi dengan Divisi Gudang untuk pengadaan stok', 'Mengonfirmasi stok dan harga terkini ke distributor, lalu menginformasikannya ke pelanggan'] },
+    { id: 'c4', q: 'Distributor tidak merespons dan tidak mengirim barang. Bagaimana langkahmu?', src: 'Evaluasi Studi Kasus no. 4; SOP nomor 10', pts: ['Berkoordinasi dengan Divisi Gudang', 'Memberi kabar yang jujur kepada pelanggan', 'Mencarikan produk alternatif jika produk utama tidak tersedia, dan meminta bantuan supervisor bila terkendala'] },
+    { id: 'c5', q: 'Pengiriman dari distributor memakan waktu lebih dari 1 sampai 2 jam dan sudah pukul 17.00 WIB, sementara pelanggan baru akan deal. Apa tindakanmu?', src: 'Evaluasi Studi Kasus no. 5; SOP nomor 18', pts: ['Berkoordinasi dengan Divisi Packing dan Driver Kurir Toko untuk pengiriman barang dari toko ke alamat pelanggan', 'Menjelaskan estimasi pengiriman ke pelanggan secara jelas dan sopan'] },
+    { id: 'c6', q: 'Stok terbatas, tetapi pelanggan belum memastikan pembelian. Apa yang kamu lakukan?', src: 'Evaluasi Studi Kasus no. 6; Tips Tambahan untuk Sales', pts: ['Memberikan info real-time terkait stok, khususnya untuk PC yang ready', 'Tetap sabar dan tidak memaksa, memberi waktu pelanggan untuk berpikir'] },
+    { id: 'c7', q: 'Sebutkan persiapan yang harus dilakukan setiap hari sebelum memulai aktivitas penjualan.', src: 'Evaluasi Studi Kasus no. 7; SOP nomor 2, 11, 15', pts: ['Mempersiapkan diri dengan baik: sehat dan bersemangat tinggi', 'Memakai seragam yang disediakan', 'Mengecek info terbaru soal stok, harga, dan promo', 'Memastikan siap memakai dashboard penjualan dan website EnterKomputer'] },
+    { id: 'c8', q: 'Pelanggan perusahaan meminta Faktur Pajak. Jelaskan syarat dan prosedurnya.', src: 'FAQ, Prosedur Pembuatan Faktur Pajak', pts: ['Wajib memiliki NPWP perusahaan', 'Nama perusahaan di nota harus sesuai dengan NPWP terdaftar', 'Pembayaran lewat rekening perusahaan (transfer ke CV Teman Baik) atau tunai', 'Estimasi penerbitan maksimal 14 hari kerja, tidak berlaku untuk WNA atau perorangan'] }
+  ] }
+];
+const ESSAYS = ESSAY_GROUPS.flatMap(g => g.items.map(i => Object.assign({ group: g.title }, i)));
+
+/* ---------- data: step by step ---------- */
+const TRACKS = {
+  A: {
+    title: 'Melayani Pelanggan Walk-In',
+    desc: 'Ikuti 7 tahap workflow toko, dari menyambut sampai memesan ke distributor. Pilih respons sales yang paling tepat di tiap tahap.',
+    sheet: 'Percakapan sejauh ini',
+    intro: 'Seorang calon pelanggan datang ke Enter Komputer. Dia tertarik merakit PC, tetapi juga mempertimbangkan PC Ready yang ada di website.',
+    steps: [
+      { name: 'Sambutan', ctx: 'Calon pelanggan baru masuk ke toko. Kamu sedang berada di area display.', q: 'Apa yang kamu lakukan pertama kali?', keep: '“Selamat pagi, Bapak/Ibu. Silakan duduk dulu, ada yang bisa saya bantu?”', opts: [
+        { t: 'Berdiri menyambut dengan senyum, mempersilakan duduk, lalu menawarkan bantuan dengan sopan.', ok: 1, why: 'Sales berdiri menyambut, mempersilakan duduk, dan menawarkan bantuan secara sopan. Sales ikut duduk setelah pelanggan duduk.' },
+        { t: 'Tetap melihat layar HP dan menunggu pelanggan bertanya lebih dulu.', why: 'Pelanggan harus disambut dengan ramah. Menunggu pasif memberi kesan tidak peduli.' },
+        { t: 'Langsung menyebut promo dan harga PC Ready termahal.', why: 'Terlalu cepat menawarkan sebelum tahu kebutuhan. Sambut dulu, baru gali kebutuhan.' }
+      ] },
+      { name: 'Identifikasi Kebutuhan', cust: 'Saya ingin merakit PC, tapi saya lihat juga ada PC Ready di website Enter Komputer.', q: 'Bagaimana kamu menanggapi?', keep: '“Dari PC Ready yang Kakak lihat, ada yang menarik perhatian? Boleh tahu PC ini untuk apa, dan kira-kira berapa kisaran budget-nya?”', opts: [
+        { t: 'Mendengarkan, lalu bertanya dengan empati: ada PC Ready yang menarik perhatian, PC ini untuk apa, dan kira-kira berapa kisaran budget-nya.', ok: 1, why: 'Kebutuhan digali dengan banyak bertanya dan mendengarkan. Pertanyaan budget disampaikan hati-hati agar tidak menyinggung.' },
+        { t: 'Langsung menyarankan merakit sendiri dan mengatakan PC Ready kurang bagus.', why: 'Kebutuhan belum digali, dan menjelekkan produk toko sendiri merusak kepercayaan.' },
+        { t: '“Budget Anda berapa? Kalau kecil, jangan buang waktu saya.”', why: 'Pertanyaan budget harus hati-hati dan sopan agar tidak menyinggung pelanggan.' }
+      ] },
+      { name: 'Informasi Produk', cust: 'PC-nya untuk desain dan game berat.', q: 'Kamu merekomendasikan PC Ready berisi Core i7-14700F, RAM 32GB DDR5, SSD 1TB Gen4, dan VGA RTX 4070 12GB. Bagaimana menjelaskannya?', keep: '“Untuk desain dan game berat, PC Ready ini sangat ideal. Sudah ada WiFi dan Bluetooth, dan Windows 11 + Office H&S sudah terpasang (belum aktivasi). Jadi tinggal pakai.”', opts: [
+        { t: 'Menjelaskan dengan bahasa sederhana yang dikaitkan dengan kebutuhan desain dan game, termasuk jujur bahwa Windows 11 dan Office H&S sudah terpasang tetapi belum aktivasi.', ok: 1, why: 'Fitur dijelaskan dengan jelas, lugas, tidak terburu-buru, dan jujur.' },
+        { t: 'Membacakan seluruh spesifikasi dengan cepat tanpa mengaitkannya dengan kebutuhan pelanggan.', why: 'Pesan harus jelas dan tidak terburu-buru. Spesifikasi perlu dijelaskan dengan bahasa sederhana sesuai kebutuhan.' },
+        { t: 'Mengatakan Windows dan Office sudah aktif supaya pelanggan cepat setuju.', why: 'Tidak jujur. Windows dan Office terpasang tetapi belum aktivasi, dan SOP melarang menjual lisensi ilegal.' }
+      ] },
+      { name: 'Konfirmasi Stok & Harga', ctx: 'Pelanggan tertarik pada satu produk yang tidak tersedia di toko (non-ready stock).', q: 'Apa yang kamu lakukan sebelum menjanjikan sesuatu kepada pelanggan?', keep: 'Sales menghubungi distributor lalu menyampaikan stok dan harga terkini.', opts: [
+        { t: 'Menghubungi distributor untuk memastikan stok dan harga terkini, lalu menyampaikan hasilnya ke pelanggan.', ok: 1, why: 'Jika barang tidak tersedia, hubungi distributor untuk memastikan stok dan harga terkini.' },
+        { t: 'Menjanjikan barang ada dengan harga di website karena terlihat tersedia.', why: 'Harga distributor bisa berubah dan stok bisa habis. Informasi harus akurat.' },
+        { t: 'Meminta pelanggan membayar dulu, baru stok dicek.', why: 'Stok dan harga harus dikonfirmasi sebelum pembayaran, bukan sesudahnya.' }
+      ] },
+      { name: 'Penanganan Keberatan', cust: 'Spesifikasinya oke sih, tapi ada versi yang lebih murah nggak?', q: 'Bagaimana jawabanmu?', keep: '“Memang bisa lebih murah, Kak, tapi performanya akan turun, apalagi untuk desain dan gaming. Konfigurasi ini justru lebih hemat jangka panjang karena bisa di-upgrade, sesuai rencana Kakak tadi.”', opts: [
+        { t: 'Mengakui bisa lebih murah, menjelaskan performa akan turun untuk desain dan gaming, lalu mengaitkan dengan rencana pelanggan: konfigurasi ini lebih hemat jangka panjang karena bisa di-upgrade.', ok: 1, why: 'Dengarkan inti masalah, cari solusi, dan jaga emosi. Jawaban jujur dan dikaitkan dengan kebutuhan pelanggan.' },
+        { t: 'Langsung menawarkan potongan harga besar tanpa menjelaskan apa pun.', why: 'Keberatan harga perlu ditanggapi dengan solusi dan penjelasan nilai, bukan sekadar diskon.' },
+        { t: 'Menjawab, “Kalau mau murah, cari saja di toko lain.”', why: 'Tidak profesional. Sales harus sabar, menjaga emosi, dan mencari solusi.' },
+        { t: 'Mengatakan tidak ada versi yang lebih murah, supaya pelanggan tetap membeli yang ini.', why: 'Tidak jujur. Pelanggan perlu informasi transparan untuk memutuskan.' }
+      ] },
+      { name: 'Nota & Pengarahan ke Kasir', cust: 'Oke deh, saya ambil satu unit.', q: 'Apa langkahmu selanjutnya?', keep: '“Siap, Kak. Saya bantu buatkan notanya ya. Terima kasih banyak!”', opts: [
+        { t: 'Berterima kasih, mencatat data pelanggan dan produk di nota pembelian, lalu mengarahkan pelanggan ke kasir untuk pembayaran.', ok: 1, why: 'Catat data pelanggan dan produk di nota pembelian, lalu arahkan pelanggan ke kasir untuk proses pembayaran.' },
+        { t: 'Menerima uang langsung dan mencatatnya nanti supaya cepat.', why: 'Pembayaran diproses lewat kasir dengan nota resmi.' },
+        { t: 'Meminta pelanggan transfer ke rekening pribadimu dan tidak perlu nota.', why: 'Dilarang bertransaksi tanpa nota resmi. SOP melarang transaksi pribadi.' }
+      ] },
+      { name: 'Pemesanan ke Distributor', ctx: 'Barang pilihan pelanggan adalah barang pesanan khusus dari distributor. Pelanggan sudah berada di kasir.', q: 'Kapan kamu memesan barang ke distributor?', keep: 'Sales memesan ke distributor setelah pembayaran selesai.', opts: [
+        { t: 'Setelah pelanggan menyelesaikan pembayaran.', ok: 1, why: 'Jika barang dipesan khusus, pemesanan ke distributor dilakukan setelah pelanggan menyelesaikan pembayaran.' },
+        { t: 'Sebelum pembayaran, supaya barang cepat sampai.', why: 'Pemesanan dilakukan setelah pembayaran selesai.' },
+        { t: 'Menunggu pelanggan menelepon menanyakan kabar barang.', why: 'Sales yang proaktif. Pesan segera setelah pembayaran selesai.' }
+      ] }
+    ]
+  },
+  B: {
+    title: 'Merakit PC untuk Pelanggan',
+    desc: 'Susun rakitan dari prosesor sampai casing mengikuti 7 tips merakit PC. Tiap pilihan harus cocok dengan pilihan sebelumnya.',
+    sheet: 'Daftar rakitan',
+    intro: 'Pelanggan seorang desainer grafis yang juga bermain game di 1080p. Dia ingin PC rakitan yang tangguh dan mudah di-upgrade, dengan anggaran menengah.',
+    steps: [
+      { name: 'Processor', ctx: 'Kebutuhan: edit desain dan game kelas menengah. Pelanggan akan memasang VGA terpisah.', q: 'Prosesor mana yang paling pas?', keep: 'Intel Core i5-13400F (LGA 1700)', label: 'Processor', opts: [
+        { t: 'Intel Core i5-13400F: kelas menengah, tanpa iGPU karena memakai VGA terpisah.', ok: 1, why: 'Core i5 untuk gaming menengah dan edit video. Huruf F tidak masalah karena pelanggan memang memakai VGA terpisah.' },
+        { t: 'Intel Core i3-12100: untuk kantor, browsing, dan media ringan.', why: 'Core i3 untuk kebutuhan dasar, kurang untuk desain dan game.' },
+        { t: 'Intel Core i9-14900KS: edisi terbatas untuk performa ekstrem.', why: 'Core i9 untuk kreator profesional dan gamer yang butuh performa sangat tinggi. KS adalah edisi terbatas, berlebihan untuk anggaran menengah.' }
+      ] },
+      { name: 'Motherboard', ctx: 'Prosesor yang dipilih adalah Core i5-13400F (generasi ke-13).', q: 'Motherboard mana yang cocok?', keep: 'Intel B760M (mATX, LGA 1700)', label: 'Motherboard', opts: [
+        { t: 'Intel B760M: socket LGA 1700, seri B kelas menengah, ukuran mATX.', ok: 1, why: 'Generasi 12 sampai 14 memakai LGA 1700. Seri B cukup untuk i5 menengah.' },
+        { t: 'Intel B560M: seri B yang sama.', why: 'B560M memakai socket LGA 1200 untuk generasi 10 dan 11. Socket tidak cocok.' },
+        { t: 'AMD B550M: seri B kelas menengah.', why: 'B550M untuk AMD (AM4). Motherboard Intel dan AMD berbeda, cek kompatibilitas processor.' },
+        { t: 'Intel Z790: seri tertinggi dengan fitur paling lengkap.', why: 'Socket cocok, tetapi Z untuk kegiatan berat atau processor seri tinggi dan harganya mahal. Untuk i5 menengah, fiturnya tidak terpakai.' }
+      ] },
+      { name: 'RAM', ctx: 'Motherboard B760M ini memakai 4 slot DDR5.', q: 'RAM mana yang tepat untuk desain dan game?', keep: 'RAM DDR5 2 x 16GB (32GB, dual channel)', label: 'RAM', opts: [
+        { t: 'DDR5 Long-DIMM 2 x 16GB (total 32GB, dual channel).', ok: 1, why: 'Generasi harus cocok dengan motherboard (DDR5). Untuk gaming dan desain disarankan 16 sampai 32GB, dan Dual Channel lebih cepat.' },
+        { t: 'DDR4 3200MHz 16GB.', why: 'Generasi RAM harus cocok dengan prosesor dan motherboard. Slot DDR5 tidak bisa diisi DDR4.' },
+        { t: 'DDR5 SO-DIMM 16GB.', why: 'SO-DIMM untuk laptop. Desktop memakai Long-DIMM.' },
+        { t: 'DDR5 8GB, satu keping.', why: '8GB cukup untuk kebutuhan basic, kurang untuk desain dan gaming. Satu keping juga berarti Single Channel.' }
+      ] },
+      { name: 'VGA', ctx: 'Core i5-13400F tidak memiliki iGPU. Kebutuhan: desain dan game di 1080p.', q: 'VGA mana yang paling sesuai?', keep: 'Radeon RX 6600 (mid-range, VRAM 8GB)', label: 'VGA', opts: [
+        { t: 'Radeon RX 6600: mid-range dengan VRAM 8GB.', ok: 1, why: 'VRAM 6 sampai 8GB sesuai untuk gaming 1080p. Karena prosesor berakhiran F, VGA terpisah wajib ada.' },
+        { t: 'Tanpa VGA, mengandalkan grafis bawaan prosesor.', why: 'Prosesor berakhiran F tidak punya GPU internal, sehingga layar tidak bisa menampilkan gambar tanpa VGA terpisah.' },
+        { t: 'GT 1030: entry level.', why: 'Seri GT untuk penggunaan ringan, tidak cukup untuk game dan desain.' },
+        { t: 'RTX 5090: kelas paling tinggi.', why: 'Berlebihan untuk 1080p, dan sebagai komponen paling boros daya akan membengkakkan kebutuhan PSU serta anggaran.' }
+      ] },
+      { name: 'Storage', ctx: 'Pelanggan menyimpan banyak file desain dan ingin Windows serta aplikasi berjalan cepat.', q: 'Kombinasi storage apa yang kamu sarankan?', keep: 'SSD NVMe untuk Windows dan aplikasi + HDD untuk data besar', label: 'Storage', opts: [
+        { t: 'SSD NVMe untuk Windows dan aplikasi, ditambah HDD untuk data besar.', ok: 1, why: 'SSD untuk OS dan aplikasi utama supaya cepat. HDD untuk data besar dengan biaya lebih hemat. Kombinasinya pilihan terbaik.' },
+        { t: 'HDD saja karena murah dan kapasitasnya besar.', why: 'Booting dan loading aplikasi lebih lambat, dan rentan kerusakan fisik.' },
+        { t: 'Dua HDD untuk kapasitas maksimal.', why: 'Kapasitas besar tetapi lambat. OS dan aplikasi sebaiknya di SSD.' }
+      ] },
+      { name: 'PSU', ctx: 'Rakitan memakai motherboard mATX dan VGA mid-range. Pelanggan ingin bisa upgrade nanti.', q: 'PSU mana yang paling aman?', keep: 'PSU ATX 80 PLUS Bronze ke atas, daya dengan cadangan 20 sampai 30%', label: 'PSU', opts: [
+        { t: 'PSU ATX bersertifikasi 80 PLUS Bronze ke atas, dengan daya dihitung dari komponen lalu ditambah cadangan 20 sampai 30% untuk upgrade.', ok: 1, why: 'Hitung kebutuhan daya +20 sampai 30% untuk upgrade, pilih minimal 80+ Bronze. PSU ATX cocok untuk casing Full ATX dan mATX.' },
+        { t: 'PSU bawaan casing, yang penting PC menyala.', why: 'PSU bawaan hanya cukup menyalakan komputer tanpa aliran listrik yang stabil, risiko kerusakan hardware lebih tinggi.' },
+        { t: 'PSU SFX tanpa sertifikasi efisiensi.', why: 'SFX untuk casing Mini ITX, dan PSU sebaiknya bersertifikasi 80 PLUS.' }
+      ] },
+      { name: 'Pendinginan & Casing', ctx: 'Prosesor dan VGA akan bekerja berat saat desain dan gaming, sehingga suhu harus stabil.', q: 'Casing mana yang tepat untuk motherboard mATX dan airflow yang baik?', keep: 'Mid Tower dengan airflow baik', label: 'Casing', opts: [
+        { t: 'Mid Tower dengan airflow baik: kompatibel dengan ATX, Micro-ATX, dan Mini-ITX.', ok: 1, why: 'Mid Tower (40 sampai 50 cm) paling umum digunakan dan mendukung airflow agar suhu PC stabil.' },
+        { t: 'Slim Case: hemat tempat.', why: 'Slim Case hemat tempat tetapi airflow terbatas, kurang cocok untuk komponen yang bekerja berat.' },
+        { t: 'Casing khusus Mini-ITX.', why: 'Motherboard mATX tidak muat. Casing khusus mini-ITX dipakai untuk motherboard Mini ITX.' }
+      ] }
+    ]
+  }
+};
+
+/* ---------- state ---------- */
+let quiz = { phase: 'setup', topic: 'all', count: 20 };
+let st = null; // step-by-step run
+
+/* ---------- routing ---------- */
+const ROUTES = ['home', 'pilihan-ganda', 'esai', 'langkah'];
+function route() { const r = (location.hash || '').slice(1); return ROUTES.includes(r) ? r : 'home'; }
+function render() {
+  const r = route();
+  document.querySelectorAll('.tabs a').forEach(a => { if (a.dataset.r === r) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  const app = $('#app'); app.replaceChildren();
+  if (r === 'home') app.append(viewHome());
+  else if (r === 'pilihan-ganda') app.append(viewMC());
+  else if (r === 'esai') app.append(viewEssay());
+  else app.append(viewSteps());
+}
+window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
+function go(r) { if (route() === r) render(); else location.hash = r; }
+
+/* ---------- rekap helpers ---------- */
+function essayStats() {
+  let ans = 0, got = 0, tot = 0, rated = 0;
+  ESSAYS.forEach(e => {
+    if ((S.essay.a[e.id] || '').trim().length) ans++;
+    if (S.essay.r[e.id]) { rated++; tot += e.pts.length; got += (S.essay.c[e.id] || []).filter(Boolean).length; }
+  });
+  return { ans, got, tot, rated, n: ESSAYS.length };
+}
+function buildReport() {
+  const L = [], es = essayStats();
+  L.push('LAPORAN PELATIHAN SALES ENTER KOMPUTER');
+  L.push('Nama: ' + (S.name || '(belum diisi)'));
+  L.push('Tanggal: ' + new Date().toLocaleString('id-ID'));
+  L.push('');
+  L.push('PILIHAN GANDA');
+  if (S.mc.last) { const b = S.mc.last; L.push('Terakhir: ' + b.correct + '/' + b.n + ' (' + b.pct + '%), topik: ' + b.topicName); L.push('Terbaik: ' + S.mc.best.correct + '/' + S.mc.best.n + ' (' + S.mc.best.pct + '%)'); } else L.push('Belum dikerjakan');
+  L.push('');
+  L.push('STEP BY STEP');
+  Object.keys(TRACKS).forEach(k => { const r = S.steps[k]; L.push(TRACKS[k].title + ': ' + (r ? r.score + '/' + r.total + ' benar di percobaan pertama' : 'belum dikerjakan')); });
+  L.push('');
+  L.push('ESAI (' + es.ans + ' dari ' + es.n + ' dijawab' + (es.tot ? ', penilaian mandiri ' + es.got + '/' + es.tot + ' poin' : '') + ')');
+  ESSAYS.forEach(e => {
+    const a = (S.essay.a[e.id] || '').trim(); if (!a) return;
+    L.push(''); L.push('• ' + e.q); L.push(a);
+    if (S.essay.r[e.id]) L.push('[Poin: ' + (S.essay.c[e.id] || []).filter(Boolean).length + '/' + e.pts.length + ']');
+  });
+  return L.join('\n');
+}
+
+/* ---------- HOME ---------- */
+function viewHome() {
+  const es = essayStats();
+  const mcPill = S.mc.best ? h('span', { class: 'pill ' + (S.mc.best.pct >= PASS ? 'ok' : 'bad'), text: 'Terbaik ' + S.mc.best.pct + '%' }) : h('span', { class: 'pill', text: 'Belum dikerjakan' });
+  const esPill = h('span', { class: 'pill ' + (es.ans ? 'acc' : ''), text: es.ans + ' dari ' + es.n + ' dijawab' });
+  const doneTracks = Object.keys(S.steps).length;
+  const stPill = h('span', { class: 'pill ' + (doneTracks ? 'acc' : ''), text: doneTracks + ' dari 2 jalur selesai' });
+
+  const nameInput = h('input', { type: 'text', id: 'nama', value: S.name, placeholder: 'Tulis nama lengkap', autocomplete: 'name', oninput: e => { S.name = e.target.value; saveSoon(); } });
+  const mod = (title, desc, metas, route, cta) => h('div', { class: 'mod' },
+    h('div', {}, h('h3', { text: title }), h('p', { text: desc }), h('div', { class: 'meta' }, metas)),
+    h('button', { class: 'btn primary', onclick: () => go(route) }, cta));
+
+  const rep = h('div', { class: 'report', hidden: true });
+  const repBtn = h('button', { class: 'btn', onclick: () => {
+    rep.hidden = !rep.hidden; if (rep.hidden) return;
+    rep.replaceChildren();
+    const ta = h('textarea', { id: 'laporan', readonly: true, value: buildReport(), 'aria-label': 'Isi laporan' });
+    const msg = h('span', { class: 'hint', role: 'status' });
+    const copy = h('button', { class: 'btn primary', onclick: async () => {
+      try { await navigator.clipboard.writeText(ta.value); msg.textContent = 'Laporan tersalin. Tempel ke WhatsApp atau email trainer.'; }
+      catch (e) { ta.focus(); ta.select(); msg.textContent = 'Teks sudah dipilih. Tekan Ctrl+C (atau tahan lalu Salin di HP).'; }
+    } }, 'Salin laporan');
+    rep.append(ta, h('div', { class: 'btn-row' }, copy, msg));
+  } }, 'Buat laporan untuk trainer');
+
+  const resetBtn = h('button', { class: 'btn sm', onclick: e => {
+    const b = e.currentTarget;
+    if (b.dataset.armed) { S.mc = { best: null, last: null }; S.essay = { a: {}, c: {}, r: {} }; S.steps = {}; persist(); quiz = { phase: 'setup', topic: 'all', count: 20 }; st = null; render(); return; }
+    b.dataset.armed = '1'; b.textContent = 'Klik lagi untuk menghapus semua jawaban';
+    setTimeout(() => { if (b.isConnected) { delete b.dataset.armed; b.textContent = 'Hapus semua jawaban'; } }, 4000);
+  } }, 'Hapus semua jawaban');
+
+  return h('div', {},
+    h('div', { class: 'hello' },
+      h('div', {}, h('h2', { class: 'sec-h', text: 'Mulai dari mana saja' }), h('p', { class: 'muted', text: 'Tiga jenis latihan ini berdiri sendiri. Disarankan urut: pilihan ganda untuk mengecek hafalan, step by step untuk berlatih alur kerja, lalu esai untuk menjelaskan dengan kata sendiri.' })),
+      h('div', { class: 'field' }, h('label', { for: 'nama', class: 'label', text: 'Nama peserta' }), nameInput)),
+    h('div', { class: 'mods' },
+      mod('Pilihan Ganda', 'Soal dari seluruh isi modul: komunikasi sales, SOP, FAQ toko, processor, motherboard, RAM, storage, VGA, PSU, monitor, dan periferal. Jawaban langsung dibahas.', [h('span', { class: 'pill', text: MC.length + ' soal' }), h('span', { class: 'pill', text: 'Lulus ≥ ' + PASS + '%' }), mcPill], 'pilihan-ganda', 'Mulai latihan'),
+      mod('Esai', 'Jawab dengan kata-katamu sendiri, lalu cocokkan dengan poin jawaban dari modul dan nilai dirimu sendiri. Termasuk studi kasus penjualan dari bab evaluasi.', [h('span', { class: 'pill', text: ESSAYS.length + ' pertanyaan' }), esPill], 'esai', es.ans ? 'Lanjutkan' : 'Mulai menulis'),
+      mod('Step by Step', 'Simulasi bertahap. Layani pelanggan walk-in sesuai workflow toko, atau rakit PC dari prosesor sampai casing. Tidak bisa lanjut sebelum pilihanmu benar.', [h('span', { class: 'pill', text: '2 jalur · 7 langkah' }), stPill], 'langkah', 'Pilih jalur')),
+    h('section', { class: 'rekap' },
+      h('h2', { class: 'sec-h', text: 'Rekap hasil' }),
+      h('p', { class: 'muted', text: 'Jawaban tersimpan di browser perangkat ini saja. Kirim laporan ke trainer agar hasilnya bisa dinilai.' }),
+      h('div', { class: 'tbl-scroll' }, h('table', { class: 'tbl' },
+        h('thead', {}, h('tr', {}, h('th', { text: 'Latihan' }), h('th', { text: 'Hasil' }))),
+        h('tbody', {},
+          h('tr', {}, h('td', { text: 'Pilihan Ganda (terakhir)' }), h('td', { text: S.mc.last ? S.mc.last.correct + '/' + S.mc.last.n + ' (' + S.mc.last.pct + '%)' : 'Belum dikerjakan' })),
+          h('tr', {}, h('td', { text: 'Esai' }), h('td', { text: es.ans + ' dari ' + es.n + ' dijawab' + (es.tot ? ' · nilai mandiri ' + pct(es.got, es.tot) + '%' : '') })),
+          Object.keys(TRACKS).map(k => h('tr', {}, h('td', { text: 'Step by Step: ' + TRACKS[k].title }), h('td', { text: S.steps[k] ? S.steps[k].score + '/' + S.steps[k].total + ' benar langsung' : 'Belum dikerjakan' })))))),
+      h('div', { class: 'btn-row', style: 'margin-top:16px' }, repBtn, resetBtn),
+      rep));
+}
+
+/* ---------- PILIHAN GANDA ---------- */
+function buildQuiz() {
+  let pool = quiz.topic === 'all' ? MC : MC.filter(q => q.t === quiz.topic);
+  pool = shuffle(pool);
+  if (quiz.count !== 'all') pool = pool.slice(0, Number(quiz.count));
+  quiz.items = pool.map(q => { const opts = shuffle([{ t: q.ok, ok: true }].concat(q.bad.map(b => ({ t: b, ok: false })))); return { q, opts, picked: null }; });
+  quiz.i = 0; quiz.phase = 'run';
+}
+function viewMC() {
+  if (quiz.phase === 'setup') return mcSetup();
+  if (quiz.phase === 'run') return mcRun();
+  return mcResult();
+}
+function mcSetup() {
+  const avail = t => t === 'all' ? MC.length : MC.filter(q => q.t === t).length;
+  const topicBtns = [['all', 'Semua topik']].concat(Object.entries(TOPICS)).map(([k, v]) =>
+    h('button', { class: 'chip-opt', 'aria-pressed': String(quiz.topic === k), onclick: () => { quiz.topic = k; render(); } }, h('span', { text: v }), h('span', { class: 'pill', text: avail(k) + ' soal' })));
+  const max = avail(quiz.topic);
+  const counts = [10, 20].filter(n => n < max).concat(['all']);
+  if (quiz.count !== 'all' && quiz.count >= max) quiz.count = 'all';
+  if (!counts.includes(quiz.count)) quiz.count = counts[0];
+  const countBtns = counts.map(c => h('button', { class: 'chip-opt', 'aria-pressed': String(quiz.count === c), onclick: () => { quiz.count = c; render(); } }, h('span', { text: c === 'all' ? 'Semua (' + max + ' soal)' : c + ' soal acak' })));
+  return h('div', { class: 'setup' },
+    h('div', {}, h('h2', { class: 'sec-h', text: 'Pilihan Ganda' }), h('p', { class: 'muted', text: 'Satu soal per layar. Setelah memilih, jawaban langsung dibahas lengkap dengan rujukan dari modul. Urutan soal dan pilihan diacak setiap kali.' })),
+    S.mc.best ? h('p', {}, h('span', { class: 'label', text: 'Skor terbaik ' }), h('b', { text: S.mc.best.correct + '/' + S.mc.best.n + ' (' + S.mc.best.pct + '%)' })) : null,
+    h('div', { class: 'field' }, h('span', { class: 'label', text: 'Topik' }), h('div', { class: 'choice-grid' }, topicBtns)),
+    h('div', { class: 'field' }, h('span', { class: 'label', text: 'Jumlah soal' }), h('div', { class: 'choice-grid' }, countBtns)),
+    h('div', { class: 'btn-row' }, h('button', { class: 'btn primary', onclick: () => { buildQuiz(); render(); } }, 'Mulai')));
+}
+function mcRun() {
+  const it = quiz.items[quiz.i], n = quiz.items.length, q = it.q;
+  const answered = it.picked !== null;
+  const fb = h('div', { class: 'fb', hidden: !answered, role: 'status' });
+  const btns = it.opts.map((o, k) => {
+    const b = h('button', { class: 'opt', 'data-k': k, disabled: answered, onclick: () => pick(k) }, h('span', { class: 'k', text: LET[k] }), h('span', { text: o.t }));
+    return b;
+  });
+  function paint() {
+    btns.forEach((b, k) => {
+      b.disabled = true; b.classList.remove('dim');
+      if (it.opts[k].ok) b.classList.add('ok'); else if (k === it.picked) b.classList.add('bad'); else b.classList.add('dim');
+    });
+    const good = it.opts[it.picked].ok;
+    fb.className = 'fb ' + (good ? 'ok' : 'bad'); fb.hidden = false;
+    fb.replaceChildren(h('strong', { text: good ? 'Benar.' : 'Belum tepat.' }), good ? '' : 'Jawaban yang benar: ' + q.ok + '. ', q.e);
+    next.disabled = false;
+  }
+  function pick(k) { if (it.picked !== null) return; it.picked = k; paint(); next.focus(); }
+  const last = quiz.i === n - 1;
+  const next = h('button', { class: 'btn primary', disabled: !answered, onclick: () => { if (last) finishQuiz(); else { quiz.i++; render(); window.scrollTo(0, 0); } } }, last ? 'Lihat hasil' : 'Soal berikutnya');
+  quiz.pick = pick;
+  const el = h('div', {},
+    h('div', { class: 'runhead' }, h('span', { class: 'label', text: 'Soal ' + (quiz.i + 1) + ' dari ' + n }), h('span', { class: 'pill', text: TOPICS[q.t] })),
+    h('div', { class: 'bar', role: 'progressbar', 'aria-valuemin': 0, 'aria-valuemax': n, 'aria-valuenow': quiz.i + (answered ? 1 : 0) }, h('i', { style: 'width:' + pct(quiz.i + (answered ? 1 : 0), n) + '%' })),
+    h('div', { class: 'panel', style: 'margin-top:16px' },
+      h('p', { class: 'qtext', text: q.q }), h('div', { class: 'opts' }, btns), fb,
+      h('div', { class: 'nextrow' }, h('span', { class: 'hint' }, 'Pintasan: tekan ', h('kbd', { text: '1' }), ' sampai ', h('kbd', { text: String(it.opts.length) }), ' untuk memilih, ', h('kbd', { text: 'Enter' }), ' untuk lanjut'), next)));
+  if (answered) paint();
+  return el;
+}
+document.addEventListener('keydown', e => {
+  if (route() !== 'pilihan-ganda' || quiz.phase !== 'run') return;
+  if (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+  const it = quiz.items[quiz.i];
+  if (it.picked === null && /^[1-9]$/.test(e.key)) { const k = Number(e.key) - 1; if (k < it.opts.length) { e.preventDefault(); quiz.pick(k); } }
+  else if (it.picked !== null && e.key === 'Enter' && e.target.tagName !== 'BUTTON') { const nb = $('.nextrow .btn.primary'); if (nb) nb.click(); }
+});
+function finishQuiz() {
+  const correct = quiz.items.filter(i => i.opts[i.picked].ok).length, n = quiz.items.length;
+  const res = { correct, n, pct: pct(correct, n), topic: quiz.topic, topicName: quiz.topic === 'all' ? 'Semua topik' : TOPICS[quiz.topic], at: Date.now() };
+  S.mc.last = res; if (!S.mc.best || res.pct >= S.mc.best.pct) S.mc.best = res; persist();
+  quiz.phase = 'result'; render(); window.scrollTo(0, 0);
+}
+function mcResult() {
+  const items = quiz.items, n = items.length, correct = items.filter(i => i.opts[i.picked].ok).length, p = pct(correct, n), pass = p >= PASS;
+  const byTopic = {};
+  items.forEach(i => { const t = i.q.t; byTopic[t] = byTopic[t] || { c: 0, n: 0 }; byTopic[t].n++; if (i.opts[i.picked].ok) byTopic[t].c++; });
+  const bars = Object.entries(byTopic).map(([t, v]) => { const pp = pct(v.c, v.n); return h('div', { class: 'tb' }, h('span', { text: TOPICS[t] }), h('div', { class: 'bar' }, h('i', { class: pp >= PASS ? 'hi' : 'low', style: 'width:' + pp + '%' })), h('span', { class: 'mono', text: v.c + '/' + v.n })); });
+  const wrong = items.filter(i => !i.opts[i.picked].ok);
+  return h('div', {},
+    h('p', { class: 'label', text: 'Hasil pilihan ganda' }),
+    h('div', { class: 'score' }, h('b', { text: p + '%' }), h('span', { class: 'pill ' + (pass ? 'ok' : 'bad'), text: pass ? 'Lulus' : 'Belum lulus (batas ' + PASS + '%)' }), h('span', { class: 'muted', text: correct + ' benar dari ' + n + ' soal' })),
+    h('div', { class: 'topic-bars' }, bars),
+    h('div', { class: 'btn-row' }, h('button', { class: 'btn primary', onclick: () => { buildQuiz(); render(); window.scrollTo(0, 0); } }, 'Ulangi dengan soal baru'), h('button', { class: 'btn', onclick: () => { quiz.phase = 'setup'; render(); } }, 'Ganti topik'), h('button', { class: 'btn', onclick: () => go('home') }, 'Kembali ke beranda')),
+    h('h2', { class: 'grp', text: wrong.length ? 'Pelajari lagi (' + wrong.length + ' soal)' : 'Semua jawaban benar' }),
+    wrong.length ? null : h('p', { class: 'muted', text: 'Lanjutkan ke latihan esai atau step by step.' }),
+    wrong.map(i => h('details', { class: 'rev' }, h('summary', {}, h('span', { class: 'pill bad', text: 'Salah' }), h('span', { text: i.q.q })),
+      h('div', { class: 'inner' }, h('p', {}, h('b', { text: 'Jawabanmu: ' }), i.opts[i.picked].t), h('p', {}, h('b', { text: 'Yang benar: ' }), i.q.ok), h('p', { class: 'muted', text: i.q.e })))));
+}
+
+/* ---------- ESAI ---------- */
+function essayStatus(e) {
+  const txt = (S.essay.a[e.id] || '').trim();
+  if (S.essay.r[e.id]) { const c = (S.essay.c[e.id] || []).filter(Boolean).length; return { t: c + '/' + e.pts.length + ' poin', cls: c === e.pts.length ? 'ok' : 'acc' }; }
+  return txt ? { t: 'Ditulis', cls: 'acc' } : { t: 'Belum', cls: '' };
+}
+function viewEssay() {
+  const sum = h('div', { class: 'sumbar' });
+  function paintSum() {
+    const es = essayStats();
+    sum.replaceChildren(
+      h('div', {}, h('span', { class: 'label', text: 'Dijawab' }), h('b', { text: es.ans + '/' + es.n })),
+      h('div', {}, h('span', { class: 'label', text: 'Sudah dinilai mandiri' }), h('b', { text: es.rated + '/' + es.n })),
+      h('div', {}, h('span', { class: 'label', text: 'Skor mandiri' }), h('b', { text: es.tot ? pct(es.got, es.tot) + '%' : '-' })));
+  }
+  paintSum();
+  const root = h('div', {}, h('h2', { class: 'sec-h', text: 'Esai' }),
+    h('p', { class: 'muted', style: 'max-width:64ch', text: 'Tulis jawabanmu dulu (minimal 30 karakter), lalu buka poin jawaban dari modul. Centang poin yang sudah kamu sebutkan untuk menghitung skor mandiri. Jawaban tersimpan otomatis.' }), sum);
+  let first = true;
+  ESSAY_GROUPS.forEach(g => {
+    root.append(h('h2', { class: 'grp', text: g.title }));
+    g.items.forEach(e => {
+      const chip = h('span', { class: 'pill' });
+      const setChip = () => { const s = essayStatus(e); chip.className = 'pill ' + s.cls; chip.textContent = s.t; };
+      setChip();
+      const count = h('span', { class: 'hint' });
+      const rev = h('div', { class: 'ctx', hidden: !S.essay.r[e.id], style: 'border-left-color:var(--accent)' });
+      const btn = h('button', { class: 'btn', onclick: () => { S.essay.r[e.id] = true; persist(); paintRev(); setChip(); paintSum(); btn.hidden = true; } }, 'Lihat poin jawaban');
+      const ta = h('textarea', { id: 'e-' + e.id, rows: 6, value: S.essay.a[e.id] || '', placeholder: 'Tulis jawabanmu di sini', 'aria-label': e.q, oninput: ev => {
+        S.essay.a[e.id] = ev.target.value; saveSoon(); upd(); setChip(); paintSum();
+      } });
+      function upd() { const L = ta.value.trim().length; count.textContent = L + ' karakter'; btn.disabled = L < 30; btn.title = L < 30 ? 'Tulis jawabanmu dulu' : ''; }
+      function paintRev() {
+        rev.hidden = false; rev.replaceChildren();
+        const saved = S.essay.c[e.id] || [];
+        rev.append(h('b', { text: 'Poin jawaban. Centang yang sudah kamu tulis:' }),
+          h('ul', { class: 'pts', style: 'margin-top:10px' }, e.pts.map((p, k) => h('li', {}, h('label', {}, h('input', { type: 'checkbox', id: 'c-' + e.id + '-' + k, checked: !!saved[k], onchange: ev => {
+            const arr = (S.essay.c[e.id] || []).slice(); while (arr.length < e.pts.length) arr.push(false); arr[k] = ev.target.checked; S.essay.c[e.id] = arr; persist(); setChip(); paintSum();
+          } }), h('span', { text: p }))))),
+          h('p', { class: 'src', style: 'margin-top:10px', text: 'Rujukan modul: ' + e.src }));
+      }
+      if (S.essay.r[e.id]) { paintRev(); btn.hidden = true; }
+      upd();
+      const body = h('div', { class: 'essay-body' }, e.ctx ? h('p', { class: 'ctx', text: e.ctx }) : null, ta, h('div', { class: 'btn-row', style: 'align-items:center' }, btn, count), rev);
+      const d = h('details', { class: 'essay' }, h('summary', {}, h('span', { class: 'qt', text: e.q }), chip), body);
+      if (first) { d.open = true; first = false; }
+      root.append(d);
+    });
+  });
+  return root;
+}
+
+/* ---------- STEP BY STEP ---------- */
+function viewSteps() {
+  if (!st) return stepPicker();
+  const T = TRACKS[st.id];
+  if (st.done) return stepDone(T);
+  return stepRun(T);
+}
+function stepPicker() {
+  return h('div', {}, h('h2', { class: 'sec-h', text: 'Step by Step' }),
+    h('p', { class: 'muted', style: 'max-width:64ch;margin-bottom:18px', text: 'Kamu harus memilih jawaban yang benar sebelum bisa lanjut. Skor dihitung dari langkah yang benar di percobaan pertama.' }),
+    h('div', { class: 'picker' }, Object.entries(TRACKS).map(([id, T]) => h('div', { class: 'track' },
+      h('h3', { text: T.title }), h('p', { class: 'muted', text: T.desc }),
+      h('div', { class: 'meta', style: 'display:flex;gap:8px;flex-wrap:wrap' }, h('span', { class: 'pill', text: T.steps.length + ' langkah' }), S.steps[id] ? h('span', { class: 'pill ok', text: 'Terakhir ' + S.steps[id].score + '/' + S.steps[id].total }) : h('span', { class: 'pill', text: 'Belum dikerjakan' })),
+      h('div', { class: 'btn-row' }, h('button', { class: 'btn primary', onclick: () => startTrack(id) }, S.steps[id] ? 'Ulangi' : 'Mulai'))))));
+}
+function startTrack(id) {
+  const T = TRACKS[id];
+  st = { id, i: 0, tries: 0, wrong: [], answered: false, firstTry: [], done: false, order: T.steps.map(s => shuffle(s.opts.map((_, k) => k))) };
+  render(); window.scrollTo(0, 0);
+}
+function stepRun(T) {
+  const s = T.steps[st.i], n = T.steps.length;
+  const rail = h('ol', { class: 'rail', 'aria-label': 'Daftar langkah' }, T.steps.map((x, k) => h('li', { class: k < st.i || (k === st.i && st.answered) ? 'done' : k === st.i ? 'cur' : '' }, h('i', { text: k < st.i || (k === st.i && st.answered) ? '✓' : String(k + 1) }), h('span', { text: x.name }))));
+  const fb = h('div', { class: 'fb', hidden: true, role: 'status' });
+  const tries = h('span', { class: 'tries' });
+  const next = h('button', { class: 'btn primary', hidden: true, onclick: () => {
+    if (st.i === n - 1) { st.done = true; const sc = st.firstTry.filter(Boolean).length; S.steps[st.id] = { score: sc, total: n, at: Date.now() }; persist(); }
+    else { st.i++; st.tries = 0; st.wrong = []; st.answered = false; }
+    render(); window.scrollTo(0, 0);
+  } }, st.i === n - 1 ? 'Selesai, lihat hasil' : 'Langkah berikutnya');
+  const btns = st.order[st.i].map((k, pos) => {
+    const o = s.opts[k];
+    return h('button', { class: 'opt', onclick: () => choose(k, btn), 'data-k': k }, h('span', { class: 'k', text: LET[pos] }), h('span', { text: o.t }));
+  });
+  let btn = null;
+  function choose(k, b) {
+    if (st.answered) return;
+    const o = s.opts[k], el = btns.find(x => Number(x.dataset.k) === k);
+    if (o.ok) {
+      st.answered = true; st.firstTry[st.i] = st.tries === 0;
+      btns.forEach(x => { x.disabled = true; if (Number(x.dataset.k) === k) x.classList.add('ok'); else if (!st.wrong.includes(Number(x.dataset.k))) x.classList.add('dim'); });
+      fb.className = 'fb ok'; fb.hidden = false; fb.replaceChildren(h('strong', { text: st.tries === 0 ? 'Tepat.' : 'Benar, setelah ' + (st.tries + 1) + ' percobaan.' }), o.why);
+      next.hidden = false; next.focus();
+      rail.children[st.i].className = 'done'; rail.children[st.i].firstChild.textContent = '✓';
+      paintSide();
+    } else {
+      st.tries++; st.wrong.push(k); el.classList.add('bad'); el.disabled = true;
+      fb.className = 'fb bad'; fb.hidden = false; fb.replaceChildren(h('strong', { text: 'Belum tepat. Coba pilihan lain.' }), o.why);
+      tries.textContent = 'Percobaan salah: ' + st.tries;
+    }
+  }
+  if (st.tries) tries.textContent = 'Percobaan salah: ' + st.tries;
+  const side = h('aside', { class: 'sheet', 'aria-label': T.sheet });
+  function paintSide() {
+    const kept = T.steps.slice(0, st.i + (st.answered ? 1 : 0));
+    side.replaceChildren(h('h3', { text: T.sheet }), kept.length ?
+      h('ul', {}, kept.map(x => h('li', {}, h('small', { text: x.label || x.name }), h('span', { text: x.keep })))) :
+      h('p', { class: 'empty', text: st.id === 'B' ? 'Komponen yang kamu pilih akan tercatat di sini.' : 'Kalimat sales yang tepat akan tercatat di sini.' }));
+  }
+  paintSide();
+  const main = h('div', { class: 'panel' },
+    h('div', { class: 'runhead' }, h('span', { class: 'label', text: 'Langkah ' + (st.i + 1) + ' dari ' + n + ' · ' + s.name }), tries),
+    st.i === 0 ? h('p', { class: 'ctx', style: 'margin-bottom:12px', text: T.intro }) : null,
+    s.ctx ? h('p', { class: 'ctx', style: 'margin-bottom:12px', text: s.ctx }) : null,
+    s.cust ? h('div', { class: 'cust' }, h('b', { text: 'Pelanggan' }), '“' + s.cust + '”') : null,
+    h('p', { class: 'qtext', text: s.q }), h('div', { class: 'opts' }, btns), fb,
+    h('div', { class: 'nextrow' }, h('button', { class: 'btn sm', onclick: () => { st = null; render(); } }, 'Keluar dari jalur ini'), next));
+  if (st.answered) { /* tidak terjadi: render ulang selalu pada langkah baru */ }
+  return h('div', {}, h('h2', { class: 'sec-h', style: 'margin-bottom:14px', text: T.title }), rail, h('div', { class: 'steps-grid' }, main, side));
+}
+function stepDone(T) {
+  const n = T.steps.length, sc = st.firstTry.filter(Boolean).length;
+  return h('div', {},
+    h('p', { class: 'label', text: 'Selesai · ' + T.title }),
+    h('div', { class: 'score' }, h('b', { text: sc + '/' + n }), h('span', { class: 'muted', text: 'langkah benar di percobaan pertama' })),
+    h('div', { class: 'steps-grid', style: 'margin-top:22px' },
+      h('div', {}, h('h2', { class: 'grp', style: 'margin-top:0', text: 'Ringkasan tiap langkah' }),
+        T.steps.map((s, k) => h('details', { class: 'rev' }, h('summary', {}, h('span', { class: 'pill ' + (st.firstTry[k] ? 'ok' : 'bad'), text: st.firstTry[k] ? 'Langsung benar' : 'Perlu mengulang' }), h('span', { text: (k + 1) + '. ' + s.name })),
+          h('div', { class: 'inner' }, h('p', { class: 'muted', text: s.q }), h('p', {}, h('b', { text: 'Jawaban tepat: ' }), s.opts.find(o => o.ok).t), h('p', { class: 'muted', text: s.opts.find(o => o.ok).why }))))),
+      h('aside', { class: 'sheet' }, h('h3', { text: T.sheet + ' (lengkap)' }), h('ul', {}, T.steps.map(x => h('li', {}, h('small', { text: x.label || x.name }), h('span', { text: x.keep })))))),
+    h('div', { class: 'btn-row', style: 'margin-top:22px' }, h('button', { class: 'btn primary', onclick: () => startTrack(st.id) }, 'Ulangi jalur ini'), h('button', { class: 'btn', onclick: () => { st = null; render(); } }, 'Pilih jalur lain'), h('button', { class: 'btn', onclick: () => go('home') }, 'Kembali ke beranda')));
+}
+
+render();
+</script>
+</body></html>
