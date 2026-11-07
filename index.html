@@ -1404,12 +1404,22 @@ async function pushMe(force) {
   } catch (e) { CLOUD.on = false; }
   finally { pushing = false; if (pushAgain) { pushAgain = false; cloudPushSoon(); } }
 }
+const tmo = (p, ms, d) => Promise.race([p, new Promise(r => setTimeout(() => r(d), ms))]);
+async function readIdentity() {
+  const u = CLOUD.user; if (!u) return;
+  const [uid, ce, ow, me] = await Promise.all([tmo(u.id(), 6000, null), tmo(u.canEdit(), 6000, false), tmo(u.isOwner(), 6000, false), tmo(u.me(), 6000, null)]);
+  CLOUD.uid = uid; CLOUD.owner = !!ow; CLOUD.admin = !!(ce || ow); CLOUD.me = me;
+  CLOUD.diag = { db: !!CLOUD.db, uid: !!uid, canEdit: !!ce, owner: !!ow };
+  const t = $('#tab-admin'); if (t) t.hidden = !CLOUD.admin;
+  const al = $('#adminlink'); if (al) al.hidden = CLOUD.admin;
+}
 async function initCloud() {
+  setTimeout(() => { if (!CLOUD.ready) { CLOUD.ready = true; if (route() === 'admin') render(); } }, 8000);
   try {
     if (typeof claude === 'undefined' || !claude.use) return;
     const [db, user] = await Promise.all([claude.use('db'), claude.use('user')]);
     CLOUD.db = db; CLOUD.user = user;
-    if (user) { CLOUD.uid = await user.id(); CLOUD.admin = !!(await user.canEdit()); CLOUD.owner = !!(await user.isOwner()); CLOUD.me = await user.me(); }
+    if (user) await readIdentity();
     if (!db) return;
     db.collection('bank').onSnapshot(snap => { BANK = {}; snap.docs.forEach(d => { BANK[d.id] = d.data(); }); applyBank(); softRender(); }, () => {});
     if (CLOUD.admin) db.collection('results').orderBy('lastSeen', 'desc').limit(300).onSnapshot(snap => { RESULTS = snap.docs.map(d => Object.assign({ id: d.id }, d.data())); paintHistory(); }, () => {});
@@ -1457,7 +1467,8 @@ const newRef = () => 'n' + Date.now().toString(36);
 
 async function recheck() {
   try {
-    if (CLOUD.user) { CLOUD.admin = !!(await CLOUD.user.canEdit()); CLOUD.owner = !!(await CLOUD.user.isOwner()); CLOUD.me = await CLOUD.user.me(); }
+    const b = $('#recheck'); if (b) { b.disabled = true; b.textContent = 'Memeriksa...'; }
+    if (CLOUD.user) await readIdentity();
     const t = $('#tab-admin'); if (t) t.hidden = !CLOUD.admin;
     const al = $('#adminlink'); if (al) al.hidden = CLOUD.admin;
   } catch (e) {}
@@ -1471,7 +1482,8 @@ function viewAdmin() {
         h('li', { text: 'Trainer lain: pemilik membuka menu Share di claude.ai, mengundang akun trainer lewat email sebagai Editor, lalu trainer membuka link dengan akun itu.' }),
         h('li', { text: 'Peserta biasa cukup memakai akses Contributor dan tidak perlu login admin.' })),
       h('p', { class: 'pill', style: 'margin:14px 0', text: CLOUD.me && CLOUD.me.name ? 'Akun terdeteksi: ' + CLOUD.me.name + ' (bukan admin)' : 'Belum ada akun Claude yang terdeteksi' }),
-      h('div', {}, h('button', { class: 'btn primary', onclick: recheck }, 'Masuk / periksa ulang akses'))) : h('p', { class: 'muted', text: 'Memeriksa akses...' }));
+      h('div', {}, h('button', { id: 'recheck', class: 'btn primary', onclick: recheck }, 'Masuk / periksa ulang akses')),
+      h('p', { class: 'hint', style: 'margin-top:14px;font-family:var(--f-mono)', text: 'Diagnostik: ' + (CLOUD.diag ? JSON.stringify(CLOUD.diag) : 'akun atau database tidak terbaca') })) : h('p', { class: 'muted', text: 'Memeriksa akses...' }));
   const tabs = [['riwayat', 'Riwayat peserta'], ['mc', 'Soal pilihan ganda'], ['esai', 'Soal esai'], ['langkah', 'Step by step']];
   const bar = h('div', { class: 'fchips', style: 'margin-top:14px' }, tabs.map(([k, v]) => h('button', { class: 'fchip', 'aria-pressed': String(AD.tab === k), onclick: () => { AD.tab = k; render(); } }, v)));
   const body = h('div', { style: 'margin-top:18px' }, AD.tab === 'riwayat' ? adminHistory() : AD.tab === 'mc' ? adminMC() : AD.tab === 'esai' ? adminEssay() : adminSteps());
