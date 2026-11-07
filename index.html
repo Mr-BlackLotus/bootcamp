@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><title>Pelatihan Sales Enter Komputer</title>
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body><title>Pelatihan Sales Enter Komputer</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
@@ -181,13 +181,29 @@ details.essay>summary:hover .qt{text-decoration:underline;text-underline-offset:
 .sheet .empty{padding:14px;color:var(--ink-2);font-size:14px}
 .cust{padding:12px 14px;background:var(--surface-2);border-radius:8px;border-left:3px solid var(--accent);margin-bottom:6px;font-size:15px}
 .cust b{display:block;font-family:var(--f-mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);font-weight:500;margin-bottom:2px}
+.tabs a[hidden]{display:none}
+.ad-row{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin-top:8px;background:var(--surface)}
+.ad-list{display:grid;gap:8px}
+.ad-inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ad-inline input[type=text]{flex:1 1 200px}
+.ad-opt{display:grid;gap:8px;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2)}
+.ad-form{display:grid;gap:14px;padding-top:6px}
+.ad-form .field{display:grid;gap:6px}
+.ad-bar{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin:6px 0 14px}
+.ad-bar select{width:auto;min-width:240px;max-width:100%}
+.ad-radio{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
+.ad-radio input{width:20px;height:20px;accent-color:var(--accent)}
+.ad-runs{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}
+.ad-runs li{display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:14px}
+.tbl td small{display:block;color:var(--ink-2);font-size:12px}
+.tbl tr.sub td{background:var(--surface-2)}
 .tries{font-family:var(--f-mono);font-size:12px;color:var(--ink-2)}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
 <header class="top">
   <div class="wrap">
-    <p class="eyebrow">Modul Sales · versi 0.5 · Enter Komputer</p>
+    <p class="eyebrow">Modul Sales · versi 0.6 · Enter Komputer</p>
     <h1>Pelatihan Sales Enter Komputer</h1>
     <p class="lead">Latihan mandiri untuk karyawan baru. Isinya diambil dari modul sales: komunikasi, SOP toko, FAQ, dan pengetahuan dasar komputer.</p>
   </div>
@@ -198,6 +214,7 @@ details.essay>summary:hover .qt{text-decoration:underline;text-underline-offset:
     <a href="#pilihan-ganda" data-r="pilihan-ganda">Pilihan Ganda</a>
     <a href="#esai" data-r="esai">Esai</a>
     <a href="#langkah" data-r="langkah">Step by Step</a>
+    <a href="#admin" data-r="admin" id="tab-admin" hidden>Admin</a>
   </div>
 </nav>
 <main><div class="wrap" id="app"></div></main>
@@ -232,7 +249,7 @@ const PASS = 75;
 const KEY = 'pelatihan-sales-ek-v1';
 let mem = null;
 function load() { try { const r = localStorage.getItem(KEY); if (r) return JSON.parse(r); } catch (e) {} return mem; }
-function persist() { mem = S; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function persist() { mem = S; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} cloudPushSoon(); }
 const S = Object.assign({ name: '', mc: { best: null, last: null }, essay: { a: {}, c: {}, r: {} }, steps: {} }, load() || {});
 S.mc = S.mc || { best: null, last: null }; S.essay = S.essay || { a: {}, c: {}, r: {} }; S.steps = S.steps || {};
 let saveT = null; function saveSoon() { clearTimeout(saveT); saveT = setTimeout(persist, 300); }
@@ -832,7 +849,7 @@ const MC_BASE = [
   ['kb', 'Keyboard mechanical dikenal sebagai...', 'Tahan lama, tactile, dan responsif', ['Paling murah dan ringan', 'Tanpa switch', 'Hanya tersedia versi wireless'], 'Switch populer: Cherry MX Brown (tactile) dan Cherry MX Red (ringan).'],
   ['kb', 'Fitur khas keyboard mechanical gaming adalah...', 'Respons cepat, anti-ghosting, lampu RGB, dan tombol makro', ['Hanya tombol angka', 'Rasa ketikan lembut tanpa fitur tambahan', 'Tanpa switch'], 'Switch gaming populer: Cherry MX Red (ringan), Black (berat), Speed Silver (cepat).']
 ];
-const MC = MC_BASE.concat(MC_A, MC_B).map((r, i) => ({ id: i, t: r[0], q: r[1], ok: r[2], bad: r[3], e: r[4] }));
+let MC = MC_BASE.concat(MC_A, MC_B).map((r, i) => ({ id: i, t: r[0], q: r[1], ok: r[2], bad: r[3], e: r[4] }));
 
 /* ---------- data: esai ---------- */
 const ESSAY_BASE = [
@@ -866,7 +883,7 @@ const P_MAP = { gen: ['p1', 'p6'], cpu: ['p3', 'p4'], mb: ['p5'], ssd: ['p2'], p
 const CAT_ORDER = ['gen', 'cpu', 'mb', 'ram', 'case', 'ssd', 'hdd', 'vga', 'psu', 'mon', 'mouse', 'kb'];
 const ESS_NEW = Object.assign({}, ESS_A, ESS_B);
 const pItems = {}; ESSAY_BASE[0].items.forEach(i => { pItems[i.id] = i; });
-const ESSAY_GROUPS = [
+const ESSAY_GROUPS0 = [
   { key: 'sales', title: 'Komunikasi dan Studi Kasus Penjualan', items: ESSAY_BASE[1].items.concat(ESSAY_BASE[2].items) }
 ].concat(CAT_ORDER.map(k => ({
   key: k, title: TOPICS[k],
@@ -874,7 +891,8 @@ const ESSAY_GROUPS = [
 })));
 const ESSAY_SECTIONS = [{ title: 'Materi Sales', keys: ['sales'] }, { title: 'Pengetahuan Dasar Komputer', keys: CAT_ORDER }];
 let essayFilter = 'sales';
-const ESSAYS = ESSAY_GROUPS.flatMap(g => g.items.map(i => Object.assign({ group: g.title }, i)));
+let ESSAY_GROUPS = ESSAY_GROUPS0;
+let ESSAYS = ESSAY_GROUPS.flatMap(g => g.items.map(i => Object.assign({ group: g.title }, i)));
 
 /* ---------- data: step by step ---------- */
 const TRACKS = {
@@ -970,12 +988,14 @@ const TRACKS = {
   }
 };
 
+const TRACKS_BASE = JSON.parse(JSON.stringify(TRACKS));
+
 /* ---------- state ---------- */
 let quiz = { phase: 'setup', topic: 'all', count: 20 };
 let st = null; // step-by-step run
 
 /* ---------- routing ---------- */
-const ROUTES = ['home', 'pilihan-ganda', 'esai', 'langkah'];
+const ROUTES = ['home', 'pilihan-ganda', 'esai', 'langkah', 'admin'];
 function route() { const r = (location.hash || '').slice(1); return ROUTES.includes(r) ? r : 'home'; }
 function render() {
   const r = route();
@@ -984,6 +1004,7 @@ function render() {
   if (r === 'home') app.append(viewHome());
   else if (r === 'pilihan-ganda') app.append(viewMC());
   else if (r === 'esai') app.append(viewEssay());
+  else if (r === 'admin') app.append(viewAdmin());
   else app.append(viewSteps());
 }
 window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
@@ -1062,7 +1083,7 @@ function viewHome() {
       mod('Step by Step', 'Simulasi bertahap. Layani pelanggan walk-in sesuai workflow toko, atau rakit PC dari prosesor sampai casing. Tidak bisa lanjut sebelum pilihanmu benar.', [h('span', { class: 'pill', text: '2 jalur · 7 langkah' }), stPill], 'langkah', 'Pilih jalur')),
     h('section', { class: 'rekap' },
       h('h2', { class: 'sec-h', text: 'Rekap hasil' }),
-      h('p', { class: 'muted', text: 'Jawaban tersimpan di browser perangkat ini saja. Kirim laporan ke trainer agar hasilnya bisa dinilai.' }),
+      h('p', { class: 'muted', text: CLOUD.on ? 'Nama dan skor kamu otomatis tercatat untuk trainer. Isi jawaban esai tetap tersimpan di browser ini, jadi kirim laporan bila trainer ingin membacanya.' : 'Jawaban tersimpan di browser perangkat ini saja. Kirim laporan ke trainer agar hasilnya bisa dinilai.' }),
       h('div', { class: 'tbl-scroll' }, h('table', { class: 'tbl' },
         h('thead', {}, h('tr', {}, h('th', { text: 'Latihan' }), h('th', { text: 'Hasil' }))),
         h('tbody', {},
@@ -1144,7 +1165,7 @@ document.addEventListener('keydown', e => {
 function finishQuiz() {
   const correct = quiz.items.filter(i => i.opts[i.picked].ok).length, n = quiz.items.length;
   const res = { correct, n, pct: pct(correct, n), topic: quiz.topic, topicName: quiz.topic === 'all' ? 'Semua topik' : TOPICS[quiz.topic], at: Date.now() };
-  S.mc.last = res; if (!S.mc.best || res.pct >= S.mc.best.pct) S.mc.best = res; persist();
+  addRun({ k: 'pg', label: res.topicName, c: correct, n }); S.mc.last = res; if (!S.mc.best || res.pct >= S.mc.best.pct) S.mc.best = res; persist();
   quiz.phase = 'result'; render(); window.scrollTo(0, 0);
 }
 function mcResult() {
@@ -1253,7 +1274,7 @@ function stepRun(T) {
   const fb = h('div', { class: 'fb', hidden: true, role: 'status' });
   const tries = h('span', { class: 'tries' });
   const next = h('button', { class: 'btn primary', hidden: true, onclick: () => {
-    if (st.i === n - 1) { st.done = true; const sc = st.firstTry.filter(Boolean).length; S.steps[st.id] = { score: sc, total: n, at: Date.now() }; persist(); }
+    if (st.i === n - 1) { st.done = true; const sc = st.firstTry.filter(Boolean).length; S.steps[st.id] = { score: sc, total: n, at: Date.now() }; addRun({ k: 'step', label: T.title, c: sc, n }); persist(); }
     else { st.i++; st.tries = 0; st.wrong = []; st.answered = false; }
     render(); window.scrollTo(0, 0);
   } }, st.i === n - 1 ? 'Selesai, lihat hasil' : 'Langkah berikutnya');
@@ -1310,6 +1331,339 @@ function stepDone(T) {
     h('div', { class: 'btn-row', style: 'margin-top:22px' }, h('button', { class: 'btn primary', onclick: () => startTrack(st.id) }, 'Ulangi jalur ini'), h('button', { class: 'btn', onclick: () => { st = null; render(); } }, 'Pilih jalur lain'), h('button', { class: 'btn', onclick: () => go('home') }, 'Kembali ke beranda')));
 }
 
+/* ---------- cloud: bank soal, hasil peserta, admin ---------- */
+const CLOUD = { db: null, user: null, uid: null, admin: false, ready: false, on: false };
+let BANK = {}, RESULTS = [];
+const clone = o => JSON.parse(JSON.stringify(o));
+const BASE_MC = clone(MC);
+const AD = { tab: 'riwayat', topic: 'all', es: 'sales', track: 'A', mcOpen: null, esOpen: null };
+const ME = { first: 0, visits: 0, runs: [] };
+const fmtT = t => t ? new Date(t).toLocaleString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '-';
+function addRun(r) { ME.runs.push(Object.assign({ at: Date.now() }, r)); }
+
+const validMC = o => !!(o && typeof o.q === 'string' && o.q.trim() && typeof o.ok === 'string' && o.ok.trim() && Array.isArray(o.bad) && o.bad.length >= 1 && o.bad.every(b => typeof b === 'string' && b.trim()));
+const validES = o => !!(o && typeof o.q === 'string' && o.q.trim() && Array.isArray(o.pts) && o.pts.length >= 1);
+const validStep = s => !!(s && typeof s.q === 'string' && s.q.trim() && Array.isArray(s.opts) && s.opts.length >= 2 && s.opts.length <= 5 && s.opts.filter(o => o.ok).length === 1 && s.opts.every(o => typeof o.t === 'string' && o.t.trim()));
+
+let lastStepSig = '';
+function applyBank() {
+  const mcOv = {}, esOv = {}, mcAdd = [], esAdd = [];
+  Object.values(BANK).forEach(d => {
+    if (!d) return;
+    if (d.kind === 'mc') { if (d.added) mcAdd.push(d); else mcOv[d.ref] = d; }
+    else if (d.kind === 'es') { if (d.added) esAdd.push(d); else esOv[d.ref] = d; }
+  });
+  const byAt = (a, b) => (a.at || 0) - (b.at || 0);
+  MC = BASE_MC.filter(q => !(mcOv[q.id] && mcOv[q.id].del)).map(q => {
+    const o = mcOv[q.id];
+    return o && validMC(o) ? { id: q.id, t: q.t, q: o.q, ok: o.ok, bad: o.bad, e: o.e || '', edited: true } : q;
+  }).concat(mcAdd.filter(d => validMC(d) && TOPICS[d.t]).sort(byAt).map(d => ({ id: d.ref, t: d.t, q: d.q, ok: d.ok, bad: d.bad, e: d.e || '', added: true })));
+  ESSAY_GROUPS = ESSAY_GROUPS0.map(g => ({
+    key: g.key, title: g.title,
+    items: g.items.filter(i => !(esOv[i.id] && esOv[i.id].del)).map(i => {
+      const o = esOv[i.id];
+      return o && validES(o) ? Object.assign({}, i, { q: o.q, pts: o.pts, src: o.src || i.src, ctx: o.ctx || undefined, edited: true }) : i;
+    }).concat(esAdd.filter(d => d.g === g.key && validES(d)).sort(byAt).map(d => ({ id: d.ref, q: d.q, ctx: d.ctx || undefined, src: d.src || 'Ditambahkan admin', pts: d.pts, added: true })))
+  }));
+  ESSAYS = ESSAY_GROUPS.flatMap(g => g.items.map(i => Object.assign({ group: g.title }, i)));
+  Object.keys(TRACKS).forEach(k => {
+    TRACKS[k].steps = TRACKS_BASE[k].steps.map((s, i) => { const d = BANK['st-' + k + '-' + i]; return d && validStep(d.step) ? Object.assign({ edited: true }, d.step) : s; });
+  });
+  const sig = JSON.stringify(Object.keys(TRACKS).map(k => TRACKS[k].steps.map(s => s.opts.length)));
+  if (sig !== lastStepSig) { if (lastStepSig && st) st = null; lastStepSig = sig; }
+}
+function softRender() {
+  const a = document.activeElement;
+  if (a && /INPUT|TEXTAREA|SELECT/.test(a.tagName)) return;
+  const r = route();
+  if (r === 'home' || (r === 'pilihan-ganda' && quiz.phase === 'setup') || (r === 'langkah' && !st)) render();
+}
+
+/* hasil peserta -> database */
+let lastPushed = '', pushing = false, pushAgain = false, pushT = null;
+function meDoc() {
+  const es = essayStats();
+  return { name: (S.name || '').trim(), first: ME.first, lastSeen: Date.now(), visits: ME.visits, mc: S.mc, steps: S.steps, essay: { ans: es.ans, n: es.n, got: es.got, tot: es.tot, rated: es.rated }, runs: ME.runs.slice(-30) };
+}
+function cloudPushSoon() { if (!CLOUD.on) return; clearTimeout(pushT); pushT = setTimeout(() => pushMe(false), 2500); }
+async function pushMe(force) {
+  if (!CLOUD.db || !CLOUD.uid) return;
+  if (pushing) { pushAgain = true; return; }
+  pushing = true;
+  try {
+    const d = meDoc(), sig = JSON.stringify(Object.assign({}, d, { lastSeen: 0 }));
+    if (force || sig !== lastPushed) {
+      await CLOUD.db.doc('results/' + CLOUD.uid).set(clone(d));
+      lastPushed = sig;
+      if (!CLOUD.on) { CLOUD.on = true; softRender(); }
+    }
+  } catch (e) { CLOUD.on = false; }
+  finally { pushing = false; if (pushAgain) { pushAgain = false; cloudPushSoon(); } }
+}
+async function initCloud() {
+  try {
+    if (typeof claude === 'undefined' || !claude.use) return;
+    const [db, user] = await Promise.all([claude.use('db'), claude.use('user')]);
+    CLOUD.db = db; CLOUD.user = user;
+    if (user) { CLOUD.uid = await user.id(); CLOUD.admin = !!(await user.canEdit()); }
+    if (!db) return;
+    db.collection('bank').onSnapshot(snap => { BANK = {}; snap.docs.forEach(d => { BANK[d.id] = d.data(); }); applyBank(); softRender(); }, () => {});
+    if (CLOUD.admin) db.collection('results').orderBy('lastSeen', 'desc').limit(300).onSnapshot(snap => { RESULTS = snap.docs.map(d => Object.assign({ id: d.id }, d.data())); paintHistory(); }, () => {});
+    if (CLOUD.uid) {
+      const snap = await db.doc('results/' + CLOUD.uid).get();
+      const prev = snap.exists ? snap.data() : {};
+      ME.first = prev.first || Date.now(); ME.visits = (prev.visits || 0) + 1; ME.runs = Array.isArray(prev.runs) ? prev.runs : [];
+      if (!S.name && prev.name) S.name = prev.name;
+      if (!S.mc.best && prev.mc && prev.mc.best) S.mc = prev.mc;
+      S.steps = Object.assign({}, prev.steps || {}, S.steps);
+      persist();
+      await pushMe(true);
+    }
+  } catch (e) { /* tanpa database: aplikasi tetap jalan lokal */ }
+  finally {
+    CLOUD.ready = true;
+    const tab = $('#tab-admin'); if (tab) tab.hidden = !CLOUD.admin;
+    if (route() === 'admin') render(); else softRender();
+  }
+}
+
+/* ---------- ADMIN ---------- */
+function saver() {
+  const msg = h('span', { class: 'hint', role: 'status' });
+  return { msg, async run(fn, okText) {
+    msg.textContent = 'Menyimpan...';
+    try { await fn(); msg.textContent = okText || 'Tersimpan.'; return true; }
+    catch (e) { msg.textContent = 'Gagal menyimpan: ' + ((e && e.message) || 'tidak ada izin') + '.'; return false; }
+  } };
+}
+function armBtn(label, armed, fn, cls) {
+  const b = h('button', { type: 'button', class: 'btn sm ' + (cls || ''), onclick: () => {
+    if (b.dataset.armed) { fn(); return; }
+    b.dataset.armed = '1'; b.textContent = armed;
+    setTimeout(() => { if (b.isConnected) { delete b.dataset.armed; b.textContent = label; } }, 4000);
+  } }, label);
+  return b;
+}
+const fill = (el, ...k) => el.replaceChildren(...k.flat().filter(Boolean));
+const fld = (label, el) => h('label', { class: 'field' }, h('span', { class: 'label', text: label }), el);
+async function bankSet(id, data) { await CLOUD.db.doc('bank/' + id).set(clone(data)); BANK[id] = clone(data); applyBank(); }
+async function bankDel(id) { await CLOUD.db.doc('bank/' + id).delete(); delete BANK[id]; applyBank(); }
+const newRef = () => 'n' + Date.now().toString(36);
+
+function viewAdmin() {
+  if (!CLOUD.admin) return h('div', { class: 'panel' }, h('h2', { class: 'sec-h', text: 'Khusus admin' }),
+    h('p', { class: 'muted', text: CLOUD.ready ? 'Halaman ini hanya bisa dibuka oleh pemilik atau editor link ini. Buka link dengan akun Claude pemilik.' : 'Memeriksa akses...' }));
+  const tabs = [['riwayat', 'Riwayat peserta'], ['mc', 'Soal pilihan ganda'], ['esai', 'Soal esai'], ['langkah', 'Step by step']];
+  const bar = h('div', { class: 'fchips', style: 'margin-top:14px' }, tabs.map(([k, v]) => h('button', { class: 'fchip', 'aria-pressed': String(AD.tab === k), onclick: () => { AD.tab = k; render(); } }, v)));
+  const body = h('div', { style: 'margin-top:18px' }, AD.tab === 'riwayat' ? adminHistory() : AD.tab === 'mc' ? adminMC() : AD.tab === 'esai' ? adminEssay() : adminSteps());
+  return h('div', {}, h('h2', { class: 'sec-h', text: 'Admin' }),
+    h('p', { class: 'muted', style: 'max-width:66ch', text: 'Lihat siapa saja yang membuka link ini beserta skornya, dan ubah soal serta jawaban. Perubahan langsung dipakai semua peserta.' }), bar, body);
+}
+
+/* riwayat */
+const HIST = { box: null, open: new Set() };
+function adminHistory() { const box = h('div', {}); HIST.box = box; setTimeout(paintHistory, 0); return box; }
+async function paintHistory() {
+  const box = HIST.box;
+  if (!box || !box.isConnected || route() !== 'admin' || AD.tab !== 'riwayat') return;
+  const rows = RESULTS;
+  let ps = {};
+  try { if (CLOUD.user && rows.length) ps = await CLOUD.user.profiles(rows.map(r => r.id)); } catch (e) {}
+  if (!box.isConnected) return;
+  const withMc = rows.filter(r => r.mc && r.mc.last);
+  const avg = withMc.length ? Math.round(withMc.reduce((a, r) => a + r.mc.last.pct, 0) / withMc.length) : null;
+  const sum = h('div', { class: 'sumbar' },
+    h('div', {}, h('span', { class: 'label', text: 'Peserta' }), h('b', { text: String(rows.length) })),
+    h('div', {}, h('span', { class: 'label', text: 'Aktif 24 jam' }), h('b', { text: String(rows.filter(r => r.lastSeen > Date.now() - 864e5).length) })),
+    h('div', {}, h('span', { class: 'label', text: 'Rata-rata PG terakhir' }), h('b', { text: avg == null ? '-' : avg + '%' })),
+    h('div', {}, h('span', { class: 'label', text: 'Lulus (≥ ' + PASS + '%)' }), h('b', { text: withMc.filter(r => r.mc.last.pct >= PASS).length + '/' + withMc.length })));
+  const sc = (m) => m ? h('span', { class: 'pill ' + (m.pct >= PASS ? 'ok' : 'bad'), text: m.correct + '/' + m.n + ' · ' + m.pct + '%' }) : h('span', { class: 'muted', text: '-' });
+  const st1 = (r, k) => r.steps && r.steps[k] ? h('span', { class: 'pill', text: r.steps[k].score + '/' + r.steps[k].total }) : h('span', { class: 'muted', text: '-' });
+  const trs = [];
+  rows.forEach(r => {
+    const acct = (ps[r.id] && ps[r.id].name) || '';
+    const isOpen = HIST.open.has(r.id);
+    trs.push(h('tr', {},
+      h('td', {}, h('b', { text: r.name || '(belum isi nama)' }), acct ? h('small', { text: 'Akun: ' + acct }) : null),
+      h('td', { text: fmtT(r.lastSeen) }), h('td', { text: String(r.visits || 1) }),
+      h('td', {}, sc(r.mc && r.mc.last)), h('td', {}, sc(r.mc && r.mc.best)),
+      h('td', {}, st1(r, 'A')), h('td', {}, st1(r, 'B')),
+      h('td', { text: r.essay ? r.essay.ans + '/' + r.essay.n : '-' }),
+      h('td', {}, h('div', { class: 'ad-inline' },
+        h('button', { class: 'btn sm', onclick: () => { if (isOpen) HIST.open.delete(r.id); else HIST.open.add(r.id); paintHistory(); } }, isOpen ? 'Tutup' : 'Riwayat'),
+        armBtn('Hapus', 'Yakin?', async () => { try { await CLOUD.db.doc('results/' + r.id).delete(); RESULTS = RESULTS.filter(x => x.id !== r.id); HIST.open.delete(r.id); paintHistory(); } catch (e) {} })))));
+    if (isOpen) {
+      const runs = (r.runs || []).slice().reverse();
+      trs.push(h('tr', { class: 'sub' }, h('td', { colspan: 9 },
+        h('p', { class: 'muted', text: 'Pertama akses ' + fmtT(r.first) + ' · ' + (r.visits || 1) + ' kali membuka link' + (r.essay && r.essay.tot ? ' · nilai mandiri esai ' + pct(r.essay.got, r.essay.tot) + '%' : '') }),
+        runs.length ? h('ul', { class: 'ad-runs' }, runs.map(x => h('li', {}, h('span', { class: 'mono', text: fmtT(x.at) }), h('span', { text: (x.k === 'pg' ? 'Pilihan ganda: ' : 'Step by step: ') + x.label }), h('span', { class: 'pill ' + (pct(x.c, x.n) >= PASS ? 'ok' : 'bad'), text: x.c + '/' + x.n + (x.k === 'pg' ? ' · ' + pct(x.c, x.n) + '%' : '') })))) : h('p', { class: 'muted', text: 'Belum ada latihan yang diselesaikan.' }))));
+    }
+  });
+  box.replaceChildren(sum,
+    rows.length ? h('div', { class: 'tbl-scroll' }, h('table', { class: 'tbl' },
+      h('thead', {}, h('tr', {}, ['Nama peserta', 'Terakhir akses', 'Akses', 'PG terakhir', 'PG terbaik', 'Langkah A', 'Langkah B', 'Esai', ''].map(t => h('th', { text: t })))),
+      h('tbody', {}, trs)))
+    : h('p', { class: 'muted', text: 'Belum ada yang mengakses. Setelah link dibagikan dan dibuka peserta, nama dan skor muncul di sini otomatis.' }),
+    h('p', { class: 'hint', style: 'margin-top:12px', text: 'Nama diambil dari kolom Nama peserta di Beranda. Kolom Akun menunjukkan nama akun Claude yang membuka link, jadi tetap terlihat walau peserta mengosongkan nama.' }));
+}
+
+/* soal pilihan ganda */
+function adminMC() {
+  const root = h('div', {}), list = h('div', {});
+  const sel = h('select', { id: 'ad-topic', onchange: e => { AD.topic = e.target.value; paint(); } }, [h('option', { value: 'all', text: 'Semua topik' })].concat(Object.keys(TOPICS).map(k => h('option', { value: k, text: TOPICS[k] }))));
+  sel.value = AD.topic;
+  const addBox = h('details', { class: 'rev' }, h('summary', {}, h('span', { class: 'pill acc', text: 'Tambah' }), h('span', { text: 'Tambah soal pilihan ganda baru' })), h('div', { class: 'inner' }));
+  let addBuilt = false;
+  addBox.addEventListener('toggle', () => { if (addBox.open && !addBuilt) { addBuilt = true; addBox.querySelector('.inner').append(mcForm({ id: null, t: AD.topic === 'all' ? 'sales' : AD.topic, q: '', ok: '', bad: ['', '', ''], e: '' }, { isNew: true, after: () => { addBuilt = false; addBox.open = false; addBox.querySelector('.inner').replaceChildren(); paint(); } })); } });
+  function item(q) {
+    const d = h('details', { class: 'rev' }, h('summary', {}, q.added ? h('span', { class: 'pill acc', text: 'Baru' }) : q.edited ? h('span', { class: 'pill acc', text: 'Diubah' }) : null, h('span', { text: q.q })));
+    const inner = h('div', { class: 'inner' }); d.append(inner);
+    const build = () => { if (inner.dataset.built) return; inner.dataset.built = '1'; inner.append(mcForm(q, { after: () => { AD.mcOpen = q.id; paint(); } })); };
+    d.addEventListener('toggle', () => { if (d.open) { AD.mcOpen = q.id; build(); } });
+    if (AD.mcOpen === q.id) { d.open = true; build(); }
+    return d;
+  }
+  function paint() {
+    const items = MC.filter(q => AD.topic === 'all' || q.t === AD.topic);
+    const gone = BASE_MC.filter(q => BANK['mc-' + q.id] && BANK['mc-' + q.id].del && (AD.topic === 'all' || q.t === AD.topic));
+    fill(list, h('p', { class: 'muted', text: items.length + ' soal' }), items.map(item),
+      gone.length ? h('h2', { class: 'grp', text: 'Soal asli yang dihapus (' + gone.length + ')' }) : null,
+      gone.map(q => h('div', { class: 'ad-row' }, h('span', { text: q.q }), h('button', { class: 'btn sm', onclick: async () => { try { await bankDel('mc-' + q.id); } catch (e) {} paint(); } }, 'Pulihkan'))));
+  }
+  paint();
+  root.append(h('div', { class: 'ad-bar' }, fld('Topik', sel)), addBox, list);
+  return root;
+}
+function mcForm(q, o) {
+  const sv = saver(), bads = q.bad.slice();
+  const iq = h('textarea', { rows: 3, value: q.q, 'aria-label': 'Pertanyaan' });
+  const iok = h('input', { type: 'text', value: q.ok, 'aria-label': 'Jawaban benar' });
+  const ie = h('textarea', { rows: 3, value: q.e || '', 'aria-label': 'Pembahasan' });
+  const tsel = o.isNew ? h('select', {}, Object.keys(TOPICS).map(k => h('option', { value: k, text: TOPICS[k] }))) : null;
+  if (tsel) tsel.value = q.t;
+  const badBox = h('div', { class: 'ad-list' });
+  function paintBad() {
+    badBox.replaceChildren(...bads.map((b, k) => h('div', { class: 'ad-inline' },
+      h('input', { type: 'text', value: b, 'aria-label': 'Pilihan salah ' + (k + 1), oninput: e => { bads[k] = e.target.value; } }),
+      h('button', { type: 'button', class: 'btn sm', disabled: bads.length <= 1, onclick: () => { bads.splice(k, 1); paintBad(); } }, 'Hapus'))),
+      h('div', {}, h('button', { type: 'button', class: 'btn sm', disabled: bads.length >= 4, onclick: () => { bads.push(''); paintBad(); } }, '+ Pilihan salah')));
+  }
+  paintBad();
+  const save = h('button', { class: 'btn primary', onclick: async () => {
+    const data = { kind: 'mc', q: iq.value.trim(), ok: iok.value.trim(), bad: bads.map(b => b.trim()).filter(Boolean), e: ie.value.trim() };
+    if (!validMC(data)) { sv.msg.textContent = 'Isi pertanyaan, jawaban benar, dan minimal satu pilihan salah.'; return; }
+    let id;
+    if (o.isNew) { const ref = newRef(); id = 'mc-' + ref; Object.assign(data, { added: true, ref, at: Date.now(), t: tsel.value }); }
+    else if (q.added) { id = 'mc-' + q.id; Object.assign(data, { added: true, ref: q.id, at: (BANK[id] && BANK[id].at) || Date.now(), t: q.t }); }
+    else { id = 'mc-' + q.id; data.ref = q.id; }
+    if (await sv.run(() => bankSet(id, data))) setTimeout(o.after, 400);
+  } }, o.isNew ? 'Tambah soal' : 'Simpan perubahan');
+  const extra = [];
+  if (!o.isNew && q.added) extra.push(armBtn('Hapus soal', 'Klik lagi untuk menghapus', async () => { if (await sv.run(() => bankDel('mc-' + q.id), 'Dihapus.')) o.after(); }));
+  if (!o.isNew && !q.added) {
+    if (q.edited) extra.push(armBtn('Kembalikan ke asli', 'Klik lagi untuk mengembalikan', async () => { if (await sv.run(() => bankDel('mc-' + q.id), 'Dikembalikan.')) o.after(); }));
+    extra.push(armBtn('Hapus soal', 'Klik lagi untuk menghapus', async () => { if (await sv.run(() => bankSet('mc-' + q.id, { kind: 'mc', ref: q.id, del: true }), 'Dihapus.')) o.after(); }));
+  }
+  return h('div', { class: 'ad-form' }, tsel ? fld('Topik', tsel) : null, fld('Pertanyaan', iq), fld('Jawaban benar', iok), h('div', { class: 'field' }, h('span', { class: 'label', text: 'Pilihan salah (pengecoh)' }), badBox), fld('Pembahasan', ie),
+    h('div', { class: 'btn-row', style: 'align-items:center' }, save, extra, sv.msg));
+}
+
+/* soal esai */
+function adminEssay() {
+  const root = h('div', {}), list = h('div', {});
+  const sel = h('select', { id: 'ad-es', onchange: e => { AD.es = e.target.value; paint(); } }, ESSAY_GROUPS.map(g => h('option', { value: g.key, text: g.title })));
+  sel.value = AD.es;
+  const addBox = h('details', { class: 'rev' }, h('summary', {}, h('span', { class: 'pill acc', text: 'Tambah' }), h('span', { text: 'Tambah pertanyaan esai baru' })), h('div', { class: 'inner' }));
+  let addBuilt = false;
+  addBox.addEventListener('toggle', () => { if (addBox.open && !addBuilt) { addBuilt = true; addBox.querySelector('.inner').append(esForm({ id: null, q: '', ctx: '', src: '', pts: [''] }, { isNew: true, after: () => { addBuilt = false; addBox.open = false; addBox.querySelector('.inner').replaceChildren(); paint(); } })); } });
+  function item(e) {
+    const d = h('details', { class: 'rev' }, h('summary', {}, e.added ? h('span', { class: 'pill acc', text: 'Baru' }) : e.edited ? h('span', { class: 'pill acc', text: 'Diubah' }) : null, h('span', { text: e.q })));
+    const inner = h('div', { class: 'inner' }); d.append(inner);
+    const build = () => { if (inner.dataset.built) return; inner.dataset.built = '1'; inner.append(esForm(e, { after: () => { AD.esOpen = e.id; paint(); } })); };
+    d.addEventListener('toggle', () => { if (d.open) { AD.esOpen = e.id; build(); } });
+    if (AD.esOpen === e.id) { d.open = true; build(); }
+    return d;
+  }
+  function paint() {
+    const g = ESSAY_GROUPS.find(x => x.key === AD.es) || ESSAY_GROUPS[0];
+    const gone = ESSAY_GROUPS0.find(x => x.key === g.key).items.filter(i => BANK['es-' + i.id] && BANK['es-' + i.id].del);
+    fill(list, h('p', { class: 'muted', text: g.items.length + ' pertanyaan' }), g.items.map(item),
+      gone.length ? h('h2', { class: 'grp', text: 'Pertanyaan asli yang dihapus (' + gone.length + ')' }) : null,
+      gone.map(i => h('div', { class: 'ad-row' }, h('span', { text: i.q }), h('button', { class: 'btn sm', onclick: async () => { try { await bankDel('es-' + i.id); } catch (e) {} paint(); } }, 'Pulihkan'))));
+  }
+  paint();
+  root.append(h('div', { class: 'ad-bar' }, fld('Kategori', sel)), addBox, list);
+  return root;
+}
+function esForm(e, o) {
+  const sv = saver();
+  const iq = h('textarea', { rows: 3, value: e.q, 'aria-label': 'Pertanyaan' });
+  const ic = h('input', { type: 'text', value: e.ctx || '', 'aria-label': 'Konteks' });
+  const ip = h('textarea', { rows: 6, value: (e.pts || []).join('\n'), 'aria-label': 'Poin jawaban' });
+  const is = h('input', { type: 'text', value: e.src || '', 'aria-label': 'Rujukan modul' });
+  const save = h('button', { class: 'btn primary', onclick: async () => {
+    const data = { kind: 'es', q: iq.value.trim(), ctx: ic.value.trim(), src: is.value.trim(), pts: ip.value.split('\n').map(x => x.trim()).filter(Boolean) };
+    if (!validES(data)) { sv.msg.textContent = 'Isi pertanyaan dan minimal satu poin jawaban.'; return; }
+    let id;
+    if (o.isNew) { const ref = newRef(); id = 'es-' + ref; Object.assign(data, { added: true, ref, at: Date.now(), g: AD.es }); }
+    else if (e.added) { id = 'es-' + e.id; Object.assign(data, { added: true, ref: e.id, at: (BANK[id] && BANK[id].at) || Date.now(), g: (BANK[id] && BANK[id].g) || AD.es }); }
+    else { id = 'es-' + e.id; data.ref = e.id; }
+    if (await sv.run(() => bankSet(id, data))) setTimeout(o.after, 400);
+  } }, o.isNew ? 'Tambah pertanyaan' : 'Simpan perubahan');
+  const extra = [];
+  if (!o.isNew && e.added) extra.push(armBtn('Hapus pertanyaan', 'Klik lagi untuk menghapus', async () => { if (await sv.run(() => bankDel('es-' + e.id), 'Dihapus.')) o.after(); }));
+  if (!o.isNew && !e.added) {
+    if (e.edited) extra.push(armBtn('Kembalikan ke asli', 'Klik lagi untuk mengembalikan', async () => { if (await sv.run(() => bankDel('es-' + e.id), 'Dikembalikan.')) o.after(); }));
+    extra.push(armBtn('Hapus pertanyaan', 'Klik lagi untuk menghapus', async () => { if (await sv.run(() => bankSet('es-' + e.id, { kind: 'es', ref: e.id, del: true }), 'Dihapus.')) o.after(); }));
+  }
+  return h('div', { class: 'ad-form' }, fld('Pertanyaan', iq), fld('Konteks kasus (opsional)', ic), fld('Poin jawaban (satu poin per baris)', ip), fld('Rujukan modul', is),
+    h('div', { class: 'btn-row', style: 'align-items:center' }, save, extra, sv.msg));
+}
+
+/* step by step */
+function adminSteps() {
+  const root = h('div', {}), list = h('div', {});
+  const tsel = h('select', { id: 'ad-track', onchange: e => { AD.track = e.target.value; paint(); } }, Object.keys(TRACKS).map(k => h('option', { value: k, text: TRACKS[k].title })));
+  tsel.value = AD.track;
+  function paint() {
+    const trk = AD.track, T = TRACKS[trk];
+    fill(list, h('p', { class: 'muted', text: T.steps.length + ' langkah. Jumlah langkah tetap, tetapi isi, pilihan, dan jawaban benarnya bisa diubah.' }), T.steps.map((s, i) => {
+      const d = h('details', { class: 'rev' }, h('summary', {}, s.edited ? h('span', { class: 'pill acc', text: 'Diubah' }) : null, h('span', { text: (i + 1) + '. ' + s.name + ': ' + s.q })));
+      const inner = h('div', { class: 'inner' }); d.append(inner);
+      d.addEventListener('toggle', () => { if (d.open && !inner.dataset.built) { inner.dataset.built = '1'; inner.append(stepForm(trk, i, s, paint)); } });
+      return d;
+    }));
+  }
+  paint();
+  root.append(h('div', { class: 'ad-bar' }, fld('Jalur', tsel)), list);
+  return root;
+}
+function stepForm(trk, i, s, after) {
+  const sv = saver(), ops = s.opts.map(o => ({ t: o.t, why: o.why || '', ok: !!o.ok }));
+  const f = { name: h('input', { type: 'text', value: s.name }), label: h('input', { type: 'text', value: s.label || '' }), ctx: h('textarea', { rows: 2, value: s.ctx || '' }), cust: h('input', { type: 'text', value: s.cust || '' }), q: h('textarea', { rows: 2, value: s.q }), keep: h('input', { type: 'text', value: s.keep || '' }) };
+  const box = h('div', { class: 'ad-list' });
+  function paintOps() {
+    box.replaceChildren(...ops.map((o, k) => h('div', { class: 'ad-opt' },
+      h('label', { class: 'field' }, h('span', { class: 'label', text: 'Pilihan ' + (k + 1) }), h('textarea', { rows: 2, value: o.t, oninput: e => { o.t = e.target.value; } })),
+      h('label', { class: 'field' }, h('span', { class: 'label', text: 'Alasan / pembahasan' }), h('textarea', { rows: 2, value: o.why, oninput: e => { o.why = e.target.value; } })),
+      h('div', { class: 'ad-inline' },
+        h('label', { class: 'ad-radio' }, h('input', { type: 'radio', name: 'ok-' + trk + i, checked: o.ok, onchange: () => { ops.forEach(x => { x.ok = false; }); o.ok = true; } }), 'Jawaban benar'),
+        h('button', { type: 'button', class: 'btn sm', disabled: ops.length <= 2, onclick: () => { ops.splice(k, 1); paintOps(); } }, 'Hapus pilihan')))),
+      h('div', {}, h('button', { type: 'button', class: 'btn sm', disabled: ops.length >= 5, onclick: () => { ops.push({ t: '', why: '', ok: false }); paintOps(); } }, '+ Pilihan')));
+  }
+  paintOps();
+  const save = h('button', { class: 'btn primary', onclick: async () => {
+    const step = { name: f.name.value.trim(), q: f.q.value.trim(), keep: f.keep.value.trim(), opts: ops.map(o => { const r = { t: o.t.trim(), why: o.why.trim() }; if (o.ok) r.ok = 1; return r; }) };
+    ['label', 'ctx', 'cust'].forEach(k => { const v = f[k].value.trim(); if (v) step[k] = v; });
+    if (!step.name || !validStep(step)) { sv.msg.textContent = 'Isi nama langkah, pertanyaan, minimal 2 pilihan terisi, dan tepat satu jawaban benar.'; return; }
+    if (await sv.run(() => bankSet('st-' + trk + '-' + i, { kind: 'st', trk, i, step }))) setTimeout(after, 400);
+  } }, 'Simpan perubahan');
+  const extra = s.edited ? [armBtn('Kembalikan ke asli', 'Klik lagi untuk mengembalikan', async () => { if (await sv.run(() => bankDel('st-' + trk + '-' + i), 'Dikembalikan.')) after(); })] : [];
+  return h('div', { class: 'ad-form' }, fld('Nama langkah', f.name), fld('Label di lembar ringkasan', f.label), fld('Konteks (opsional)', f.ctx), fld('Ucapan pelanggan (opsional)', f.cust), fld('Pertanyaan', f.q), fld('Catatan yang tersimpan setelah benar', f.keep),
+    h('div', { class: 'field' }, h('span', { class: 'label', text: 'Pilihan jawaban' }), box), h('div', { class: 'btn-row', style: 'align-items:center' }, save, extra, sv.msg));
+}
+
 render();
+initCloud();
 </script>
 </body></html>

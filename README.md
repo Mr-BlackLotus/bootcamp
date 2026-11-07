@@ -8,3 +8,7 @@ Web latihan untuk karyawan training, dibuat dari Modul Sales Enter Komputer (v0.
 
 Satu file statis (`index.html`), tanpa build. Buka langsung di browser atau aktifkan GitHub Pages (Settings, Pages, branch `main`, folder root).
 Jawaban peserta tersimpan di browser masing-masing (localStorage).
+
+## Admin dan riwayat skor (versi 0.6)
+
+Halaman Admin (edit soal dan jawaban, riwayat nama dan skor peserta) memakai database bersama dari Claude Artifact, jadi **hanya aktif di versi artifact**. Di GitHub Pages (hosting statis) aplikasi tetap jalan sebagai latihan mandiri, tetapi tab Admin tidak muncul dan hasil hanya tersimpan di browser masing-masing.
