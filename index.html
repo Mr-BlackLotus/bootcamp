@@ -1476,7 +1476,7 @@ async function recheck() {
 }
 function viewAdmin() {
   if (!CLOUD.admin) return h('div', { class: 'panel' }, h('h2', { class: 'sec-h', text: 'Khusus admin' }),
-    CLOUD.ready ? h('div', {}, h('p', { class: 'muted', style: 'max-width:62ch', text: 'Admin masuk lewat akun Claude, bukan kata sandi. Akun ini belum terdaftar sebagai admin.' }),
+    typeof claude === 'undefined' ? h('div', {}, h('p', { class: 'muted', style: 'max-width:62ch;margin-bottom:14px', text: 'Anda sedang membuka versi GitHub Pages. Fitur admin tidak bisa berjalan di sini karena tidak ada akun Claude maupun database. Buka versi artifact di claude.ai dengan akun pemilik.' }), h('a', { class: 'btn primary', href: 'https://claude.ai/artifact/4V9G6rqT3VeeTLNJKEe6x9', target: '_blank', rel: 'noopener' }, 'Buka versi admin di claude.ai')) : CLOUD.ready ? h('div', {}, h('p', { class: 'muted', style: 'max-width:62ch', text: 'Admin masuk lewat akun Claude, bukan kata sandi. Akun ini belum terdaftar sebagai admin.' }),
       h('ol', { class: 'muted', style: 'max-width:62ch;padding-left:20px;display:grid;gap:6px' },
         h('li', { text: 'Pemilik: buka link ini di browser yang sudah masuk ke claude.ai dengan akun pembuat artifact, lalu muat ulang. Tab Admin muncul otomatis.' }),
         h('li', { text: 'Trainer lain: pemilik membuka menu Share di claude.ai, mengundang akun trainer lewat email sebagai Editor, lalu trainer membuka link dengan akun itu.' }),
