@@ -1409,7 +1409,7 @@ async function initCloud() {
     if (typeof claude === 'undefined' || !claude.use) return;
     const [db, user] = await Promise.all([claude.use('db'), claude.use('user')]);
     CLOUD.db = db; CLOUD.user = user;
-    if (user) { CLOUD.uid = await user.id(); CLOUD.admin = !!(await user.canEdit()); }
+    if (user) { CLOUD.uid = await user.id(); CLOUD.admin = !!(await user.canEdit()); CLOUD.owner = !!(await user.isOwner()); CLOUD.me = await user.me(); }
     if (!db) return;
     db.collection('bank').onSnapshot(snap => { BANK = {}; snap.docs.forEach(d => { BANK[d.id] = d.data(); }); applyBank(); softRender(); }, () => {});
     if (CLOUD.admin) db.collection('results').orderBy('lastSeen', 'desc').limit(300).onSnapshot(snap => { RESULTS = snap.docs.map(d => Object.assign({ id: d.id }, d.data())); paintHistory(); }, () => {});
@@ -1455,18 +1455,28 @@ async function bankSet(id, data) { await CLOUD.db.doc('bank/' + id).set(clone(da
 async function bankDel(id) { await CLOUD.db.doc('bank/' + id).delete(); delete BANK[id]; applyBank(); }
 const newRef = () => 'n' + Date.now().toString(36);
 
+async function recheck() {
+  try {
+    if (CLOUD.user) { CLOUD.admin = !!(await CLOUD.user.canEdit()); CLOUD.owner = !!(await CLOUD.user.isOwner()); CLOUD.me = await CLOUD.user.me(); }
+    const t = $('#tab-admin'); if (t) t.hidden = !CLOUD.admin;
+    const al = $('#adminlink'); if (al) al.hidden = CLOUD.admin;
+  } catch (e) {}
+  render();
+}
 function viewAdmin() {
   if (!CLOUD.admin) return h('div', { class: 'panel' }, h('h2', { class: 'sec-h', text: 'Khusus admin' }),
     CLOUD.ready ? h('div', {}, h('p', { class: 'muted', style: 'max-width:62ch', text: 'Admin masuk lewat akun Claude, bukan kata sandi. Akun ini belum terdaftar sebagai admin.' }),
       h('ol', { class: 'muted', style: 'max-width:62ch;padding-left:20px;display:grid;gap:6px' },
         h('li', { text: 'Pemilik: buka link ini di browser yang sudah masuk ke claude.ai dengan akun pembuat artifact, lalu muat ulang. Tab Admin muncul otomatis.' }),
         h('li', { text: 'Trainer lain: pemilik membuka menu Share di claude.ai, mengundang akun trainer lewat email sebagai Editor, lalu trainer membuka link dengan akun itu.' }),
-        h('li', { text: 'Peserta biasa cukup memakai akses Contributor dan tidak perlu login admin.' }))) : h('p', { class: 'muted', text: 'Memeriksa akses...' }));
+        h('li', { text: 'Peserta biasa cukup memakai akses Contributor dan tidak perlu login admin.' })),
+      h('p', { class: 'pill', style: 'margin:14px 0', text: CLOUD.me && CLOUD.me.name ? 'Akun terdeteksi: ' + CLOUD.me.name + ' (bukan admin)' : 'Belum ada akun Claude yang terdeteksi' }),
+      h('div', {}, h('button', { class: 'btn primary', onclick: recheck }, 'Masuk / periksa ulang akses'))) : h('p', { class: 'muted', text: 'Memeriksa akses...' }));
   const tabs = [['riwayat', 'Riwayat peserta'], ['mc', 'Soal pilihan ganda'], ['esai', 'Soal esai'], ['langkah', 'Step by step']];
   const bar = h('div', { class: 'fchips', style: 'margin-top:14px' }, tabs.map(([k, v]) => h('button', { class: 'fchip', 'aria-pressed': String(AD.tab === k), onclick: () => { AD.tab = k; render(); } }, v)));
   const body = h('div', { style: 'margin-top:18px' }, AD.tab === 'riwayat' ? adminHistory() : AD.tab === 'mc' ? adminMC() : AD.tab === 'esai' ? adminEssay() : adminSteps());
   return h('div', {}, h('h2', { class: 'sec-h', text: 'Admin' }),
-    h('p', { class: 'muted', style: 'max-width:66ch', text: 'Lihat siapa saja yang membuka link ini beserta skornya, dan ubah soal serta jawaban. Perubahan langsung dipakai semua peserta.' }), bar, body);
+    h('p', { class: 'muted', style: 'max-width:66ch', text: 'Lihat siapa saja yang membuka link ini beserta skornya, dan ubah soal serta jawaban. Perubahan langsung dipakai semua peserta.' }), h('p', { class: 'pill acc', style: 'margin-top:10px', text: 'Masuk sebagai ' + ((CLOUD.me && CLOUD.me.name) || 'akun Claude') + ' · ' + (CLOUD.owner ? 'Pemilik' : 'Editor') }), bar, body);
 }
 
 /* riwayat */
