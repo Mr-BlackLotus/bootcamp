@@ -1,29 +1,16 @@
 <!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body><title>Pelatihan Sales Enter Komputer</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: lembar kerja ala datasheet. Header, tab sticky, satu kolom konten (maks 980px), panel samping muncul di layar lebar. */
 :root{
-  --bg:#EEF1EF; --surface:#FFFFFF; --surface-2:#E5EAE7; --ink:#101A16; --ink-2:#44524B; --line:#CAD3CD;
-  --accent:#2447E0; --accent-ink:#FFFFFF; --accent-soft:#E2E8FF;
-  --ok:#16794A; --ok-soft:#DCF2E6; --bad:#B42318; --bad-soft:#FCE3E0; --warn:#8A5A00; --warn-soft:#FBEFD2;
-  --f-display:'IBM Plex Sans Condensed','IBM Plex Sans','Arial Narrow',system-ui,sans-serif;
-  --f-body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
-  --f-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#0D1411; --surface:#141D19; --surface-2:#1C2722; --ink:#E7EEEA; --ink-2:#9DABA3; --line:#2A3730;
-    --accent:#93A8FF; --accent-ink:#0A122E; --accent-soft:#1A2347;
-    --ok:#5ED394; --ok-soft:#10301F; --bad:#FF8F84; --bad-soft:#3A1613; --warn:#F0BC5A; --warn-soft:#33270C;
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#0D1411; --surface:#141D19; --surface-2:#1C2722; --ink:#E7EEEA; --ink-2:#9DABA3; --line:#2A3730;
-  --accent:#93A8FF; --accent-ink:#0A122E; --accent-soft:#1A2347;
-  --ok:#5ED394; --ok-soft:#10301F; --bad:#FF8F84; --bad-soft:#3A1613; --warn:#F0BC5A; --warn-soft:#33270C;
   color-scheme:dark;
+  --bg:#09090B; --surface:#111114; --surface-2:#18181C; --ink:#F4F4F5; --ink-2:#A1A1AA; --line:#26262D; --line-2:#34343D;
+  --accent:#7C9BFF; --accent-ink:#0A1030; --accent-soft:rgba(124,155,255,.14);
+  --ok:#34D399; --ok-soft:rgba(52,211,153,.13); --bad:#F87171; --bad-soft:rgba(248,113,113,.13); --warn:#FBBF24; --warn-soft:rgba(251,191,36,.13);
+  --f-display:'Inter','IBM Plex Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --f-body:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
@@ -201,13 +188,74 @@ details.essay>summary:hover .qt{text-decoration:underline;text-underline-offset:
 .tbl td small{display:block;color:var(--ink-2);font-size:12px}
 .tbl tr.sub td{background:var(--surface-2)}
 .tries{font-family:var(--f-mono);font-size:12px;color:var(--ink-2)}
+/* ===== tema hitam profesional ===== */
+html{scroll-behavior:smooth}
+::selection{background:var(--accent);color:var(--accent-ink)}
+body{background-image:radial-gradient(900px 420px at 15% -10%,rgba(124,155,255,.15),transparent 62%),radial-gradient(700px 340px at 95% 0%,rgba(52,211,153,.06),transparent 60%);background-repeat:no-repeat;font-feature-settings:"cv11","ss01"}
+h1,h2,h3{letter-spacing:-.025em}
+.top{padding-block:40px 30px;border-bottom:0}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#8AA6FF,#4263EB);color:#fff;font:700 13px var(--f-display);letter-spacing:.02em;box-shadow:0 8px 24px rgba(66,99,235,.4)}
+.top h1{font-size:clamp(32px,6vw,52px);margin-top:18px;font-weight:700}
+.top h1 span{background:linear-gradient(90deg,#B4C4FF,#7C9BFF 55%,#6EE7B7);-webkit-background-clip:text;background-clip:text;color:transparent}
+.top .lead{font-size:17px;margin-top:12px}
+.eyebrow{font-size:12px}
+.tabs{background:rgba(9,9,11,.8);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+.tabs .wrap{gap:6px;padding-block:8px}
+.tabs a{padding:8px 16px;border:0;border-radius:99px;font-size:15px;transition:background .15s,color .15s}
+.tabs a:hover{background:var(--surface-2)}
+.tabs a[aria-current="page"]{background:var(--accent-soft);color:var(--accent);box-shadow:inset 0 0 0 1px rgba(124,155,255,.35)}
+main{padding-block:36px 72px}
+.sec-h{font-size:26px}
+.btn{border:1px solid var(--line-2);border-radius:10px;transition:background .15s,border-color .15s,transform .1s}
+.btn:hover:not([disabled]){background:var(--surface-2);border-color:#4a4a55}
+.btn:active:not([disabled]){transform:translateY(1px)}
+.btn.primary{border-color:var(--accent);box-shadow:0 8px 22px rgba(124,155,255,.22)}
+.btn.primary:hover:not([disabled]){background:var(--accent);filter:brightness(1.1)}
+input[type=text],select,textarea{background:var(--surface-2);border-radius:10px;transition:border-color .15s,box-shadow .15s}
+input[type=text]:focus-visible,select:focus-visible,textarea:focus-visible{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,155,255,.25)}
+.mods{border:0;display:grid;gap:14px}
+.mod{padding:22px 24px;border:1px solid var(--line);border-bottom:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,var(--surface),#0D0D10);transition:border-color .15s,transform .15s}
+.mod:hover{border-color:var(--line-2);transform:translateY(-1px)}
+.panel,.track,.sheet{border-radius:16px;box-shadow:0 1px 0 rgba(255,255,255,.03) inset,0 12px 32px rgba(0,0,0,.35)}
+.sheet h3{background:var(--surface-2)}
+details.rev{border-radius:12px}
+details.rev summary{padding:14px 16px}
+details.rev summary:hover{background:rgba(255,255,255,.02);border-radius:12px}
+.opt,.chip-opt{border-radius:12px;transition:border-color .15s,background .15s}
+.opt:hover:not([disabled]),.chip-opt:hover{border-color:var(--accent);background:var(--surface-2)}
+.opt .k{border-radius:8px;background:var(--surface-2)}
+.fchip{background:var(--surface);transition:border-color .15s}
+.fchip:hover{border-color:var(--accent)}
+.fb{border-radius:12px}
+.pill{border:1px solid var(--line);background:var(--surface-2)}
+.pill.ok{border-color:rgba(52,211,153,.3)}.pill.bad{border-color:rgba(248,113,113,.3)}.pill.acc{border-color:rgba(124,155,255,.3)}
+.bar{height:8px;background:var(--surface-2)}
+.bar>i{background:linear-gradient(90deg,#5C7CFA,#7C9BFF);border-radius:99px}
+.sumbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;padding:0;border:0;margin:6px 0 18px}
+.sumbar div{padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);gap:4px}
+.sumbar b{font-size:28px;letter-spacing:-.02em}
+.tbl-scroll{border:1px solid var(--line);border-radius:14px;margin-top:10px;background:var(--surface)}
+.tbl{margin-top:0}
+.tbl th{background:var(--surface-2);white-space:nowrap}
+.tbl tbody tr:hover td{background:rgba(255,255,255,.025)}
+.tbl tr:last-child td{border-bottom:0}
+details.essay{border:1px solid var(--line);border-radius:12px;background:var(--surface);margin-top:10px;padding:0 16px}
+details.essay:last-of-type{border-bottom:1px solid var(--line)}
+details.essay[open]{border-color:var(--line-2)}
+.ctx,.cust{border-radius:0 10px 10px 0}
+.rail li{background:var(--surface)}
+.score b{letter-spacing:-.04em}
+.hello .field input{background:var(--surface)}
+.adminlink{margin-top:56px;padding-top:20px;border-top:1px solid var(--line)}
+::-webkit-scrollbar{height:10px;width:10px}::-webkit-scrollbar-thumb{background:#2c2c34;border-radius:99px}::-webkit-scrollbar-track{background:transparent}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
 <header class="top">
   <div class="wrap">
-    <p class="eyebrow">Modul Sales · versi 0.6 · Enter Komputer</p>
-    <h1>Pelatihan Sales Enter Komputer</h1>
+    <div class="brand"><span class="logo" aria-hidden="true">EK</span><p class="eyebrow">Modul Sales · versi 0.7 · Enter Komputer</p></div>
+    <h1>Pelatihan Sales <span>Enter Komputer</span></h1>
     <p class="lead">Latihan mandiri untuk karyawan baru. Isinya diambil dari modul sales: komunikasi, SOP toko, FAQ, dan pengetahuan dasar komputer.</p>
   </div>
 </header>
