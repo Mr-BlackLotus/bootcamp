@@ -169,6 +169,16 @@ details.essay>summary:hover .qt{text-decoration:underline;text-underline-offset:
 .cust{padding:12px 14px;background:var(--surface-2);border-radius:8px;border-left:3px solid var(--accent);margin-bottom:6px;font-size:15px}
 .cust b{display:block;font-family:var(--f-mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);font-weight:500;margin-bottom:2px}
 .tabs a[hidden]{display:none}
+.chat{display:flex;gap:10px;align-items:flex-start;margin-top:6px}
+.av{width:34px;height:34px;border-radius:50%;background:var(--surface-2);border:1px solid var(--line);display:grid;place-items:center;font:600 12px var(--f-mono);color:var(--ink-2);flex:none}
+.av.host{background:var(--ok-soft);border-color:rgba(52,211,153,.35);color:var(--ok)}
+.bubble{padding:10px 14px;border-radius:4px 16px 16px 16px;background:var(--surface-2);border:1px solid var(--line);max-width:68ch}
+.bubble .who{display:block;font:500 12px var(--f-mono);color:var(--accent);margin-bottom:2px}
+.bubble.host{background:var(--ok-soft);border-color:rgba(52,211,153,.3)}
+.bubble.host .who{color:var(--ok)}
+.bubble.avoid{background:var(--bad-soft);border-color:rgba(248,113,113,.3)}
+.bubble.avoid .who{color:var(--bad)}
+.rules{margin:10px 0 0;padding-left:20px;display:grid;gap:6px}
 .adminlink{margin:40px 0 28px;font-size:13px;color:var(--ink-2)}
 .adminlink a{color:var(--ink-2)}
 .adminlink[hidden]{display:none}
@@ -254,7 +264,7 @@ details.essay[open]{border-color:var(--line-2)}
 
 <header class="top">
   <div class="wrap">
-    <div class="brand"><span class="logo" aria-hidden="true">EK</span><p class="eyebrow">Modul Sales · versi 0.7 · Enter Komputer</p></div>
+    <div class="brand"><span class="logo" aria-hidden="true">EK</span><p class="eyebrow">Modul Sales · versi 0.8 · Enter Komputer</p></div>
     <h1>Pelatihan Sales <span>Enter Komputer</span></h1>
     <p class="lead">Latihan mandiri untuk karyawan baru. Isinya diambil dari modul sales: komunikasi, SOP toko, FAQ, dan pengetahuan dasar komputer.</p>
   </div>
@@ -265,6 +275,7 @@ details.essay[open]{border-color:var(--line-2)}
     <a href="#pilihan-ganda" data-r="pilihan-ganda">Pilihan Ganda</a>
     <a href="#esai" data-r="esai">Esai</a>
     <a href="#langkah" data-r="langkah">Step by Step</a>
+    <a href="#live" data-r="live">Live Selling</a>
     <a href="#admin" data-r="admin" id="tab-admin" hidden>Admin</a>
   </div>
 </nav>
@@ -1040,6 +1051,133 @@ const TRACKS = {
   }
 };
 
+const LIVE_GROUPS = [
+{ key: 'harga', title: 'Harga & Promo', items: [
+ { id: 'lv-h1', from: '@dimas_gamer', q: 'Kak ini harganya berapa? Ada diskon nggak?',
+  pts: ['Menyapa dan berterima kasih dengan ramah', 'Tidak menyebut angka dari ingatan; harga dan promo dicek dulu ke info terkini (Divisi Update)', 'Menanyakan produk yang dimaksud', 'Menyebut harga dan promo di live atau mengarahkan ke website untuk harga pasti'],
+  ans: 'Halo Kak Dimas, terima kasih sudah mampir di live kami! Harga dan promo bisa berubah mengikuti stok, jadi saya cek dulu ke info terbaru supaya tidak keliru ya, Kak. Boleh sebut produk yang Kakak maksud? Nanti saya bacakan harga dan promonya langsung di live, dan Kakak juga bisa cek di www.enterkomputer.com.',
+  avoid: '"Cek aja sendiri di website." (terkesan menyuruh dan tidak membantu)', src: 'Modul: Informasi Stok & Harga, Koordinasi dengan Divisi Update' },
+ { id: 'lv-h2', from: '@budi_s', q: 'Kok mahal banget sih? Di toko sebelah lebih murah.',
+  pts: ['Tidak defensif dan tidak menjelekkan toko lain', 'Mengakui keberatan dengan empati', 'Menjelaskan nilai: garansi resmi, nota resmi, perakitan gratis', 'Menawarkan alternatif yang lebih ekonomis sesuai kebutuhan'],
+  ans: 'Terima kasih sudah jujur, Kak Budi, wajar kalau Kakak membandingkan dulu. Di kami, semua komponen bergaransi resmi, ada nota resmi, dan perakitan gratis, jadi Kakak tenang kalau ada kendala nanti. Kalau budget-nya perlu lebih ringan, saya bisa carikan alternatif yang tetap pas untuk kebutuhan Kakak. Boleh tahu PC ini nanti dipakai untuk apa?',
+  avoid: '"Ya kalau mau murah beli aja di sana." (menyinggung dan kehilangan pembeli)', src: 'Modul: Menangani Keberatan Harga, Penawaran Alternatif; FAQ garansi dan perakitan' },
+ { id: 'lv-h3', from: '@rafi.gaming', q: 'Budget saya 8 juta, bisa dapat PC buat main game nggak?',
+  pts: ['Menanyakan game yang dimainkan dan monitor yang dipakai', 'Menjelaskan prioritas komponen (prosesor dan VGA)', 'Menawarkan satu atau dua opsi, bukan memaksa satu', 'Tidak menjanjikan angka FPS yang pasti'],
+  ans: 'Bisa banget, Kak Rafi, kita atur supaya pas di budget. Biar tepat, Kakak biasanya main game apa, dan sudah punya monitor atau belum? Dari situ saya susun satu atau dua pilihan konfigurasi, dengan porsi terbesar di prosesor dan VGA. Nanti saya jelaskan juga mana yang bisa di-upgrade belakangan.',
+  avoid: '"Pasti lancar semua game, FPS tinggi!" (janji yang belum bisa dipastikan)', src: 'Modul: Identifikasi Kebutuhan, Pemberian Solusi, Penanganan Keberatan' },
+ { id: 'lv-h4', from: '@nanda_store', q: 'Bisa nego nggak kak? Kalau saya ambil 2 unit?',
+  pts: ['Jujur tidak menjanjikan diskon yang belum pasti', 'Berterima kasih atas minat beli dua unit', 'Menyampaikan akan menanyakan ke tim atau supervisor', 'Memberi kepastian kapan jawaban akan diberikan'],
+  ans: 'Wah, terima kasih Kak Nanda, senang sekali Kakak mau ambil dua unit! Untuk harga khusus saya tidak mau asal janji, jadi saya tanyakan dulu ke tim ya, Kak. Saya kabari di chat ini sebentar lagi, atau Kakak bisa kirim nomor WhatsApp supaya enak dilanjutkan.',
+  avoid: '"Boleh kak, nanti dikasih diskon." (janji tanpa persetujuan tim)', src: 'Modul: Mencari Bantuan Supervisor; Menjawab dengan Jujur & Transparan' },
+ { id: 'lv-h5', from: '@sari.online', q: 'Ada bonus atau free ongkir nggak?',
+  pts: ['Menyebut bonus hanya yang memang ada, dan jujur soal garansinya', 'Menyebut biaya kirim sesuai ketentuan (Jabodetabek)', 'Promo ongkir yang tidak ada di modul dikonfirmasi dulu ke tim', 'Menutup dengan ajakan bertanya atau memesan'],
+  ans: 'Halo Kak Sari! Untuk bonus, tergantung produknya, misalnya fan bawaan casing yang gratis, tapi bonus seperti itu tidak termasuk garansi ya, Kak. Untuk pengiriman, layanan kami khusus Jabodetabek dengan biaya Rp150.000 per kirim. Kalau ada promo ongkir yang sedang berjalan, saya pastikan dulu ke tim, nanti saya kabari di sini.',
+  avoid: '"Free ongkir kok kak." (tanpa dicek, bisa membuat pelanggan kecewa)', src: 'FAQ: layanan kirim, garansi aksesoris bonus' },
+ { id: 'lv-h6', from: '@yoga_it', q: 'Harga di live sama dengan di website?',
+  pts: ['Menjawab jujur bahwa harga bisa berubah sesuai promo dan stok', 'Tidak menyalahkan pelanggan atau tim', 'Menawarkan cek bersama produk yang dimaksud', 'Menyebut website dan kanal resmi sebagai acuan'],
+  ans: 'Pertanyaan bagus, Kak Yoga. Harga bisa berubah mengikuti promo dan stok, jadi saya selalu cocokkan dengan info terbaru sebelum menyebutnya. Kalau Kakak sebut produknya, kita cek sama-sama sekarang, dan harga pastinya tetap bisa dilihat di www.enterkomputer.com atau lewat WhatsApp resmi kami.',
+  avoid: '"Pasti sama." (kalau ternyata beda, kepercayaan hilang)', src: 'Modul: Informasi Stok & Harga; FAQ kanal pembelian' } ] },
+{ key: 'stok', title: 'Stok & Pengiriman', items: [
+ { id: 'lv-s1', from: '@ilham.pc', q: 'Barangnya ready stock nggak kak?',
+  pts: ['Mengecek stok dulu, tidak menjawab dari perkiraan', 'Menjelaskan stok PC Ready dicek real-time', 'Untuk barang non-ready, mengonfirmasi ke distributor', 'Menyampaikan hasil cek dengan jelas dan ramah'],
+  ans: 'Siap, Kak Ilham, saya cek stoknya dulu ya supaya jawabannya pasti. Sebentar, kurang dari satu menit. Kalau barangnya ready, saya langsung infokan. Kalau belum, saya tanyakan ke distributor dan kabari estimasinya, jadi Kakak tidak perlu menunggu tanpa kepastian.',
+  avoid: '"Ready kak, order aja." (kalau ternyata kosong, pelanggan marah)', src: 'Modul: Informasi Stok & Harga, Koordinasi dengan Divisi Gudang, Konfirmasi ke Distributor' },
+ { id: 'lv-s2', from: '@ayu_sby', q: 'Kirim ke Surabaya bisa?',
+  pts: ['Menjelaskan layanan kirim toko khusus Jabodetabek', 'Menawarkan jalur lain: marketplace resmi atau website', 'Tidak membuat pelanggan merasa ditolak', 'Menanyakan apakah mau dibantu diarahkan'],
+  ans: 'Terima kasih sudah tanya, Kak Ayu. Pengiriman langsung dari toko kami khusus Jabodetabek, tapi Kakak tetap bisa belanja lewat marketplace resmi kami seperti Tokopedia, Shopee, Blibli, atau Akulaku. Mau saya bantu arahkan produknya, Kak?',
+  avoid: '"Nggak bisa kak." (jawaban pendek, tanpa solusi)', src: 'FAQ: layanan kirim barang, katalog dan tempat membeli' },
+ { id: 'lv-s3', from: '@fajar.build', q: 'Kalau rakit PC, dikirimnya kapan?',
+  pts: ['Menyebut perakitan gratis', 'Menyebut rakitan dikirim H+1 atau H+2 setelah perakitan selesai', 'Menyebut biaya kirim Jabodetabek bila relevan', 'Menawarkan opsi ambil sendiri'],
+  ans: 'Kak Fajar, perakitan di Enter Komputer gratis. Setelah perakitan selesai, PC dikirim H+1 atau H+2 untuk area Jabodetabek dengan biaya Rp150.000 per kirim. Kalau Kakak lebih suka mengambil sendiri, itu juga bisa, nanti kami infokan begitu PC-nya siap.',
+  avoid: '"Besok sampai kak." (janji tanggal yang tidak pasti)', src: 'FAQ: biaya perakitan, layanan kirim' },
+ { id: 'lv-s4', from: '@wulan_k', q: 'Saya bayar sekarang tapi ambilnya besok bisa?',
+  pts: ['Menjawab bisa, dengan batas waktu 7 x 24 jam', 'Menyebut lokasi pengambilan (Mangga Dua Mall atau BSD Serpong)', 'Mengingatkan membawa nota', 'Ramah dan tidak membuat pelanggan khawatir'],
+  ans: 'Bisa, Kak Wulan. Barang boleh diambil di hari lain, maksimal 7 x 24 jam setelah pembelian. Pengambilannya di toko kami di Mangga Dua Mall atau BSD Serpong, dan jangan lupa bawa notanya ya, Kak. Kakak lebih dekat ke yang mana?',
+  avoid: '"Harus hari ini kak." (tidak sesuai aturan toko)', src: 'FAQ: pengambilan barang beda hari; lokasi toko' } ] },
+{ key: 'rekomendasi', title: 'Spesifikasi & Rekomendasi', items: [
+ { id: 'lv-r1', from: '@kiki.edit', q: 'PC ini buat edit video 4K kuat nggak?',
+  pts: ['Menanyakan software, durasi video, dan budget', 'Menjelaskan peran prosesor, RAM, SSD, dan VGA untuk edit video', 'Menyebut tingkat prosesor yang sesuai (i5 menengah, i7 lanjut, i9 profesional)', 'Jujur jika perlu penyesuaian konfigurasi'],
+  ans: 'Pertanyaan yang pas, Kak Kiki! Untuk edit video 4K, yang paling berpengaruh itu prosesor, RAM yang lega, SSD yang cepat, dan VGA yang mumpuni. Supaya rekomendasinya tepat, Kakak pakai software apa dan biasanya durasi video berapa lama? Nanti saya sesuaikan, dan kalau perlu naik kelas ke prosesor yang lebih kuat, saya jelaskan alasannya dengan jujur.',
+  avoid: '"Kuat kak, aman." (tanpa menanyakan kebutuhan)', src: 'Modul: Processor (tingkat Core i3 sampai i9), Identifikasi Kebutuhan' },
+ { id: 'lv-r2', from: '@tono_lama', q: 'Bedanya SSD sama HDD apa kak? Mana yang bagus?',
+  pts: ['Menjelaskan SSD cepat untuk sistem dan aplikasi', 'Menjelaskan HDD untuk kapasitas besar dan lebih hemat', 'Memakai bahasa sederhana', 'Menyarankan kombinasi sesuai kebutuhan'],
+  ans: 'Gampangnya begini, Kak Tono: SSD itu cepat, cocok untuk Windows dan aplikasi supaya PC terasa ngebut. HDD kapasitasnya besar dan lebih hemat, cocok untuk menyimpan banyak file. Banyak pelanggan kami pakai keduanya, SSD untuk sistem dan HDD untuk penyimpanan. Kakak lebih banyak menyimpan file atau main aplikasi?',
+  avoid: '"SSD itu non-volatile NAND flash..." (terlalu teknis untuk penonton awam)', src: 'Modul: SSD dan HDD' },
+ { id: 'lv-r3', from: '@gita.upgrade', q: 'Kalau beli sekarang, nanti bisa di-upgrade nggak?',
+  pts: ['Menjelaskan bagian yang bisa di-upgrade: RAM, storage, prosesor, VGA, PSU', 'Menyebut perlunya kecocokan socket dan slot', 'Memberi contoh konkret (slot RAM tersisa)', 'Menawarkan perencanaan upgrade sejak awal'],
+  ans: 'Bisa, Kak Gita, dan itu bagus dipikirkan dari awal. RAM bisa ditambah kalau slotnya masih kosong, storage bisa tambah SSD atau HDD, prosesor dan VGA juga bisa naik kelas, selama cocok dengan socket dan dayanya. Saya bantu pilih komponen yang ruang upgrade-nya longgar supaya PC Kakak awet.',
+  avoid: '"Semua bisa diganti kok." (tanpa menyebut syarat kecocokan)', src: 'Modul: contoh studi kasus PC Ready (solusi jangka panjang); Motherboard dan socket' },
+ { id: 'lv-r4', from: '@ria_mhs', q: 'Buat kuliah sama tugas Office aja, perlu yang mahal nggak?',
+  pts: ['Memahami kebutuhan ringan dan tidak mendorong beli berlebihan', 'Menyebut Core i3 cukup untuk kantor dan browsing', 'Menyarankan SSD agar terasa cepat', 'Tetap menyebut ruang upgrade'],
+  ans: 'Untuk kuliah dan Office, Kakak tidak perlu yang mahal kok, Kak Ria. Prosesor kelas Core i3 sudah cukup untuk mengetik, browsing, dan tugas ringan, asal pakai SSD supaya cepat. Hemat di awal, dan kalau nanti butuh lebih, RAM atau penyimpanannya bisa ditambah. Mau saya buatkan pilihan di kisaran budget Kakak?',
+  avoid: '"Ambil yang i7 aja kak biar aman." (mendorong beli berlebihan)', src: 'Modul: Processor Core i3 untuk kebutuhan kantor dan browsing' },
+ { id: 'lv-r5', from: '@hendra_x', q: 'Intel atau AMD lebih bagus kak?',
+  pts: ['Netral: keduanya bagus, tergantung kebutuhan dan budget', 'Menanyakan penggunaan sebelum merekomendasikan', 'Menyebut hal praktis (socket, grafis bawaan, harga)', 'Tidak menjelekkan salah satu merek'],
+  ans: 'Dua-duanya bagus, Kak Hendra, tinggal cocok-cocokan dengan kebutuhan dan budget. Intel dan AMD masing-masing punya pilihan di tiap kelas harga. Untuk Kakak sendiri, PC-nya mau dipakai apa dulu? Dari situ saya bandingkan dua pilihan yang paling masuk akal, lengkap dengan alasannya.',
+  avoid: '"AMD jelek, beli Intel aja." (opini sepihak)', src: 'Modul: Processor Intel dan AMD' },
+ { id: 'lv-r6', from: '@mira.pc', q: 'Laptop atau PC rakitan lebih baik kak?',
+  pts: ['Menanyakan kebutuhan mobilitas', 'Menjelaskan kelebihan PC: performa per harga dan mudah di-upgrade', 'Jujur bahwa laptop unggul untuk dibawa-bawa', 'Mengarahkan sesuai kebutuhan, bukan hanya produk yang dijual'],
+  ans: 'Tergantung kebutuhan, Kak Mira. Kalau Kakak sering pindah-pindah, laptop lebih praktis. Kalau PC dipakai di satu tempat, PC biasanya lebih kencang di harga yang sama dan gampang di-upgrade. Kakak lebih sering bekerja di rumah atau di luar? Nanti saya bantu pilih yang paling pas.',
+  avoid: '"PC dong, laptop mah lemot." (generalisasi)', src: 'Modul: Menjawab dengan Jujur & Transparan; Fokus pada Kebutuhan Pelanggan' },
+ { id: 'lv-r7', from: '@bagas.siap', q: 'PC Ready yang ini sudah termasuk Windows sama Office?',
+  pts: ['Menyebut Windows 11 dan Office H&S sudah terpasang', 'Menyebut keduanya belum diaktivasi', 'Menjelaskan manfaatnya: tinggal pakai', 'Jujur agar tidak ada salah paham saat serah terima'],
+  ans: 'Untuk PC Ready, Windows 11 dan Office Home & Student sudah terpasang, Kak Bagas, jadi tinggal dipakai. Hanya saja, keduanya belum diaktivasi, supaya tidak ada salah paham nanti. Kalau Kakak butuh bantuan soal aktivasi, kami bantu jelaskan opsinya.',
+  avoid: '"Sudah lengkap kak, legal semua." (tidak menyebut belum diaktivasi)', src: 'Modul: contoh PC Ready (Windows 11 + Office H&S, belum aktivasi)' } ] },
+{ key: 'garansi', title: 'Garansi & Layanan', items: [
+ { id: 'lv-g1', from: '@eko_p', q: 'Garansinya berapa lama? Resmi nggak?',
+  pts: ['Menyatakan semua komponen bergaransi resmi', 'Menyebut pengecualian: aksesoris bonus seperti fan bawaan casing', 'Menyebut masa garansi mengikuti merek atau distributor', 'Menawarkan cek masa garansi produk yang dimaksud'],
+  ans: 'Resmi, Kak Eko. Semua komponen di Enter Komputer bergaransi resmi, kecuali aksesoris bonus seperti fan bawaan casing. Lamanya mengikuti aturan tiap merek atau distributornya, jadi kalau Kakak sebut produknya, saya cek masa garansinya dan sampaikan di live.',
+  avoid: '"Garansi seumur hidup kak." (informasi tidak benar)', src: 'FAQ: Apakah setiap pembelian mendapat garansi?' },
+ { id: 'lv-g2', from: '@lina_k', q: 'Kalau barangnya rusak, klaimnya gimana?',
+  pts: ['Menyebut barang dibawa ke Customer Care', 'Menyebut klaim harus sesuai nota pembelian', 'Jujur soal klaim bisa ditolak jika segel rusak atau ada kerusakan fisik', 'Menenangkan: kami bantu proses klaim'],
+  ans: 'Tenang, Kak Lina, kami bantu. Cukup bawa barangnya ke Customer Care Enter Komputer beserta nota pembelian, lalu prosesnya mengikuti kebijakan distributor atau service center merek tersebut. Satu catatan, klaim bisa ditolak kalau segel rusak atau ada kerusakan fisik akibat pemakaian, jadi tolong dijaga ya, Kak.',
+  avoid: '"Pasti diganti baru kak." (keputusan ada di distributor)', src: 'FAQ: Bagaimana cara klaim garansi?' },
+ { id: 'lv-g3', from: '@jaya_77', q: 'Kalau nggak cocok bisa retur nggak?',
+  pts: ['Jujur: pada dasarnya tidak bisa tukar atau kembali', 'Menyebut pengecualian: barang berbeda dari nota', 'Menyebut syarat: maksimal 3 x 24 jam, kondisi baik, segel utuh, kelengkapan lengkap', 'Menyarankan memastikan kecocokan sebelum membeli'],
+  ans: 'Supaya Kakak tenang sejak awal, Kak Jaya: pada dasarnya barang tidak bisa ditukar atau dikembalikan, kecuali barangnya berbeda dari yang tertulis di nota. Itu pun maksimal 3 x 24 jam, dengan kondisi baik, segel utuh, dan kelengkapan lengkap. Makanya saya senang bantu pastikan dulu cocok atau tidaknya sebelum Kakak beli.',
+  avoid: '"Bisa kak, tenang aja." (padahal tidak sesuai kebijakan)', src: 'FAQ: Apakah barang bisa ditukar/dikembalikan?' },
+ { id: 'lv-g4', from: '@dani_rakit', q: 'Boleh bawa RAM sama SSD sendiri, dirakitnya di sana?',
+  pts: ['Menyebut bisa dengan syarat beli minimal 4 komponen utama', 'Menyebut perakitan gratis', 'Menyebut formulir perakitan dan syarat dan ketentuan untuk komponen dari luar', 'Menjelaskan risiko komponen luar dan pasang sendiri (garansi void)'],
+  ans: 'Bisa, Kak Dani, dengan syarat Kakak membeli minimal 4 komponen utama di Enter Komputer, dan perakitannya gratis. Untuk komponen dari luar, Kakak perlu mengisi Formulir Perakitan dan menyetujui syarat dan ketentuannya, ya. Satu hal penting, risiko pada komponen dari luar di luar tanggung jawab kami, dan kalau dipasang sendiri, garansinya tidak berlaku.',
+  avoid: '"Bebas kak, bawa aja semuanya." (mengabaikan syarat)', src: 'FAQ: rakit dengan komponen dari luar, formulir perakitan, pasang sendiri' } ] },
+{ key: 'bayar', title: 'Cara Beli & Pembayaran', items: [
+ { id: 'lv-p1', from: '@tika_w', q: 'Cara belinya gimana kak? Bisa lewat WhatsApp?',
+  pts: ['Menyebut kanal resmi: website, WhatsApp, email', 'Menyebut marketplace resmi', 'Menyebut toko offline (Mangga Dua Mall dan BSD Serpong)', 'Menawarkan bantuan langsung di live'],
+  ans: 'Gampang, Kak Tika! Kakak bisa beli lewat website www.enterkomputer.com, WhatsApp atau email resmi kami, marketplace seperti Tokopedia, Shopee, Blibli, dan Akulaku, atau datang langsung ke toko kami di Mangga Dua Mall dan BSD Serpong. Mau saya bantu langkahnya dari yang paling nyaman buat Kakak?',
+  avoid: '"Chat aja admin." (tanpa kanal yang jelas)', src: 'FAQ: Di mana bisa lihat katalog & beli produk' },
+ { id: 'lv-p2', from: '@cv_maju', q: 'Bisa minta faktur pajak untuk perusahaan?',
+  pts: ['Menyebut wajib NPWP perusahaan', 'Menyebut nama di nota harus sesuai NPWP', 'Menyebut pembayaran lewat rekening perusahaan atau tunai', 'Menyebut estimasi maksimal 14 hari kerja dan tidak berlaku untuk perorangan atau WNA'],
+  ans: 'Bisa, Kak, dengan beberapa syarat ya. Perusahaan wajib punya NPWP, nama perusahaan di nota harus sama dengan yang terdaftar, dan pembayarannya lewat rekening perusahaan atau tunai. Faktur pajak terbit maksimal 14 hari kerja. Mohon maaf, layanan ini tidak berlaku untuk perorangan atau WNA. Kalau cocok, saya bantu catat datanya.',
+  avoid: '"Bisa aja kak, nanti diurus." (tanpa menyebut syarat)', src: 'FAQ: Prosedur pembuatan Faktur Pajak' },
+ { id: 'lv-p3', from: '@evi.cicil', q: 'Bisa cicilan nggak?',
+  pts: ['Tidak mengarang skema cicilan yang tidak ada di modul', 'Menyebut akan dikonfirmasi ke kasir atau tim', 'Menyebut opsi marketplace sebagai kanal alternatif untuk dicek', 'Berterima kasih dan memberi kepastian tindak lanjut'],
+  ans: 'Pertanyaan bagus, Kak Evi. Supaya informasinya akurat, saya pastikan dulu opsi pembayaran yang tersedia ke tim kasir, jadi tidak salah sebut. Sebagai tambahan, Kakak juga bisa cek pilihan pembayaran di marketplace resmi kami. Saya kabari hasilnya di chat ini ya, Kak.',
+  avoid: '"Bisa kak, 0 persen 12 bulan." (tanpa dicek, bisa salah)', src: 'Informasi di luar modul: dikonfirmasi ke kasir; Koordinasi dengan Divisi Kasir' },
+ { id: 'lv-p4', from: '@sandi_buy', q: 'Saya sudah transfer tapi belum ada konfirmasi, gimana?',
+  pts: ['Menenangkan dan minta maaf atas ketidaknyamanan', 'Meminta bukti transfer dan nama atau nomor nota', 'Berkoordinasi dengan Divisi Kasir', 'Memberi kepastian kapan akan dikabari'],
+  ans: 'Mohon maaf atas ketidaknyamanannya, Kak Sandi, kami bantu cek sekarang ya. Boleh kirim bukti transfer dan nama atau nomor notanya lewat WhatsApp kami? Saya teruskan ke tim kasir supaya segera dicek, dan saya kabari Kakak secepatnya.',
+  avoid: '"Tunggu aja, nanti juga masuk." (pelanggan merasa diabaikan)', src: 'Modul: Koordinasi dengan Divisi Kasir' } ] },
+{ key: 'keraguan', title: 'Keraguan & Keluhan', items: [
+ { id: 'lv-k1', from: '@anonim_88', q: 'Takut ditipu, toko ini terpercaya nggak?',
+  pts: ['Tidak tersinggung, menghargai kehati-hatian', 'Menyebut bukti nyata: toko offline, nota resmi, garansi resmi, marketplace resmi', 'Mengundang datang langsung atau menghubungi kanal resmi', 'Nada tenang dan transparan'],
+  ans: 'Kami paham kekhawatiran Kakak, dan Kakak benar untuk berhati-hati. Kami punya toko fisik di Mangga Dua Mall dan BSD Serpong, setiap pembelian dengan nota resmi, dan semua komponen bergaransi resmi. Kakak juga bisa belanja lewat marketplace resmi kami atau datang langsung untuk melihat barangnya.',
+  avoid: '"Kami terpercaya kok, jangan ragu!" (tanpa bukti)', src: 'FAQ: kanal dan lokasi toko; garansi resmi; Larangan transaksi tanpa nota resmi' },
+ { id: 'lv-k2', from: '@vina.timbang', q: 'Saya pikir-pikir dulu ya kak.',
+  pts: ['Tidak memaksa dan tidak menekan', 'Mempersilakan dengan ramah', 'Memberi ringkasan atau info agar mudah dipertimbangkan', 'Meninggalkan pintu terbuka (kanal untuk bertanya lagi)'],
+  ans: 'Siap, silakan dipikirkan dulu, Kak Vina, tidak ada paksaan. Kalau berguna, saya tuliskan ringkasan pilihan yang tadi kita bahas supaya mudah dibandingkan. Kapan pun Kakak mau tanya lagi, kami ada di live atau WhatsApp resmi kami. Terima kasih sudah mampir!',
+  avoid: '"Promonya hampir habis lho, cepat beli sekarang!" (menekan)', src: 'Modul: Bersikap Sabar dan Tidak Memaksa' },
+ { id: 'lv-k3', from: '@kesal_banget', q: 'Host lambat banget jawabnya, nggak jelas semuanya!',
+  pts: ['Tetap tenang dan tidak defensif', 'Meminta maaf dan mengakui perasaan pelanggan', 'Menanyakan pertanyaan inti agar segera dijawab', 'Menawarkan kanal lain bila chat live ramai'],
+  ans: 'Mohon maaf ya, Kak, kami memang sedang ramai dan Kakak jadi menunggu. Terima kasih sudah memberi tahu. Boleh Kakak ulang pertanyaan utamanya? Saya jawab sekarang. Kalau lebih nyaman, kita lanjut lewat WhatsApp resmi kami supaya Kakak dilayani lebih fokus.',
+  avoid: '"Sabar dong kak, yang tanya banyak." (membuat suasana memanas)', src: 'Modul: komunikasi verbal dan non-verbal; Bersikap Sabar' },
+ { id: 'lv-k4', from: '@haris_beli', q: 'Kemarin saya beli, barangnya beda sama yang di nota. Gimana?',
+  pts: ['Minta maaf dan menunjukkan kepedulian', 'Meminta nota dan foto barang, lalu menyebut batas pengajuan 3 x 24 jam', 'Menyebut syarat kondisi barang: baik, segel utuh, kelengkapan lengkap', 'Berkoordinasi dengan tim terkait dan memberi tindak lanjut'],
+  ans: 'Mohon maaf sekali, Kak Haris, kami bantu selesaikan. Barang yang berbeda dengan nota memang bisa diajukan penukaran, maksimal 3 x 24 jam setelah pembelian, dengan kondisi baik, segel utuh, dan kelengkapan lengkap. Boleh kirim foto barang dan notanya lewat WhatsApp resmi kami? Saya teruskan ke tim supaya segera diproses.',
+  avoid: '"Itu salah Kakak sendiri, coba dicek lagi." (menyalahkan)', src: 'FAQ: tukar atau kembali jika berbeda dari nota (3 x 24 jam)' } ] }
+];
+
+const LIVE_ITEMS = LIVE_GROUPS.flatMap(g => g.items.map(i => Object.assign({ group: g.title }, i)));
+let liveFilter = 'harga';
 const TRACKS_BASE = JSON.parse(JSON.stringify(TRACKS));
 
 /* ---------- state ---------- */
@@ -1047,7 +1185,7 @@ let quiz = { phase: 'setup', topic: 'all', count: 20 };
 let st = null; // step-by-step run
 
 /* ---------- routing ---------- */
-const ROUTES = ['home', 'pilihan-ganda', 'esai', 'langkah', 'admin'];
+const ROUTES = ['home', 'pilihan-ganda', 'esai', 'langkah', 'live', 'admin'];
 function route() { const r = (location.hash || '').slice(1); return ROUTES.includes(r) ? r : 'home'; }
 function render() {
   const r = route();
@@ -1056,6 +1194,7 @@ function render() {
   if (r === 'home') app.append(viewHome());
   else if (r === 'pilihan-ganda') app.append(viewMC());
   else if (r === 'esai') app.append(viewEssay());
+  else if (r === 'live') app.append(viewLive());
   else if (r === 'admin') app.append(viewAdmin());
   else app.append(viewSteps());
 }
@@ -1079,6 +1218,9 @@ function buildReport() {
   L.push('');
   L.push('PILIHAN GANDA');
   if (S.mc.last) { const b = S.mc.last; L.push('Terakhir: ' + b.correct + '/' + b.n + ' (' + b.pct + '%), topik: ' + b.topicName); L.push('Terbaik: ' + S.mc.best.correct + '/' + S.mc.best.n + ' (' + S.mc.best.pct + '%)'); } else L.push('Belum dikerjakan');
+  L.push('');
+  { const ls = liveStats(); L.push('LIVE SELLING (' + ls.ans + ' dari ' + ls.n + ' dijawab' + (ls.tot ? ', penilaian mandiri ' + ls.got + '/' + ls.tot + ' poin' : '') + ')');
+    LIVE_ITEMS.forEach(e => { const a = (S.essay.a[e.id] || '').trim(); if (!a) return; L.push(''); L.push('• ' + e.from + ': ' + e.q); L.push(a); }); }
   L.push('');
   L.push('STEP BY STEP');
   Object.keys(TRACKS).forEach(k => { const r = S.steps[k]; L.push(TRACKS[k].title + ': ' + (r ? r.score + '/' + r.total + ' benar di percobaan pertama' : 'belum dikerjakan')); });
@@ -1127,12 +1269,13 @@ function viewHome() {
 
   return h('div', {},
     h('div', { class: 'hello' },
-      h('div', {}, h('h2', { class: 'sec-h', text: 'Mulai dari mana saja' }), h('p', { class: 'muted', text: 'Tiga jenis latihan ini berdiri sendiri. Disarankan urut: pilihan ganda untuk mengecek hafalan, step by step untuk berlatih alur kerja, lalu esai untuk menjelaskan dengan kata sendiri.' })),
+      h('div', {}, h('h2', { class: 'sec-h', text: 'Mulai dari mana saja' }), h('p', { class: 'muted', text: 'Empat jenis latihan ini berdiri sendiri. Disarankan urut: pilihan ganda untuk mengecek hafalan, step by step untuk berlatih alur kerja, esai untuk menjelaskan dengan kata sendiri, lalu Live Selling untuk melatih menjawab customer di siaran langsung.' })),
       h('div', { class: 'field' }, h('label', { for: 'nama', class: 'label', text: 'Nama peserta' }), nameInput)),
     h('div', { class: 'mods' },
       mod('Pilihan Ganda', 'Soal dari seluruh isi modul: komunikasi sales, SOP, FAQ toko, lalu Processor, Motherboard, RAM, Casing, SSD, HDD, VGA, PSU, Monitor, Mouse, dan Keyboard. Jawaban langsung dibahas.', [h('span', { class: 'pill', text: MC.length + ' soal' }), h('span', { class: 'pill', text: 'Lulus ≥ ' + PASS + '%' }), mcPill], 'pilihan-ganda', 'Mulai latihan'),
       mod('Esai', 'Jawab dengan kata-katamu sendiri, lalu cocokkan dengan poin jawaban dari modul dan nilai dirimu sendiri. Dikelompokkan per kategori (Processor sampai Keyboard) dan studi kasus penjualan dari bab evaluasi.', [h('span', { class: 'pill', text: ESSAYS.length + ' pertanyaan' }), esPill], 'esai', es.ans ? 'Lanjutkan' : 'Mulai menulis'),
-      mod('Step by Step', 'Simulasi bertahap. Layani pelanggan walk-in sesuai workflow toko, atau rakit PC dari prosesor sampai casing. Tidak bisa lanjut sebelum pilihanmu benar.', [h('span', { class: 'pill', text: '2 jalur · 7 langkah' }), stPill], 'langkah', 'Pilih jalur')),
+      mod('Step by Step', 'Simulasi bertahap. Layani pelanggan walk-in sesuai workflow toko, atau rakit PC dari prosesor sampai casing. Tidak bisa lanjut sebelum pilihanmu benar.', [h('span', { class: 'pill', text: '2 jalur · 7 langkah' }), stPill], 'langkah', 'Pilih jalur'),
+      mod('Live Selling', 'Jawab komentar customer yang ingin membeli di siaran langsung dalam bentuk esai, lalu bandingkan dengan contoh jawaban host yang ramah. Soalnya soal harga, stok, rekomendasi, garansi, pembayaran, sampai keluhan.', [h('span', { class: 'pill', text: LIVE_ITEMS.length + ' komentar' }), h('span', { class: 'pill ' + (liveStats().ans ? 'acc' : ''), text: liveStats().ans + ' dari ' + LIVE_ITEMS.length + ' dijawab' })], 'live', liveStats().ans ? 'Lanjutkan' : 'Mulai live')),
     h('section', { class: 'rekap' },
       h('h2', { class: 'sec-h', text: 'Rekap hasil' }),
       h('p', { class: 'muted', text: CLOUD.on ? 'Nama dan skor kamu otomatis tercatat untuk trainer. Isi jawaban esai tetap tersimpan di browser ini, jadi kirim laporan bila trainer ingin membacanya.' : 'Jawaban tersimpan di browser perangkat ini saja. Kirim laporan ke trainer agar hasilnya bisa dinilai.' }),
@@ -1141,6 +1284,7 @@ function viewHome() {
         h('tbody', {},
           h('tr', {}, h('td', { text: 'Pilihan Ganda (terakhir)' }), h('td', { text: S.mc.last ? S.mc.last.correct + '/' + S.mc.last.n + ' (' + S.mc.last.pct + '%)' : 'Belum dikerjakan' })),
           h('tr', {}, h('td', { text: 'Esai' }), h('td', { text: es.ans + ' dari ' + es.n + ' dijawab' + (es.tot ? ' · nilai mandiri ' + pct(es.got, es.tot) + '%' : '') })),
+          h('tr', {}, h('td', { text: 'Live Selling' }), h('td', { text: liveStats().ans + ' dari ' + LIVE_ITEMS.length + ' dijawab' + (liveStats().tot ? ' · nilai mandiri ' + pct(liveStats().got, liveStats().tot) + '%' : '') })),
           Object.keys(TRACKS).map(k => h('tr', {}, h('td', { text: 'Step by Step: ' + TRACKS[k].title }), h('td', { text: S.steps[k] ? S.steps[k].score + '/' + S.steps[k].total + ' benar langsung' : 'Belum dikerjakan' })))))),
       h('div', { class: 'btn-row', style: 'margin-top:16px' }, repBtn, resetBtn),
       rep));
@@ -1300,6 +1444,81 @@ function viewEssay() {
   return root;
 }
 
+
+/* ---------- LIVE SELLING ---------- */
+function liveStats() {
+  let ans = 0, got = 0, tot = 0, rated = 0;
+  LIVE_ITEMS.forEach(e => {
+    if ((S.essay.a[e.id] || '').trim().length) ans++;
+    if (S.essay.r[e.id]) { rated++; tot += e.pts.length; got += (S.essay.c[e.id] || []).filter(Boolean).length; }
+  });
+  return { ans, got, tot, rated, n: LIVE_ITEMS.length };
+}
+function viewLive() {
+  const chipsBox = h('div', { class: 'fchips', style: 'margin-top:14px' });
+  const sum = h('div', { class: 'sumbar' });
+  function paintSum() {
+    const ls = liveStats();
+    sum.replaceChildren(
+      h('div', {}, h('span', { class: 'label', text: 'Dijawab' }), h('b', { text: ls.ans + '/' + ls.n })),
+      h('div', {}, h('span', { class: 'label', text: 'Sudah dinilai mandiri' }), h('b', { text: ls.rated + '/' + ls.n })),
+      h('div', {}, h('span', { class: 'label', text: 'Skor mandiri' }), h('b', { text: ls.tot ? pct(ls.got, ls.tot) + '%' : '-' })));
+    chipsBox.replaceChildren(...LIVE_GROUPS.map(g => {
+      const an = g.items.filter(e => (S.essay.a[e.id] || '').trim()).length;
+      return h('button', { class: 'fchip', 'aria-pressed': String(g.key === liveFilter), onclick: () => { liveFilter = g.key; render(); window.scrollTo(0, 0); } }, h('span', { text: g.title }), h('span', { class: 'n', text: an + '/' + g.items.length }));
+    }));
+  }
+  paintSum();
+  const root = h('div', {}, h('h2', { class: 'sec-h', text: 'Live Selling' }),
+    h('p', { class: 'muted', style: 'max-width:66ch', text: 'Bayangkan kamu host siaran langsung Enter Komputer. Setiap soal adalah komentar customer yang ingin membeli. Tulis balasanmu dulu (minimal 30 karakter), lalu lihat contoh jawaban host yang ramah dan centang poin yang sudah kamu sebutkan.' }),
+    h('div', { class: 'panel', style: 'margin:18px 0' }, h('h3', { text: 'Lima prinsip host yang ramah' }),
+      h('ol', { class: 'rules' },
+        h('li', { text: 'Sapa dan sebut nama atau akun penonton, lalu ucapkan terima kasih.' }),
+        h('li', { text: 'Jawab jujur. Kalau belum pasti (harga, stok, promo), cek dulu dan katakan sedang dicek.' }),
+        h('li', { text: 'Pakai bahasa sederhana dan singkat, hindari istilah teknis yang tidak perlu.' }),
+        h('li', { text: 'Jangan defensif, jangan menjelekkan toko lain, dan jangan menekan pelanggan.' }),
+        h('li', { text: 'Tutup dengan ajakan atau tindak lanjut yang jelas (pertanyaan balik, WhatsApp, website, toko).' })),
+      h('p', { class: 'hint', style: 'margin-top:10px', text: 'Contoh jawaban disusun dari FAQ dan SOP modul. Hal di luar modul (misalnya cicilan atau promo ongkir) sengaja dijawab dengan "dikonfirmasi dulu ke tim". Trainer dapat menyesuaikan dengan kebijakan terbaru.' })),
+    sum, chipsBox);
+  let first = true;
+  LIVE_GROUPS.filter(g => g.key === liveFilter).forEach(g => {
+    root.append(h('h2', { class: 'grp', text: g.title + ' (' + g.items.length + ' komentar)' }));
+    g.items.forEach(e => {
+      const chip = h('span', { class: 'pill' });
+      const setChip = () => { const t = essayStatus(e); chip.className = 'pill ' + t.cls; chip.textContent = t.t; };
+      setChip();
+      const count = h('span', { class: 'hint' });
+      const rev = h('div', { hidden: !S.essay.r[e.id], style: 'display:grid;gap:12px' });
+      const btn = h('button', { class: 'btn', onclick: () => { S.essay.r[e.id] = true; persist(); paintRev(); setChip(); paintSum(); btn.hidden = true; } }, 'Lihat jawaban host yang ramah');
+      const ta = h('textarea', { id: 'e-' + e.id, rows: 5, value: S.essay.a[e.id] || '', placeholder: 'Tulis balasanmu sebagai host di sini', 'aria-label': e.q, oninput: ev => {
+        S.essay.a[e.id] = ev.target.value; saveSoon(); upd(); setChip(); paintSum();
+      } });
+      function upd() { const L = ta.value.trim().length; count.textContent = L + ' karakter'; btn.disabled = L < 30; btn.title = L < 30 ? 'Tulis balasanmu dulu' : ''; }
+      function paintRev() {
+        rev.hidden = false; rev.replaceChildren();
+        const saved = S.essay.c[e.id] || [];
+        rev.append(
+          h('div', { class: 'chat' }, h('span', { class: 'av host', 'aria-hidden': 'true', text: 'HOST' }), h('div', { class: 'bubble host' }, h('span', { class: 'who', text: 'Contoh jawaban host yang ramah' }), h('p', { text: e.ans }))),
+          h('div', { class: 'chat' }, h('span', { class: 'av', 'aria-hidden': 'true', text: 'X' }), h('div', { class: 'bubble avoid' }, h('span', { class: 'who', text: 'Hindari' }), h('p', { text: e.avoid }))),
+          h('div', { class: 'ctx', style: 'border-left-color:var(--accent)' }, h('b', { text: 'Poin yang perlu ada. Centang yang sudah kamu tulis:' }),
+            h('ul', { class: 'pts', style: 'margin-top:10px' }, e.pts.map((pt, k) => h('li', {}, h('label', {}, h('input', { type: 'checkbox', id: 'c-' + e.id + '-' + k, checked: !!saved[k], onchange: ev => {
+              const arr = (S.essay.c[e.id] || []).slice(); while (arr.length < e.pts.length) arr.push(false); arr[k] = ev.target.checked; S.essay.c[e.id] = arr; persist(); setChip(); paintSum();
+            } }), h('span', { text: pt }))))),
+            h('p', { class: 'src', style: 'margin-top:10px', text: 'Rujukan: ' + e.src })));
+      }
+      if (S.essay.r[e.id]) { paintRev(); btn.hidden = true; }
+      upd();
+      const body = h('div', { class: 'essay-body' },
+        h('div', { class: 'chat' }, h('span', { class: 'av', 'aria-hidden': 'true', text: 'C' }), h('div', { class: 'bubble' }, h('span', { class: 'who', text: e.from }), h('p', { text: e.q }))),
+        ta, h('div', { class: 'btn-row', style: 'align-items:center' }, btn, count), rev);
+      const d = h('details', { class: 'essay' }, h('summary', {}, h('span', { class: 'qt', text: e.from + ': ' + e.q }), chip), body);
+      if (first) { d.open = true; first = false; }
+      root.append(d);
+    });
+  });
+  return root;
+}
+
 /* ---------- STEP BY STEP ---------- */
 function viewSteps() {
   if (!st) return stepPicker();
@@ -1435,7 +1654,7 @@ function softRender() {
 let lastPushed = '', pushing = false, pushAgain = false, pushT = null;
 function meDoc() {
   const es = essayStats();
-  return { name: (S.name || '').trim(), first: ME.first, lastSeen: Date.now(), visits: ME.visits, mc: S.mc, steps: S.steps, essay: { ans: es.ans, n: es.n, got: es.got, tot: es.tot, rated: es.rated }, runs: ME.runs.slice(-30) };
+  return { name: (S.name || '').trim(), first: ME.first, lastSeen: Date.now(), visits: ME.visits, mc: S.mc, steps: S.steps, essay: { ans: es.ans, n: es.n, got: es.got, tot: es.tot, rated: es.rated }, live: (() => { const l = liveStats(); return { ans: l.ans, n: l.n, got: l.got, tot: l.tot, rated: l.rated }; })(), runs: ME.runs.slice(-30) };
 }
 function cloudPushSoon() { if (!CLOUD.on) return; clearTimeout(pushT); pushT = setTimeout(() => pushMe(false), 2500); }
 async function pushMe(force) {
@@ -1574,7 +1793,7 @@ async function paintHistory() {
     if (isOpen) {
       const runs = (r.runs || []).slice().reverse();
       trs.push(h('tr', { class: 'sub' }, h('td', { colspan: 9 },
-        h('p', { class: 'muted', text: 'Pertama akses ' + fmtT(r.first) + ' · ' + (r.visits || 1) + ' kali membuka link' + (r.essay && r.essay.tot ? ' · nilai mandiri esai ' + pct(r.essay.got, r.essay.tot) + '%' : '') }),
+        h('p', { class: 'muted', text: 'Pertama akses ' + fmtT(r.first) + ' · ' + (r.visits || 1) + ' kali membuka link' + (r.essay && r.essay.tot ? ' · nilai mandiri esai ' + pct(r.essay.got, r.essay.tot) + '%' : '') + (r.live ? ' · Live Selling ' + r.live.ans + '/' + r.live.n + ' dijawab' : '') }),
         runs.length ? h('ul', { class: 'ad-runs' }, runs.map(x => h('li', {}, h('span', { class: 'mono', text: fmtT(x.at) }), h('span', { text: (x.k === 'pg' ? 'Pilihan ganda: ' : 'Step by step: ') + x.label }), h('span', { class: 'pill ' + (pct(x.c, x.n) >= PASS ? 'ok' : 'bad'), text: x.c + '/' + x.n + (x.k === 'pg' ? ' · ' + pct(x.c, x.n) + '%' : '') })))) : h('p', { class: 'muted', text: 'Belum ada latihan yang diselesaikan.' }))));
     }
   });
